@@ -55,7 +55,7 @@ function TempleDetail() {
   return (
     <div className="pb-32 lg:pb-8">
       {/* Hero */}
-      <div className="relative h-[260px] lg:h-[340px] overflow-hidden" style={{ 
+      <div className="relative h-[260px] lg:h-[270px] overflow-hidden" style={{ 
         background: hasBgImg 
           ? `url(${bgImages[t.slug]}) center 20% / cover no-repeat` 
           : `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})` 
