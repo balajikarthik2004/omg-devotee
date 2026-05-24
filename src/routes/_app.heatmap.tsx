@@ -2,6 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { temples } from "@/data/temples";
 import palaniImg from "@/assets/palani.png";
+import maduraiImg from "@/assets/madurai.png";
+import srirangamImg from "@/assets/srirangam.png";
+import arunachaleswararImg from "@/assets/Arunachaleswarar.png";
+import rameswaramImg from "@/assets/Rameswaram.png";
 import { Maximize2, X } from "lucide-react";
 
 export const Route = createFileRoute("/_app/heatmap")({
@@ -32,7 +36,43 @@ function HeatmapPage() {
     { name: "Base Parking Area", pct: t.parking.lotA, advice: "Almost full. Consider overflow parking." },
   ];
 
-  const displayZones = t.id === 1 ? palaniZones : genericZones;
+  const maduraiZones = [
+    { name: "Amman Sannithi", pct: Math.min(98, t.crowdPct + 25), advice: "Highest crowd density. Free darshan wait is ~60m." },
+    { name: "Swami Sannithi", pct: Math.min(85, t.crowdPct + 10), advice: "Moderate to high queue. Try special ticket lane." },
+    { name: "Golden Lotus Tank", pct: Math.max(40, t.crowdPct - 20), advice: "Beautiful and relatively clear. Great for resting." },
+    { name: "Thousand Pillar Hall", pct: Math.max(30, t.crowdPct - 30), advice: "Low crowd. Excellent time to visit the museum." },
+    { name: "South Tower Entrance", pct: Math.max(25, t.crowdPct - 40), advice: "Fastest entry point right now. Use this gate." },
+    { name: "Chithirai Streets (Outer)", pct: t.parking.lotB, advice: "Traffic is heavy. Park at the multistory lot." },
+  ];
+
+  const srirangamZones = [
+    { name: "Rajagopuram Entrance", pct: t.parking.lotA, advice: "Main entry point. Busy but moving steadily." },
+    { name: "Ranga Ranga Gopuram", pct: Math.min(80, t.crowdPct + 10), advice: "High footfall. Stay in your designated lanes." },
+    { name: "Garuda Mandapam", pct: Math.min(95, t.crowdPct + 20), advice: "Heavy crowd merging here. Expect delays." },
+    { name: "Sanctum Sanctorum", pct: Math.min(100, t.crowdPct + 35), advice: "Peak wait time. General queue is ~75m." },
+    { name: "Thayar Sannithi", pct: Math.max(30, t.crowdPct - 15), advice: "Relatively clear. Good time to visit." },
+    { name: "Chithirai Streets (Parking)", pct: t.parking.lotB, advice: "Parking filling up quickly. Use North Gate parking." },
+  ];
+
+  const tiruvannamalaiZones = [
+    { name: "Rajagopuram (East)", pct: Math.min(98, t.crowdPct + 20), advice: "Massive crowd buildup at the main entrance." },
+    { name: "Kili Gopuram", pct: Math.min(90, t.crowdPct + 15), advice: "Dense queue merging point. Moves slowly." },
+    { name: "Arunachaleswarar Sannithi", pct: Math.min(100, t.crowdPct + 30), advice: "Peak density. Darshan wait is 1.5 - 2 hrs." },
+    { name: "Unnamalai Amman Sannithi", pct: Math.min(85, t.crowdPct + 5), advice: "High crowd, but slightly faster than Swami sannithi." },
+    { name: "Girivalam Path (Inner)", pct: Math.max(50, t.crowdPct - 20), advice: "Steady flow of devotees circumambulating." },
+    { name: "Thousand Pillar Mandapam", pct: Math.max(25, t.crowdPct - 40), advice: "Relatively quiet. Perfect spot to sit and meditate." },
+  ];
+
+  const rameswaramZones = [
+    { name: "Agni Theertham", pct: Math.min(95, t.crowdPct + 25), advice: "Heavy crowd at the beach. Complete holy dip early." },
+    { name: "22 Holy Wells (Theerthams)", pct: Math.min(100, t.crowdPct + 35), advice: "Peak density. Expect significant delays moving between wells." },
+    { name: "Ramanathaswamy Sannithi", pct: Math.min(90, t.crowdPct + 20), advice: "High wait time. Keep moving in the queue." },
+    { name: "Parvathavardhini Amman", pct: Math.max(60, t.crowdPct - 10), advice: "Moderate crowd. Darshan is relatively quicker here." },
+    { name: "Third Corridor (Prakaram)", pct: Math.max(40, t.crowdPct - 25), advice: "Famous long corridor is somewhat clear for walking." },
+    { name: "East Gate Parking", pct: t.parking.lotA, advice: "Almost full. Proceed to West Gate parking lot." },
+  ];
+
+  const displayZones = t.id === 1 ? palaniZones : (t.id === 2 ? maduraiZones : (t.id === 3 ? srirangamZones : (t.id === 4 ? tiruvannamalaiZones : (t.id === 5 ? rameswaramZones : genericZones))));
 
   function zoneColor(p: number) {
     if (p < 35) return "rgba(22,163,74,0.35)";
@@ -76,9 +116,9 @@ function HeatmapPage() {
           </div>
         </div>
         <div className="aspect-[16/9] bg-secondary rounded-xl overflow-hidden relative group">
-          {t.id === 1 ? (
+          {t.id === 1 || t.id === 2 || t.id === 3 || t.id === 4 || t.id === 5 ? (
             <>
-              <img src={palaniImg} alt="Palani Temple Map" className="absolute inset-0 w-full h-full object-cover" />
+              <img src={t.id === 1 ? palaniImg : (t.id === 2 ? maduraiImg : (t.id === 3 ? srirangamImg : (t.id === 4 ? arunachaleswararImg : rameswaramImg)))} alt={`${t.name} Map`} className="absolute inset-0 w-full h-full object-cover" />
               <button 
                 onClick={() => setFullView(true)}
                 className="absolute bottom-4 right-4 bg-black/70 hover:bg-black text-white px-3 py-2 rounded-lg flex items-center gap-2 text-xs font-medium backdrop-blur-sm transition-all shadow-lg"
@@ -130,7 +170,7 @@ function HeatmapPage() {
           >
             <X size={32} />
           </button>
-          <img src={palaniImg} alt="Palani Temple Map Full View" className="max-w-[95vw] max-h-[95vh] object-contain rounded-xl shadow-2xl" />
+          <img src={t.id === 1 ? palaniImg : (t.id === 2 ? maduraiImg : (t.id === 3 ? srirangamImg : (t.id === 4 ? arunachaleswararImg : rameswaramImg)))} alt={`${t.name} Map Full View`} className="max-w-[95vw] max-h-[95vh] object-contain rounded-xl shadow-2xl" />
         </div>
       )}
     </div>
