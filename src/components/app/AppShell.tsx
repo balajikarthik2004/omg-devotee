@@ -4,7 +4,7 @@ import { OmWatermark } from "./OmWatermark";
 import logoPng from "@/assets/logo.png";
 
 const navItems = [
-  { to: "/", label: "Home", icon: Home, exact: true },
+  { to: "/", label: "Dashboard", icon: Home, exact: true },
   { to: "/plan", label: "AI Plan", icon: Sparkles },
   { to: "/heatmap", label: "Heatmap", icon: Map },
   { to: "/donations", label: "Donations", icon: HeartHandshake },
@@ -23,41 +23,54 @@ export function AppShell() {
   return (
     <div className="min-h-screen flex w-full bg-background">
       {/* Sidebar (desktop) */}
-      <aside className="hidden lg:flex flex-col w-[240px] border-r border-border bg-sidebar sticky top-0 h-screen">
-        <div className="px-5 py-6 border-b border-border">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-md bg-white border border-border shadow-sm flex items-center justify-center overflow-hidden">
+      <aside className="hidden lg:flex flex-col w-[260px] border-r border-border bg-sidebar sticky top-0 h-screen shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+        <div className="px-6 py-7 border-b border-border bg-gradient-to-b from-saffron/10 to-transparent relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-saffron/20 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+          <div className="flex items-center gap-3.5 relative z-10">
+            <div className="w-11 h-11 rounded-xl bg-white border border-border shadow-sm flex items-center justify-center overflow-hidden">
               <img src={logoPng} alt="OMG Logo" className="w-7 h-7 object-contain" />
             </div>
             <div>
-              <div className="font-serif text-lg font-semibold">OMG</div>
-              <div className="text-[11px] text-muted-foreground -mt-0.5">Smart Temple</div>
+              <div className="font-serif text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-foreground to-foreground/70">OMG</div>
+              <div className="text-[10px] font-bold text-saffron uppercase tracking-[0.2em] mt-0.5">Smart Temple</div>
             </div>
           </div>
         </div>
-        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-          {[...navItems, ...sidebarExtras].map(item => {
-            const Icon = item.icon;
-            const active = isActive(item.to, (item as any).exact);
-            return (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                  active ? "bg-accent text-saffron" : "text-foreground/80 hover:bg-secondary"
-                }`}
-              >
-                <Icon className="w-[18px] h-[18px]" />
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-        <div className="p-4 border-t border-border">
-          <Link to="/profile" className="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-secondary text-sm">
-            <Settings className="w-4 h-4 text-muted-foreground" /> Settings
+        
+        <div className="px-4 py-3">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2 px-2">Menu</div>
+          <nav className="flex-1 space-y-1.5 overflow-y-auto">
+            {[...navItems, ...sidebarExtras].map(item => {
+              const Icon = item.icon;
+              const active = isActive(item.to, (item as any).exact);
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group ${
+                    active ? "bg-gradient-to-r from-saffron/10 to-saffron/5 text-saffron border border-saffron/20 shadow-sm" : "text-foreground/70 hover:bg-secondary hover:text-foreground border border-transparent"
+                  }`}
+                >
+                  <Icon className={`w-[18px] h-[18px] ${active ? "text-saffron" : "text-muted-foreground group-hover:text-foreground"}`} />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+        
+        <div className="mt-auto p-4 border-t border-border bg-secondary/30 relative overflow-hidden">
+          <div className="flex items-center gap-3 mb-3 px-2">
+             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-saffron to-amber-600 text-white flex items-center justify-center font-bold text-sm shadow-md">BK</div>
+             <div className="flex-1 min-w-0">
+               <div className="text-sm font-bold text-foreground truncate">Balaji Krishnan</div>
+               <div className="text-[11px] text-muted-foreground font-medium truncate">Devotee Tier</div>
+             </div>
+          </div>
+          <Link to="/profile" className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-secondary/80 text-sm font-medium text-foreground/80 transition-colors border border-transparent hover:border-border">
+            <span className="flex items-center gap-2"><Settings className="w-4 h-4 text-muted-foreground" /> Settings</span>
           </Link>
-          <div className="px-2 mt-2 text-[11px] text-muted-foreground font-serif">வாழ்க வளமுடன்</div>
+          <div className="mt-4 text-[12px] text-saffron/80 font-serif text-center font-medium">வாழ்க வளமுடன்</div>
         </div>
       </aside>
 

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Send, Mic, ArrowLeft, Sparkles } from "lucide-react";
 import { temples } from "@/data/temples";
@@ -12,6 +12,7 @@ export const Route = createFileRoute("/_app/chat")({
 type Msg = { role: "user" | "ai"; text: string; card?: any };
 
 function ChatPage() {
+  const router = useRouter();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -45,7 +46,9 @@ function ChatPage() {
     <div className="flex flex-col h-[100dvh] lg:h-screen">
       {/* Header */}
       <header className="bg-white border-b border-border px-4 py-3 flex items-center gap-3">
-        <Link to="/" className="lg:hidden w-9 h-9 rounded-full hover:bg-secondary flex items-center justify-center"><ArrowLeft className="w-5 h-5" /></Link>
+        <button onClick={() => router.history.back()} className="w-9 h-9 rounded-full hover:bg-secondary flex items-center justify-center transition-colors">
+          <ArrowLeft className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+        </button>
         <div className="w-10 h-10 rounded-full gradient-saffron flex items-center justify-center text-white font-serif text-lg">ॐ</div>
         <div className="flex-1 min-w-0">
           <div className="font-serif font-semibold flex items-center gap-1.5">OMG AI Temple Assistant</div>

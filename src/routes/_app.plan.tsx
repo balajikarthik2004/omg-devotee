@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Sparkles, CheckCircle2, MapPin, ArrowRight, Navigation2, BedDouble, Ticket, Users, ThermometerSun, Bell, Heart, Car } from "lucide-react";
+import { Sparkles, CheckCircle2, MapPin, ArrowRight, Navigation2, BedDouble, Ticket, Users, ThermometerSun, Bell, Heart, Car, Bus, Train } from "lucide-react";
 import { temples } from "@/data/temples";
 
 export const Route = createFileRoute("/_app/plan")({
@@ -17,6 +17,7 @@ function PlanPage() {
   const [purpose, setPurpose] = useState("darshan");
   const [result, setResult] = useState(false);
   const t = temples.find(x => x.slug === temple)!;
+  const trans = getTransportInfo(fromLocation, t.slug);
 
   return (
     <div className="max-w-3xl mx-auto px-4 lg:px-8 py-8">
@@ -72,7 +73,7 @@ function PlanPage() {
                   <div className="font-medium text-sm truncate">{fromLocation || "Your Location"}</div>
                 </div>
                 <div className="flex flex-col items-center justify-center shrink-0 w-16">
-                  <div className="text-[10px] font-bold text-saffron mb-0.5">6h 30m</div>
+                  <div className="text-[10px] font-bold text-saffron mb-0.5">{trans.roadTime}</div>
                   <div className="w-full h-px bg-border relative">
                     <ArrowRight className="w-3 h-3 text-saffron absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-0.5" />
                   </div>
@@ -83,7 +84,38 @@ function PlanPage() {
                   <div className="font-medium text-sm truncate">{t.city}</div>
                 </div>
               </div>
-              <div className="text-xs text-muted-foreground mb-5 flex items-center justify-center gap-1.5 bg-background border border-border/50 py-1.5 px-3 rounded-full w-fit mx-auto relative z-10"><MapPin className="w-3.5 h-3.5 text-saffron"/> <strong>Suggested Route:</strong> NH38 via Trichy</div>
+              <div className="text-xs text-muted-foreground mb-5 flex items-center justify-center gap-1.5 bg-background border border-border/50 py-1.5 px-3 rounded-full w-fit mx-auto relative z-10"><MapPin className="w-3.5 h-3.5 text-saffron"/> <strong>Suggested Route:</strong> {trans.route}</div>
+
+              {(trans.buses.length > 0 || trans.trains.length > 0) && (
+                <div className="mb-6 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-3 border-t border-border/50 pt-4">
+                  {trans.buses.length > 0 && (
+                    <div className="bg-background rounded-xl p-3 border border-border shadow-sm">
+                      <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-3"><Bus className="w-3.5 h-3.5"/> Recommended Buses</div>
+                      <div className="space-y-2">
+                        {trans.buses.map((b, i) => (
+                          <div key={i} className="flex justify-between items-center text-xs">
+                            <div><div className="font-medium">{b.name}</div><div className="text-muted-foreground">{b.time}</div></div>
+                            <div className="font-semibold text-emerald-600">{b.price}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {trans.trains.length > 0 && (
+                    <div className="bg-background rounded-xl p-3 border border-border shadow-sm">
+                      <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-3"><Train className="w-3.5 h-3.5"/> Recommended Trains</div>
+                      <div className="space-y-2">
+                        {trans.trains.map((tr, i) => (
+                          <div key={i} className="flex justify-between items-center text-xs">
+                            <div><div className="font-medium">{tr.name}</div><div className="text-muted-foreground">{tr.time}</div></div>
+                            <div className="font-semibold text-emerald-600">{tr.price}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="border-t border-border/50 pt-4 relative z-10">
                 <div className="flex items-center justify-between mb-3">
@@ -151,12 +183,12 @@ function PlanPage() {
                 </div>
                 <div className="bg-saffron/5 border border-saffron/20 rounded-xl p-3 relative overflow-hidden group hover:border-saffron/40 transition-colors">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-saffron mb-1">Special (₹100)</div>
-                  <div className="font-serif font-semibold text-lg text-saffron">~30 mins</div>
+                  <div className="font-serif font-semibold text-lg text-saffron">30 mins</div>
                   <div className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1">Dedicated queue line B.</div>
                 </div>
                 <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-3 relative overflow-hidden group hover:border-emerald-500/40 transition-colors">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 mb-1 flex items-center gap-1"><Sparkles className="w-3 h-3"/> VIP Pass (₹500)</div>
-                  <div className="font-serif font-semibold text-lg text-emerald-600">~15 mins</div>
+                  <div className="font-serif font-semibold text-lg text-emerald-600">15 mins</div>
                   <div className="text-[10px] text-muted-foreground mt-1">Fastest route. Direct access to Sanctum approach.</div>
                 </div>
               </div>
@@ -220,4 +252,34 @@ function PillRow({ value, setValue, options }: any) {
       ))}
     </div>
   );
+}
+
+function getTransportInfo(origin: string, dest: string) {
+  const o = (origin || "").toLowerCase();
+  
+  if (o.includes("bangalore") || o.includes("bengaluru") || o.includes("blr")) {
+    if (dest === "palani-murugan") return {
+      roadTime: "6h 30m", route: "NH 44 and NH 83 via Salem",
+      buses: [{ name: "KPN Travels (AC Sleeper)", time: "10:30 PM", price: "₹850" }, { name: "SETC (Non-AC Seater)", time: "11:00 PM", price: "₹380" }],
+      trains: [{ name: "Tuticorin Exp to Dindigul (16732)", time: "09:15 PM", price: "₹250 (SL)" }]
+    };
+    if (dest === "madurai-meenakshi") return {
+      roadTime: "7h 00m", route: "NH 44 via Salem",
+      buses: [{ name: "SRM Transports (AC Sleeper)", time: "10:00 PM", price: "₹950" }, { name: "IntrCity SmartBus", time: "11:15 PM", price: "₹1,100" }],
+      trains: [{ name: "Tuticorin Exp (16236)", time: "09:15 PM", price: "₹300 (SL)" }, { name: "Nagercoil Exp (16340)", time: "10:30 PM", price: "₹320 (SL)" }]
+    };
+  } else if (o.includes("chennai") || o.includes("madras") || o.includes("maa")) {
+    if (dest === "palani-murugan") return {
+      roadTime: "8h 00m", route: "NH 38 via Trichy",
+      buses: [{ name: "YBM Travels (AC Sleeper)", time: "09:30 PM", price: "₹900" }, { name: "SETC (AC Seater)", time: "10:00 PM", price: "₹450" }],
+      trains: [{ name: "Palakkad Exp (22651)", time: "09:40 PM", price: "₹315 (SL), ₹850 (3A)" }]
+    };
+    if (dest === "madurai-meenakshi") return {
+      roadTime: "7h 30m", route: "NH 38 via Trichy",
+      buses: [{ name: "Parveen Travels (Volvo)", time: "10:15 PM", price: "₹1,200" }, { name: "SETC (Ultra Deluxe)", time: "10:30 PM", price: "₹480" }],
+      trains: [{ name: "Pandian Exp (12637)", time: "09:40 PM", price: "₹315 (SL)" }, { name: "Kanyakumari Exp (12633)", time: "05:15 PM", price: "₹320 (SL)" }]
+    };
+  }
+  
+  return { roadTime: "Check Maps", route: "Fastest route via highway", buses: [], trains: [] };
 }
