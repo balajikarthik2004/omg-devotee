@@ -1,20 +1,18 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { Home, Search, Sparkles, Map, User, Bell, Calendar, Navigation, Settings } from "lucide-react";
+import { Home, Sparkles, Map, User, Bell, Calendar, Navigation, Settings, HeartHandshake } from "lucide-react";
 import { OmWatermark } from "./OmWatermark";
 import logoPng from "@/assets/logo.png";
 
 const navItems = [
   { to: "/", label: "Home", icon: Home, exact: true },
-  { to: "/search", label: "Search", icon: Search },
   { to: "/plan", label: "AI Plan", icon: Sparkles },
   { to: "/heatmap", label: "Heatmap", icon: Map },
-  { to: "/profile", label: "Profile", icon: User },
+  { to: "/donations", label: "Donations", icon: HeartHandshake },
 ];
 
 const sidebarExtras = [
   // { to: "/poojas", label: "Pooja & Timings", icon: Calendar },
   // { to: "/nearby", label: "Nearby & Navigate", icon: Navigation },
-  { to: "/notifications", label: "Notifications", icon: Bell },
 ];
 
 export function AppShell() {

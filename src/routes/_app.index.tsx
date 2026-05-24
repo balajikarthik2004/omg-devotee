@@ -1,173 +1,183 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-import { Search, Mic, Sparkles, Sunrise, Sun, Moon, ArrowRight, LayoutGrid } from "lucide-react";
-import { temples, type Temple } from "@/data/temples";
-import { TempleCard } from "@/components/app/TempleCard";
+import { useMemo, useState } from "react";
+import { Search, Mic, Sparkles, Sunrise, Sun, Moon, ArrowRight, MapPin, BellRing } from "lucide-react";
+import { temples, districts } from "@/data/temples";
 import { CrowdBadge } from "@/components/app/CrowdBadge";
 
 export const Route = createFileRoute("/_app/")({
   head: () => ({
     meta: [
-      { title: "OMG Smart Temple — Discover Tamil Nadu Temples" },
-      { name: "description", content: "Discover temples, see live crowd, and get AI-recommended best times to visit." },
+      { title: "OMG Smart Temple — Devotee Dashboard" },
+      { name: "description", content: "Your personalized dashboard for Tamil Nadu temples." },
     ],
   }),
-  component: Home,
+  component: Dashboard,
 });
 
 function greeting() {
   const h = new Date().getHours();
-  if (h < 12) return { icon: <Sunrise className="w-4 h-4" />, text: "Good Morning, Devotee" };
-  if (h < 18) return { icon: <Sun className="w-4 h-4" />, text: "Good Afternoon, Devotee" };
-  return { icon: <Moon className="w-4 h-4" />, text: "Good Evening, Devotee" };
+  if (h < 12) return { icon: <Sunrise className="w-5 h-5 text-saffron" />, text: "Good Morning, Devotee 🙏" };
+  if (h < 18) return { icon: <Sun className="w-5 h-5 text-saffron" />, text: "Good Afternoon, Devotee 🙏" };
+  return { icon: <Moon className="w-5 h-5 text-indigo-400" />, text: "Good Evening, Devotee 🙏" };
 }
 
-function Home() {
+function Dashboard() {
   const g = greeting();
   const [q, setQ] = useState("");
-  const [focused, setFocused] = useState(false);
+  const [district, setDistrict] = useState<string>("");
+  const [activeFilter, setActiveFilter] = useState<string>("All");
 
-  const matches: Temple[] = useMemo(() => {
-    if (!q.trim()) return [];
-    const v = q.toLowerCase();
-    return temples.filter(t =>
-      t.name.toLowerCase().includes(v) ||
-      t.district.toLowerCase().includes(v) ||
-      t.deity.toLowerCase().includes(v)
-    ).slice(0, 6);
-  }, [q]);
+  const filters = ["All", "Open Now", "Shiva", "Murugan", "Amman", "Low Crowd"];
 
-  const filters = ["All", "Open Now", "Low Crowd", "Murugan", "Shiva", "Amman", "Chennai", "Madurai", "Trichy", "Coimbatore"];
-  const aiPick = temples[0];
+  // AI Suggestions tailored for a Tamil Nadu devotee
+  const suggestions = [
+    { id: 1, title: "Pradosham Today", desc: "Expect high crowds at Shiva temples this evening. Plan darshan before 4 PM.", type: "alert" },
+    { id: 2, title: "Fast Darshan", desc: "Kapaleeshwarar queue is moving exceptionally fast (15 mins wait).", type: "good", templeSlug: "kapaleeshwarar" },
+    { id: 3, title: "Palani Update", desc: "Rope car maintenance scheduled between 1 PM - 3 PM today.", type: "info", templeSlug: "palani-murugan" }
+  ];
+
+  const results = useMemo(() => {
+    const v = q.toLowerCase().trim();
+    return temples.filter(t => {
+      // District filter
+      if (district && t.district !== district) return false;
+      
+      // Category filter
+      if (activeFilter === "Low Crowd" && t.crowdStatus !== "low") {
+        return false;
+      } else if (activeFilter !== "All" && activeFilter !== "Open Now" && !t.deity.includes(activeFilter)) {
+        return false;
+      }
+
+      // Text search
+      if (!v) return true;
+      return t.name.toLowerCase().includes(v) || t.district.toLowerCase().includes(v) || t.deity.toLowerCase().includes(v);
+    });
+  }, [q, district, activeFilter]);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Clean Header Section */}
-      <header className="border-b border-border bg-card">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="flex items-center gap-2 text-saffron mb-1">
-            {g.icon}
-            <span className="text-sm font-medium">{g.text}</span>
+    <div className="flex flex-col min-h-screen bg-background pb-12">
+      {/* Devotee Header */}
+      <header className="bg-card border-b border-border sticky top-0 z-30 shadow-sm">
+        <div className="max-w-5xl mx-auto px-4 lg:px-6 py-4">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              {g.icon}
+              <h1 className="font-serif text-xl font-semibold text-foreground">{g.text}</h1>
+            </div>
+            <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-saffron bg-saffron/10 border border-saffron/20 px-3 py-1 rounded-full">
+              Today: Valarpirai, Pradosham
+            </div>
           </div>
-          <h1 className="font-serif text-3xl font-semibold text-foreground">Plan your peaceful darshan today</h1>
           
-          <div className="mt-6 flex flex-col md:flex-row gap-4 items-start md:items-center">
-            {/* Search */}
-            <div className="relative w-full max-w-xl">
-              <div className="flex items-center gap-2 bg-background border border-border rounded-lg px-3 py-2.5 focus-within:border-saffron/40 focus-within:ring-1 focus-within:ring-saffron/40 transition-shadow">
-                <Search className="w-4 h-4 text-muted-foreground" />
-                <input
-                  value={q}
-                  onChange={e => setQ(e.target.value)}
-                  onFocus={() => setFocused(true)}
-                  onBlur={() => setTimeout(() => setFocused(false), 150)}
-                  placeholder="Search temple, deity, or district..."
-                  className="flex-1 bg-transparent outline-none text-sm placeholder:text-muted-foreground"
-                />
-                <button className="w-7 h-7 rounded-md bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"><Mic className="w-3.5 h-3.5" /></button>
-              </div>
-              {focused && (matches.length > 0 || !q) && (
-                <div className="absolute z-30 mt-1 w-full bg-card rounded-lg border border-border shadow-md p-1.5 fade-in">
-                  {q ? matches.map(t => (
-                    <Link key={t.id} to="/temple/$slug" params={{ slug: t.slug }} className="flex items-center gap-3 p-2 rounded-md hover:bg-secondary transition-colors">
-                      <div className="w-8 h-8 rounded-md flex items-center justify-center text-white font-serif text-xs" style={{ background: t.color }}>ॐ</div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-serif text-sm font-semibold truncate">{t.name}</div>
-                        <div className="text-xs text-muted-foreground">{t.district} · {t.deity.split(" ")[1] || t.deity}</div>
-                      </div>
-                      <CrowdBadge status={t.crowdStatus} />
-                    </Link>
-                  )) : (
-                    <>
-                      <div className="px-2 py-1.5 text-[10px] text-muted-foreground uppercase tracking-wide font-semibold">Popular Near You</div>
-                      {temples.slice(0,3).map(t => (
-                        <Link key={t.id} to="/temple/$slug" params={{ slug: t.slug }} className="flex items-center gap-3 p-2 rounded-md hover:bg-secondary transition-colors">
-                          <div className="w-8 h-8 rounded-md flex items-center justify-center text-white font-serif text-xs" style={{ background: t.color }}>ॐ</div>
-                          <div className="flex-1 min-w-0">
-                            <div className="font-serif text-sm font-semibold truncate">{t.name}</div>
-                            <div className="text-xs text-muted-foreground">{t.district}</div>
-                          </div>
-                          <CrowdBadge status={t.crowdStatus} />
-                        </Link>
-                      ))}
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
-            
-            {/* Minimal Filter Pills */}
-            <div className="flex flex-wrap gap-2">
-              {filters.slice(0, 5).map((f, i) => (
-                <button key={f} className={`px-3 py-1.5 rounded-md text-xs font-medium border transition-colors ${
-                  i === 0 ? "bg-foreground text-background border-foreground" : "bg-card border-border hover:bg-secondary text-foreground"
-                }`}>{f}</button>
-              ))}
-            </div>
+          {/* Unified Search Bar */}
+          <div className="flex items-center gap-2 bg-background border border-border rounded-xl px-4 py-3 focus-within:border-saffron focus-within:ring-1 focus-within:ring-saffron transition-shadow shadow-inner">
+            <Search className="w-5 h-5 text-muted-foreground" />
+            <input
+              value={q}
+              onChange={e => setQ(e.target.value)}
+              placeholder="Search for temples, deities, or districts in Tamil Nadu..."
+              className="flex-1 bg-transparent outline-none text-sm placeholder:text-muted-foreground"
+            />
+            <button className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"><Mic className="w-4 h-4" /></button>
+          </div>
+
+          {/* Quick Filters */}
+          <div className="flex gap-2 mt-4 overflow-x-auto scrollbar-hide pb-1">
+            <select value={district} onChange={e => setDistrict(e.target.value)} className="text-sm bg-background border border-border rounded-full px-4 py-1.5 font-medium outline-none focus:border-saffron focus:ring-1 focus:ring-saffron">
+              <option value="">All districts</option>
+              {districts.map(d => <option key={d}>{d}</option>)}
+            </select>
+            {filters.map(f => (
+              <button 
+                key={f} 
+                onClick={() => setActiveFilter(f)}
+                className={`whitespace-nowrap text-sm rounded-full px-4 py-1.5 border font-medium transition-colors ${
+                  activeFilter === f ? "bg-foreground text-background border-foreground" : "bg-background border-border hover:bg-secondary text-foreground"
+                }`}
+              >
+                {f}
+              </button>
+            ))}
           </div>
         </div>
       </header>
 
-      {/* Main Content Dashboard */}
-      <div className="flex-1 bg-background">
-        <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 xl:grid-cols-4 gap-8">
-          
-          <div className="xl:col-span-3 space-y-8">
-            {/* Featured temples Grid */}
-            <section>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="font-serif text-lg font-semibold flex items-center gap-2"><LayoutGrid className="w-4 h-4 text-muted-foreground" /> Featured Temples</h2>
-                <Link to="/search" className="text-sm text-muted-foreground hover:text-foreground transition-colors font-medium">View Directory →</Link>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {temples.slice(0, 6).map(t => <TempleCard key={t.id} t={t} compact />)}
-              </div>
-            </section>
-          </div>
+      <div className="max-w-5xl mx-auto px-4 lg:px-6 py-6 space-y-8 w-full">
+        
+        {/* AI Smart Suggestions */}
+        {(!q && district === "" && activeFilter === "All") && (
+          <section className="animate-in fade-in slide-in-from-bottom-2 duration-500">
+            <div className="flex items-center gap-2 mb-3">
+              <Sparkles className="w-4 h-4 text-saffron" />
+              <h2 className="font-serif text-lg font-semibold text-foreground">Smart Suggestions</h2>
+            </div>
+            <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 snap-x">
+              {suggestions.map(s => (
+                <div key={s.id} className="snap-start shrink-0 w-72 bg-card border border-border rounded-2xl p-4 flex flex-col justify-between hover:border-saffron/40 transition-colors shadow-sm relative overflow-hidden">
+                  <div className={`absolute top-0 left-0 w-1 h-full ${s.type === 'alert' ? 'bg-danger' : s.type === 'good' ? 'bg-emerald' : 'bg-info'}`}></div>
+                  <div>
+                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider mb-2">
+                      {s.type === 'alert' && <BellRing className="w-3 h-3 text-danger" />}
+                      {s.type === 'good' && <Sparkles className="w-3 h-3 text-emerald" />}
+                      <span className={s.type === 'alert' ? 'text-danger' : s.type === 'good' ? 'text-emerald' : 'text-info'}>{s.title}</span>
+                    </div>
+                    <div className="text-sm font-medium text-foreground leading-relaxed">{s.desc}</div>
+                  </div>
+                  {s.templeSlug && (
+                    <Link to="/temple/$slug" params={{ slug: s.templeSlug }} className="mt-4 text-xs font-semibold text-saffron flex items-center gap-1 group">
+                      View Temple <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
-          <div className="space-y-6">
-            {/* AI Insights Sidebar Panel */}
-            <section>
-              <h2 className="font-serif text-lg font-semibold mb-4 flex items-center gap-2"><Sparkles className="w-4 h-4 text-saffron" /> AI Insights</h2>
-              
-              <Link to="/temple/$slug" params={{ slug: aiPick.slug }} className="block group">
-                <div className="bg-saffron/10 border border-saffron/30 rounded-lg p-5 hover:bg-saffron/15 transition-colors">
-                  <div className="text-xs font-bold uppercase tracking-wider text-saffron mb-2">Recommended Today</div>
-                  <div className="font-serif text-lg font-semibold text-foreground leading-tight group-hover:underline">{aiPick.name}</div>
-                  <div className="text-sm text-foreground/80 mt-2">Optimal darshan time: 3:00 – 5:00 PM</div>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="text-xs font-medium text-muted-foreground">Wait time: {aiPick.waitMin} min</span>
-                    <ArrowRight className="w-4 h-4 text-saffron transition-transform group-hover:translate-x-1" />
+        {/* Live Temple Feed */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-serif text-lg font-semibold flex items-center gap-2">Live Darshan Feed</h2>
+            <div className="text-xs text-muted-foreground font-medium bg-secondary px-2 py-1 rounded-full">{results.length} temples</div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {results.map(t => (
+              <Link key={t.id} to="/temple/$slug" params={{ slug: t.slug }} className="group flex flex-col bg-card border border-border rounded-2xl p-4 hover:shadow-md transition-all hover:border-saffron/30">
+                <div className="flex gap-4">
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-serif text-2xl shrink-0 shadow-inner" style={{ background: t.color }}>ॐ</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between">
+                      <div className="font-serif font-semibold text-foreground truncate text-lg group-hover:text-saffron transition-colors">{t.name}</div>
+                    </div>
+                    <div className="text-sm text-muted-foreground flex items-center gap-1.5 mt-0.5"><MapPin className="w-3.5 h-3.5" /> {t.district} · {t.deity}</div>
+                    
+                    <div className="flex flex-wrap items-center gap-2 mt-3">
+                      <CrowdBadge status={t.crowdStatus} />
+                      <span className="text-xs font-semibold text-muted-foreground bg-secondary px-2 py-1 rounded-md">Wait: {t.waitMin} min</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-status-low bg-status-low/10 border border-status-low/20 px-2 py-1 rounded-md">Open Now</span>
+                    </div>
                   </div>
                 </div>
+                
+                <div className="mt-4 pt-3 border-t border-border flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">AI Optimal Darshan Time: <strong className="text-foreground">3:00 – 5:00 PM</strong></span>
+                  <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-saffron group-hover:translate-x-1 transition-all" />
+                </div>
               </Link>
-
-              <div className="mt-4 space-y-3">
-                <TimingCard label="Best Morning" temple="Kapaleeshwarar" time="7:00 – 9:00 AM" tag="Clear" isGood />
-                <TimingCard label="Best Afternoon" temple="Srirangam" time="3:00 – 5:00 PM" tag="Clear" isGood />
-                <TimingCard label="Avoid Today" temple="Tiruvannamalai" time="Karthigai prep" tag="Heavy" />
-              </div>
-            </section>
+            ))}
           </div>
           
-        </div>
-      </div>
-    </div>
-  );
-}
+          {results.length === 0 && (
+            <div className="text-center text-muted-foreground py-16 bg-card rounded-2xl border border-border">
+              <div className="text-4xl mb-3">🙏</div>
+              <div className="font-medium text-foreground">No temples found</div>
+              <div className="text-sm mt-1">Try adjusting your filters or search terms.</div>
+            </div>
+          )}
+        </section>
 
-function TimingCard({ label, temple, time, tag, isGood }: any) {
-  return (
-    <div className="bg-card border border-border rounded-lg p-3">
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{label}</div>
-          <div className="font-serif text-sm font-semibold mt-1">{temple}</div>
-          <div className="text-xs text-muted-foreground mt-0.5">{time}</div>
-        </div>
-        <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border ${
-          isGood ? "bg-green-500/10 text-green-700 border-green-500/20" : "bg-red-500/10 text-red-700 border-red-500/20"
-        }`}>{tag}</span>
       </div>
     </div>
   );

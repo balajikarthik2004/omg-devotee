@@ -12,13 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
-import { Route as AppSearchRouteImport } from './routes/_app.search'
 import { Route as AppProfileRouteImport } from './routes/_app.profile'
 import { Route as AppPoojasRouteImport } from './routes/_app.poojas'
 import { Route as AppPlanRouteImport } from './routes/_app.plan'
 import { Route as AppNotificationsRouteImport } from './routes/_app.notifications'
 import { Route as AppNearbyRouteImport } from './routes/_app.nearby'
 import { Route as AppHeatmapRouteImport } from './routes/_app.heatmap'
+import { Route as AppDonationsRouteImport } from './routes/_app.donations'
 import { Route as AppChatRouteImport } from './routes/_app.chat'
 import { Route as AppTempleSlugRouteImport } from './routes/_app.temple.$slug'
 
@@ -34,11 +34,6 @@ const AppRoute = AppRouteImport.update({
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppSearchRoute = AppSearchRouteImport.update({
-  id: '/search',
-  path: '/search',
   getParentRoute: () => AppRoute,
 } as any)
 const AppProfileRoute = AppProfileRouteImport.update({
@@ -71,6 +66,11 @@ const AppHeatmapRoute = AppHeatmapRouteImport.update({
   path: '/heatmap',
   getParentRoute: () => AppRoute,
 } as any)
+const AppDonationsRoute = AppDonationsRouteImport.update({
+  id: '/donations',
+  path: '/donations',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppChatRoute = AppChatRouteImport.update({
   id: '/chat',
   path: '/chat',
@@ -86,25 +86,25 @@ export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/chat': typeof AppChatRoute
+  '/donations': typeof AppDonationsRoute
   '/heatmap': typeof AppHeatmapRoute
   '/nearby': typeof AppNearbyRoute
   '/notifications': typeof AppNotificationsRoute
   '/plan': typeof AppPlanRoute
   '/poojas': typeof AppPoojasRoute
   '/profile': typeof AppProfileRoute
-  '/search': typeof AppSearchRoute
   '/temple/$slug': typeof AppTempleSlugRoute
 }
 export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/chat': typeof AppChatRoute
+  '/donations': typeof AppDonationsRoute
   '/heatmap': typeof AppHeatmapRoute
   '/nearby': typeof AppNearbyRoute
   '/notifications': typeof AppNotificationsRoute
   '/plan': typeof AppPlanRoute
   '/poojas': typeof AppPoojasRoute
   '/profile': typeof AppProfileRoute
-  '/search': typeof AppSearchRoute
   '/': typeof AppIndexRoute
   '/temple/$slug': typeof AppTempleSlugRoute
 }
@@ -113,13 +113,13 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_app/chat': typeof AppChatRoute
+  '/_app/donations': typeof AppDonationsRoute
   '/_app/heatmap': typeof AppHeatmapRoute
   '/_app/nearby': typeof AppNearbyRoute
   '/_app/notifications': typeof AppNotificationsRoute
   '/_app/plan': typeof AppPlanRoute
   '/_app/poojas': typeof AppPoojasRoute
   '/_app/profile': typeof AppProfileRoute
-  '/_app/search': typeof AppSearchRoute
   '/_app/': typeof AppIndexRoute
   '/_app/temple/$slug': typeof AppTempleSlugRoute
 }
@@ -129,25 +129,25 @@ export interface FileRouteTypes {
     | '/'
     | '/sitemap.xml'
     | '/chat'
+    | '/donations'
     | '/heatmap'
     | '/nearby'
     | '/notifications'
     | '/plan'
     | '/poojas'
     | '/profile'
-    | '/search'
     | '/temple/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/sitemap.xml'
     | '/chat'
+    | '/donations'
     | '/heatmap'
     | '/nearby'
     | '/notifications'
     | '/plan'
     | '/poojas'
     | '/profile'
-    | '/search'
     | '/'
     | '/temple/$slug'
   id:
@@ -155,13 +155,13 @@ export interface FileRouteTypes {
     | '/_app'
     | '/sitemap.xml'
     | '/_app/chat'
+    | '/_app/donations'
     | '/_app/heatmap'
     | '/_app/nearby'
     | '/_app/notifications'
     | '/_app/plan'
     | '/_app/poojas'
     | '/_app/profile'
-    | '/_app/search'
     | '/_app/'
     | '/_app/temple/$slug'
   fileRoutesById: FileRoutesById
@@ -192,13 +192,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AppIndexRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/search': {
-      id: '/_app/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof AppSearchRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/profile': {
@@ -243,6 +236,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHeatmapRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/donations': {
+      id: '/_app/donations'
+      path: '/donations'
+      fullPath: '/donations'
+      preLoaderRoute: typeof AppDonationsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/chat': {
       id: '/_app/chat'
       path: '/chat'
@@ -262,26 +262,26 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppChatRoute: typeof AppChatRoute
+  AppDonationsRoute: typeof AppDonationsRoute
   AppHeatmapRoute: typeof AppHeatmapRoute
   AppNearbyRoute: typeof AppNearbyRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppPlanRoute: typeof AppPlanRoute
   AppPoojasRoute: typeof AppPoojasRoute
   AppProfileRoute: typeof AppProfileRoute
-  AppSearchRoute: typeof AppSearchRoute
   AppIndexRoute: typeof AppIndexRoute
   AppTempleSlugRoute: typeof AppTempleSlugRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppChatRoute: AppChatRoute,
+  AppDonationsRoute: AppDonationsRoute,
   AppHeatmapRoute: AppHeatmapRoute,
   AppNearbyRoute: AppNearbyRoute,
   AppNotificationsRoute: AppNotificationsRoute,
   AppPlanRoute: AppPlanRoute,
   AppPoojasRoute: AppPoojasRoute,
   AppProfileRoute: AppProfileRoute,
-  AppSearchRoute: AppSearchRoute,
   AppIndexRoute: AppIndexRoute,
   AppTempleSlugRoute: AppTempleSlugRoute,
 }

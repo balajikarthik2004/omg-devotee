@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { temples } from "@/data/temples";
+import palaniImg from "@/assets/palani.png";
+import { Maximize2, X } from "lucide-react";
 
 export const Route = createFileRoute("/_app/heatmap")({
   head: () => ({ meta: [{ title: "Live Heatmap — OMG Smart Temple" }] }),
@@ -9,9 +11,10 @@ export const Route = createFileRoute("/_app/heatmap")({
 
 function HeatmapPage() {
   const [sel, setSel] = useState(temples[0].id);
+  const [fullView, setFullView] = useState(false);
   const t = temples.find(x => x.id === sel)!;
 
-  const zones = [
+  const genericZones = [
     { name: "Main Entrance", pct: t.parking.lotA, x: 40, y: 80, w: 120, h: 50, advice: "Use East Gate instead" },
     { name: "Queue Lane A", pct: Math.min(95, t.crowdPct + 15), x: 40, y: 140, w: 60, h: 100, advice: "Wait 30 min or visit after 4 PM" },
     { name: "Queue Lane B", pct: Math.max(20, t.crowdPct - 20), x: 105, y: 140, w: 55, h: 100, advice: "Faster lane today" },
@@ -19,6 +22,17 @@ function HeatmapPage() {
     { name: "Prasad counter", pct: Math.max(15, t.crowdPct - 30), x: 270, y: 80, w: 80, h: 60, advice: "Light queue" },
     { name: "Parking Lot A", pct: t.parking.lotA, x: 270, y: 150, w: 80, h: 70, advice: "Almost full — use overflow" },
   ];
+
+  const palaniZones = [
+    { name: "Sanctum Sanctorum", pct: Math.min(95, t.crowdPct + 25), advice: "Peak crowd right now. Expected wait ~45 mins." },
+    { name: "Steps Route", pct: Math.min(85, t.crowdPct + 15), advice: "Heavy footfall. Use Rope Car or Winch if possible." },
+    { name: "Rope Car Station", pct: Math.max(20, t.crowdPct - 10), advice: "Moderate queue. ~20 mins wait." },
+    { name: "Winch Station", pct: Math.max(15, t.crowdPct - 25), advice: "Moving fast. Good alternative to steps." },
+    { name: "Panchamirtham Counter", pct: Math.max(10, t.crowdPct - 35), advice: "Clear. Get your prasadam quickly." },
+    { name: "Base Parking Area", pct: t.parking.lotA, advice: "Almost full. Consider overflow parking." },
+  ];
+
+  const displayZones = t.id === 1 ? palaniZones : genericZones;
 
   function zoneColor(p: number) {
     if (p < 35) return "rgba(22,163,74,0.35)";
@@ -61,23 +75,35 @@ function HeatmapPage() {
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-status-high"/> Avoid</span>
           </div>
         </div>
-        <div className="aspect-[16/9] bg-secondary rounded-xl overflow-hidden">
-          <svg viewBox="0 0 400 280" className="w-full h-full">
-            <rect x="20" y="20" width="360" height="240" fill="#FFFBF5" stroke="#F5F0E8" />
-            {zones.map(z => (
-              <g key={z.name}>
-                <rect x={z.x} y={z.y} width={z.w} height={z.h} rx="8" fill={zoneColor(z.pct)} stroke={zoneStroke(z.pct)} strokeWidth="1.5" />
-                <text x={z.x + z.w/2} y={z.y + z.h/2 - 4} textAnchor="middle" fontSize="10" fill="#1C1917" fontWeight="600">{z.name}</text>
-                <text x={z.x + z.w/2} y={z.y + z.h/2 + 10} textAnchor="middle" fontSize="9" fill="#78716C">~{waitFor(z.pct)} min</text>
-              </g>
-            ))}
-            <text x="200" y="265" textAnchor="middle" fontSize="9" fill="#A8A29E">Schematic floor plan</text>
-          </svg>
+        <div className="aspect-[16/9] bg-secondary rounded-xl overflow-hidden relative group">
+          {t.id === 1 ? (
+            <>
+              <img src={palaniImg} alt="Palani Temple Map" className="absolute inset-0 w-full h-full object-cover" />
+              <button 
+                onClick={() => setFullView(true)}
+                className="absolute bottom-4 right-4 bg-black/70 hover:bg-black text-white px-3 py-2 rounded-lg flex items-center gap-2 text-xs font-medium backdrop-blur-sm transition-all shadow-lg"
+              >
+                <Maximize2 size={14} /> Full View
+              </button>
+            </>
+          ) : (
+            <svg viewBox="0 0 400 280" className="w-full h-full">
+              <rect x="20" y="20" width="360" height="240" fill="#FFFBF5" stroke="#F5F0E8" />
+              {genericZones.map(z => (
+                <g key={z.name}>
+                  <rect x={z.x} y={z.y} width={z.w} height={z.h} rx="8" fill={zoneColor(z.pct)} stroke={zoneStroke(z.pct)} strokeWidth="1.5" />
+                  <text x={z.x + z.w/2} y={z.y + z.h/2 - 4} textAnchor="middle" fontSize="10" fill="#1C1917" fontWeight="600">{z.name}</text>
+                  <text x={z.x + z.w/2} y={z.y + z.h/2 + 10} textAnchor="middle" fontSize="9" fill="#78716C">~{waitFor(z.pct)} min</text>
+                </g>
+              ))}
+              <text x="200" y="265" textAnchor="middle" fontSize="9" fill="#A8A29E">Schematic floor plan</text>
+            </svg>
+          )}
         </div>
       </div>
 
       <div className="mt-5 grid sm:grid-cols-2 gap-3">
-        {zones.map(z => (
+        {displayZones.map(z => (
           <div key={z.name} className="bg-card border border-border rounded-2xl p-4 card-soft">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full" style={{ background: zoneStroke(z.pct) }} />
@@ -95,6 +121,18 @@ function HeatmapPage() {
         <button className="text-sm rounded-full bg-white border border-border px-3 py-1">Past 6 hours</button>
         <button className="text-sm rounded-full bg-white border border-border px-3 py-1">Last weekend</button>
       </div>
+
+      {fullView && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md animate-in fade-in zoom-in duration-200">
+          <button 
+            onClick={() => setFullView(false)}
+            className="absolute top-4 right-4 text-white/70 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
+          >
+            <X size={32} />
+          </button>
+          <img src={palaniImg} alt="Palani Temple Map Full View" className="max-w-[95vw] max-h-[95vh] object-contain rounded-xl shadow-2xl" />
+        </div>
+      )}
     </div>
   );
 }
