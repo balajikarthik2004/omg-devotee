@@ -250,10 +250,10 @@ function Dashboard() {
                 </div>
               </div>
               <div className="space-y-3.5 text-sm">
-                <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Today's Total</span><span className="font-bold tabular-nums text-slate-800">38,240</span></div>
+                <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium"> Today's total Devotees</span><span className="font-bold tabular-nums text-slate-800">38,240</span></div>
                 <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Peak (10:30 AM)</span><span className="font-bold tabular-nums text-slate-800">15,820</span></div>
                 <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Darshan Flow</span><span className="font-bold text-emerald-600">1,250 / hr</span></div>
-                <div className="flex justify-between"><span className="text-slate-500 font-medium">Next Peak Est.</span><span className="font-bold text-rose-500">5:30 PM</span></div>
+                <div className="flex justify-between"><span className="text-slate-500 font-medium">Next Peak <br /> (5:00 PM - 6:30 PM)</span><span className="font-bold text-rose-500">18,500 Expected</span></div>
               </div>
             </div>
           </div>
