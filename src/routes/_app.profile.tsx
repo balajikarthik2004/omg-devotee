@@ -72,7 +72,7 @@ function Visit({ date, temple, note, stars }: any) {
     <div className="border-l-2 border-saffron/40 pl-4">
       <div className="text-xs text-muted-foreground">📅 {date}</div>
       <div className="font-serif font-semibold">{temple}</div>
-      <div className="text-sm text-foreground/80 mt-0.5">"{note}"</div>
+      <div className="text-sm text-white mt-0.5">"{note}"</div>
       <div className="text-sm text-gold mt-1">{"⭐".repeat(stars)}</div>
     </div>
   );

@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { temples } from "@/data/temples";
 import palaniImg from "@/assets/palani.png";
+import meenakshiImg from "@/assets/meenakshi.png";
 import { Maximize2, X } from "lucide-react";
 
 export const Route = createFileRoute("/_app/heatmap")({
@@ -32,7 +33,16 @@ function HeatmapPage() {
     { name: "Base Parking Area", pct: t.parking.lotA, advice: "Almost full. Consider overflow parking." },
   ];
 
-  const displayZones = t.id === 1 ? palaniZones : genericZones;
+  const meenakshiZones = [
+    { name: "Meenakshi Amman Shrine", pct: Math.min(95, t.crowdPct + 20), advice: "High wait time. Avoid during noon." },
+    { name: "Sundareswarar Shrine", pct: Math.min(85, t.crowdPct + 10), advice: "Moderate wait time." },
+    { name: "Porthamarai Kulam", pct: Math.max(30, t.crowdPct - 15), advice: "Good for resting." },
+    { name: "East Gopuram Entrance", pct: Math.min(90, t.crowdPct + 5), advice: "Very crowded. Use South gate." },
+    { name: "Thousand Pillar Hall", pct: Math.max(20, t.crowdPct - 30), advice: "Spacious, easy to walk." },
+    { name: "Parking Area", pct: t.parking.lotA, advice: "Check Lot B for more space." },
+  ];
+
+  const displayZones = t.id === 1 ? palaniZones : t.id === 2 ? meenakshiZones : genericZones;
 
   function zoneColor(p: number) {
     if (p < 35) return "rgba(22,163,74,0.35)";
@@ -70,15 +80,15 @@ function HeatmapPage() {
             <div className="text-xs text-muted-foreground">Live · updated every 30s</div>
           </div>
           <div className="flex gap-3 text-xs">
-            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-status-low"/> Walk in</span>
-            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-status-mod"/> Short wait</span>
-            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-status-high"/> Avoid</span>
+            <span className="flex items-center gap-1.5"><span className="w-3.5 h-3.5 rounded bg-status-low"/> Walk in</span>
+            <span className="flex items-center gap-1.5"><span className="w-3.5 h-3.5 rounded bg-status-mod"/> Short wait</span>
+            <span className="flex items-center gap-1.5"><span className="w-3.5 h-3.5 rounded bg-status-high"/> Avoid</span>
           </div>
         </div>
         <div className="aspect-[16/9] bg-secondary rounded-xl overflow-hidden relative group">
-          {t.id === 1 ? (
+          {t.id === 1 || t.id === 2 ? (
             <>
-              <img src={palaniImg} alt="Palani Temple Map" className="absolute inset-0 w-full h-full object-cover" />
+              <img src={t.id === 1 ? palaniImg : meenakshiImg} alt={`${t.name} Map`} className="absolute inset-0 w-full h-full object-cover" />
               <button 
                 onClick={() => setFullView(true)}
                 className="absolute bottom-4 right-4 bg-black/70 hover:bg-black text-white px-3 py-2 rounded-lg flex items-center gap-2 text-xs font-medium backdrop-blur-sm transition-all shadow-lg"
@@ -130,7 +140,7 @@ function HeatmapPage() {
           >
             <X size={32} />
           </button>
-          <img src={palaniImg} alt="Palani Temple Map Full View" className="max-w-[95vw] max-h-[95vh] object-contain rounded-xl shadow-2xl" />
+          <img src={t.id === 1 ? palaniImg : meenakshiImg} alt={`${t.name} Map Full View`} className="max-w-[95vw] max-h-[95vh] object-contain rounded-xl shadow-2xl" />
         </div>
       )}
     </div>
