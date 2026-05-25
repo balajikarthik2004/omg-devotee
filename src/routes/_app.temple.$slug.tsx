@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getTemple, forecastFor, temples } from "@/data/temples";
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, Share2, Bookmark, Bell, Sparkles, Navigation, MessageCircle, MapPin, Clock, CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
+import { ArrowLeft, ArrowRight, Share2, Bookmark, Bell, Sparkles, Navigation, MessageCircle, MapPin, Clock, CheckCircle2, XCircle, AlertTriangle, Sunrise, Sun, Moon, Lock } from "lucide-react";
 import { Area, AreaChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { CrowdBadge } from "@/components/app/CrowdBadge";
 
@@ -77,52 +77,61 @@ function TempleDetail() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 lg:px-8 pt-6">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-4 relative z-20">
         {/* Full width Dashboard Card */}
-        <div className="relative overflow-hidden rounded-2xl border border-border shadow-sm bg-card p-6 text-foreground">
-          <div className="grid gap-6 md:grid-cols-3 md:items-center">
+        <div className="relative overflow-hidden rounded-3xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.08)] bg-white/95 backdrop-blur-xl p-8 text-foreground">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-saffron/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+          <div className="absolute bottom-0 left-20 w-64 h-64 bg-rose-500/5 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="grid gap-8 md:grid-cols-3 md:items-center relative z-10">
             <div>
-              <div className="text-xl font-bold font-serif">{t.name}</div>
-              <div className="text-sm text-muted-foreground mt-0.5">Crowd Intelligence Dashboard</div>
-              <div className="flex flex-wrap items-center gap-3 mt-4">
-                <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 text-xs font-bold tracking-wider text-emerald-700">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-                  LIVE <span className="text-muted-foreground font-medium normal-case tracking-normal ml-1">· Updated {now.toLocaleTimeString("en-IN", { hour12: false })}</span>
+              <div className="text-3xl font-bold font-serif text-slate-900 tracking-tight">{t.name}</div>
+              <div className="text-sm text-slate-500 mt-1 font-medium tracking-wide uppercase">Crowd Intelligence Dashboard</div>
+              <div className="flex flex-wrap items-center gap-3 mt-6">
+                <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 border border-emerald-200/60 px-3.5 py-1.5 text-xs font-bold tracking-wider text-emerald-700 shadow-sm">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
+                  LIVE <span className="text-emerald-600/80 font-semibold normal-case tracking-normal ml-1">· Updated {now.toLocaleTimeString("en-IN", { hour12: false })}</span>
                 </div>
               </div>
             </div>
-            <div className="flex items-center justify-center gap-5">
-              <div className="relative grid h-32 w-32 place-items-center shrink-0">
-                <svg viewBox="0 0 100 100" className="absolute inset-0 -rotate-90">
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--secondary)" strokeWidth="8" />
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--saffron)" strokeWidth="8" strokeLinecap="round"
-                    strokeDasharray={`${(t.crowdPct / 100) * 264} 264`} />
+            <div className="flex items-center justify-center gap-6">
+              <div className="relative grid h-36 w-36 place-items-center shrink-0">
+                <svg viewBox="0 0 100 100" className="absolute inset-0 -rotate-90 drop-shadow-md">
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(0,0,0,0.05)" strokeWidth="8" />
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="url(#saffronGradientDetail)" strokeWidth="8" strokeLinecap="round"
+                    strokeDasharray={`${(pct / 100) * 264} 264`} className="transition-all duration-1000" />
+                  <defs>
+                    <linearGradient id="saffronGradientDetail" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#f97316" />
+                      <stop offset="100%" stopColor="#ef4444" />
+                    </linearGradient>
+                  </defs>
                 </svg>
                 <div className="text-center">
-                  <div className="text-xl font-bold tabular-nums">{t.crowdPct}%</div>
-                  <div className="text-[10px] uppercase text-muted-foreground font-semibold tracking-wider">Capacity</div>
+                  <div className="text-3xl font-extrabold tabular-nums text-slate-800">{Math.round(pct)}%</div>
+                  <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">Capacity</div>
                 </div>
               </div>
               <div>
-                <div className="text-4xl font-bold tabular-nums">{t.crowd.toLocaleString()}</div>
-                <div className="text-xs text-muted-foreground font-medium mt-1">Devotees currently inside</div>
+                <div className="text-5xl font-extrabold tabular-nums tracking-tight text-slate-900 drop-shadow-sm">{t.crowd.toLocaleString()}</div>
+                <div className="text-xs text-slate-500 font-semibold mt-2 uppercase tracking-wide">Devotees Inside</div>
               </div>
             </div>
-            <div className="space-y-2.5 text-sm">
-              <div className="flex justify-between border-b border-border/50 pb-2"><span className="text-muted-foreground">Today's total</span><span className="font-semibold tabular-nums">38,240</span></div>
-              <div className="flex justify-between border-b border-border/50 pb-2"><span className="text-muted-foreground">Peak (10:30 AM)</span><span className="font-semibold tabular-nums">15,820</span></div>
-              <div className="flex justify-between border-b border-border/50 pb-2"><span className="text-muted-foreground">Darshan Flow Rate</span><span className="font-semibold">1,250 / hr</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Next Peak Est.</span><span className="font-semibold">{t.afternoonOpen || "5:30 PM"}</span></div>
+            <div className="space-y-3.5 text-sm">
+              <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Today's Total</span><span className="font-bold tabular-nums text-slate-800">38,240</span></div>
+              <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Peak (10:30 AM)</span><span className="font-bold tabular-nums text-slate-800">15,820</span></div>
+              <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Darshan Flow</span><span className="font-bold text-emerald-600">1,250 / hr</span></div>
+              <div className="flex justify-between"><span className="text-slate-500 font-medium">Next Peak Est.</span><span className="font-bold text-rose-500">{t.afternoonOpen || "5:30 PM"}</span></div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 lg:px-8 py-6 grid lg:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 grid lg:grid-cols-3 gap-8">
         {/* Left/main column */}
         <div className="lg:col-span-2 space-y-6">
           {/* AI Recommendation */}
-          <div className="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 border border-indigo-100 rounded-2xl p-6 shadow-sm">
+          <div className="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 border border-indigo-100 rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-shadow duration-300">
             <div className="absolute top-0 right-0 w-64 h-64 bg-saffron/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none" />
             
@@ -149,17 +158,23 @@ function TempleDetail() {
                 </div>
               </div>
 
-              <Link to="/chat" className="mt-5 group inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 hover:text-indigo-700 bg-indigo-50 border border-indigo-100 hover:bg-indigo-100 hover:border-indigo-200 px-4 py-2 rounded-full transition-all">
-                Ask AI Assistant <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
+              <div className="mt-6 flex">
+                <Link to="/chat" className="relative group inline-flex items-center justify-center gap-2.5 text-sm font-bold text-white px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_25px_rgba(79,70,229,0.4)] bg-gradient-to-r from-indigo-600 to-violet-600 shadow-lg shadow-indigo-200 overflow-hidden">
+                  <span className="absolute inset-0 rounded-full border-2 border-indigo-400 animate-[ping_2s_ease-in-out_infinite] opacity-40 pointer-events-none" />
+                  <div className="absolute inset-0 bg-white/20 group-hover:translate-x-[150%] -translate-x-[150%] skew-x-12 transition-transform duration-700 ease-out pointer-events-none" />
+                  <Sparkles className="w-4 h-4 relative z-10" /> 
+                  <span className="relative z-10 tracking-wide">Ask AI Assistant</span> 
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10" />
+                </Link>
+              </div>
             </div>
           </div>
 
           {/* Forecast chart */}
-          <div className="bg-card border border-border rounded-2xl p-5 card-soft">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-serif text-lg font-semibold">Today's crowd forecast</h3>
-              <span className="text-xs text-muted-foreground">6 AM – 9 PM</span>
+          <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-serif text-xl font-bold text-slate-900">Today's crowd forecast</h3>
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">6 AM – 9 PM</span>
             </div>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
@@ -181,87 +196,123 @@ function TempleDetail() {
           </div>
 
           {/* Timings */}
-          <div className="bg-card border border-border rounded-2xl p-5 card-soft">
-            <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-status-low"/><span className="font-medium">Temple is open</span></div>
-            <div className="mt-3 grid sm:grid-cols-2 gap-3 text-sm">
-              <div><div className="text-muted-foreground text-xs">Morning</div>Open {t.openTime} · First pooja {t.openTime}</div>
-              <div><div className="text-muted-foreground text-xs">Afternoon break</div>Closed {t.afternoonClose || "12:30"} – {t.afternoonOpen || "15:00"}</div>
-              <div><div className="text-muted-foreground text-xs">Evening</div>Reopens {t.afternoonOpen || "15:00"}</div>
-              <div><div className="text-muted-foreground text-xs">Closes</div>Last entry 8:30 PM · Gates {t.closeTime}</div>
+          <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+            <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-status-low animate-pulse"/><span className="font-bold text-slate-800">Temple is open</span></div>
+            <div className="mt-5 grid sm:grid-cols-2 gap-y-6 gap-x-4 text-sm">
+              <div>
+                <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">Morning</div>
+                <div className="font-semibold text-slate-800">Open 6:00 AM</div>
+                <div className="text-slate-500 mt-0.5">First Pooja 6:15 AM</div>
+              </div>
+              <div>
+                <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">Afternoon Break</div>
+                <div className="font-semibold text-slate-800">Closed 12:30 PM</div>
+                <div className="text-slate-500 mt-0.5">Until 3:00 PM</div>
+              </div>
+              <div>
+                <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">Evening</div>
+                <div className="font-semibold text-slate-800">Reopens 3:00 PM</div>
+                <div className="text-slate-500 mt-0.5">Maha Aarti 6:30 PM</div>
+              </div>
+              <div>
+                <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">Closes</div>
+                <div className="font-semibold text-slate-800">Last Entry 8:30 PM</div>
+                <div className="text-slate-500 mt-0.5">Gates close 9:00 PM</div>
+              </div>
             </div>
-            <Link to="/poojas" className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-saffron border border-saffron/30 hover:bg-saffron/10 px-4 py-2 rounded-full transition-colors">
-              View full pooja schedule <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            <div className="mt-6 flex">
+              <Link to="/poojas" className="relative group inline-flex items-center justify-center gap-2.5 text-sm font-bold text-white px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_25px_rgba(249,115,22,0.4)] bg-gradient-to-r from-orange-500 to-rose-500 shadow-lg shadow-orange-200 overflow-hidden w-full sm:w-auto">
+                <span className="absolute inset-0 rounded-full border-2 border-orange-400 animate-[ping_2s_ease-in-out_infinite] opacity-40 pointer-events-none" />
+                <div className="absolute inset-0 bg-white/20 group-hover:translate-x-[150%] -translate-x-[150%] skew-x-12 transition-transform duration-700 ease-out pointer-events-none" />
+                <span className="relative z-10 tracking-wide">View full pooja schedule</span> 
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10" />
+              </Link>
+            </div>
           </div>
 
           {/* Parking */}
-          <div className="bg-card border border-border rounded-2xl p-5 card-soft">
-            <h3 className="font-serif text-lg font-semibold">Parking status</h3>
-            <div className="mt-3 grid sm:grid-cols-3 gap-3">
+          <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+            <h3 className="font-serif text-xl font-bold text-slate-900">Parking status</h3>
+            <div className="mt-4 grid sm:grid-cols-3 gap-4">
               {(["lotA","lotB","overflow"] as const).map((k, i) => {
                 const v = t.parking[k];
                 const label = k === "lotA" ? "Lot A" : k === "lotB" ? "Lot B" : "Overflow";
-                const color = v > 80 ? "var(--status-high)" : v > 50 ? "var(--status-mod)" : "var(--status-low)";
+                const colorClass = v > 80 ? "text-rose-600" : v > 50 ? "text-amber-500" : "text-emerald-500";
+                const bgClass = v > 80 ? "bg-rose-500" : v > 50 ? "bg-amber-500" : "bg-emerald-500";
                 return (
-                  <div key={k} className="rounded-xl border border-border p-3">
-                    <div className="text-sm font-medium">{label}</div>
-                    <div className="text-2xl font-serif font-semibold mt-1" style={{ color }}>{v}%</div>
-                    <div className="h-1.5 bg-secondary rounded-full mt-2 overflow-hidden"><div className="h-full rounded-full" style={{ width: `${v}%`, background: color }} /></div>
+                  <div key={k} className="rounded-2xl border border-slate-100 p-4 bg-slate-50/50">
+                    <div className="text-xs font-bold uppercase tracking-widest text-slate-500">{label}</div>
+                    <div className={`text-3xl font-serif font-bold mt-1.5 ${colorClass}`}>{v}%</div>
+                    <div className="h-1.5 bg-slate-200 rounded-full mt-3 overflow-hidden">
+                      <div className={`h-full rounded-full transition-all duration-1000 ease-out ${bgClass}`} style={{ width: `${v}%` }} />
+                    </div>
                   </div>
                 );
               })}
             </div>
-            <div className="mt-3 text-sm text-foreground/80 bg-secondary rounded-xl p-3">🤖 Park at Lot B or the overflow lot today — Lot A will be full by 10:30 AM.</div>
+            <div className="mt-4 text-sm font-medium text-indigo-900 bg-indigo-50 border border-indigo-100 rounded-2xl p-4 flex items-start gap-3">
+              <span className="text-xl">🤖</span>
+              <span>Park at Lot B or the overflow lot today — Lot A will be full by 10:30 AM.</span>
+            </div>
           </div>
         </div>
 
         {/* Right column */}
         <div className="space-y-6">
+          {/* Alerts */}
+          <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+            <h3 className="font-serif text-xl font-bold text-slate-900 mb-2">Crowd Alerts</h3>
+            <p className="text-sm font-medium text-slate-500 mb-5">Get notified when wait times drop below 30 mins.</p>
+            <button onClick={() => setAlertOn(a => !a)} className={`w-full rounded-full py-3 text-sm font-bold border transition-colors ${alertOn?"bg-saffron text-white border-saffron shadow-md":"bg-slate-50 border-slate-200 text-slate-700 hover:border-saffron/50 hover:bg-white"}`}>
+              <Bell className="w-4 h-4 inline mr-1.5" /> {alertOn ? "Alert set — we'll notify you 🙏" : "Alert me when crowd drops"}
+            </button>
+          </div>
+
           {/* Tabs */}
-          <div className="bg-card border border-border rounded-2xl p-5 card-soft">
-            <div className="flex gap-2 border-b border-border -mx-5 px-5 pb-3 overflow-x-auto scrollbar-hide">
+          <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+            <div className="flex flex-wrap gap-2 border-b border-slate-100 pb-3">
               {tabContent.map((tname, i) => (
-                <button key={tname} onClick={() => setTab(i)} className={`px-3 py-1.5 rounded-full text-sm font-medium ${tab===i?"bg-foreground text-background":"text-muted-foreground"}`}>{tname}</button>
+                <button key={tname} onClick={() => setTab(i)} className={`whitespace-nowrap px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${tab===i?"bg-slate-800 text-white shadow-sm":"text-slate-500 hover:bg-slate-50"}`}>{tname}</button>
               ))}
             </div>
-            <div className="pt-4 text-sm">
+            <div className="pt-6 text-sm">
               {tab===0 && (
-                <div className="space-y-4">
-                  <div className="flex flex-col gap-1 bg-secondary/50 p-3 rounded-xl border border-border">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Deity</span>
-                    <span className="font-medium text-foreground break-words">{t.deity}</span>
+                <div className="space-y-5">
+                  <div className="flex flex-col gap-1.5 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Deity</span>
+                    <span className="font-bold text-slate-900 break-words">{t.deity}</span>
                   </div>
-                  <div className="leading-relaxed text-sm text-foreground/80">{t.description}</div>
+                  <div className="leading-relaxed text-sm text-slate-700 font-medium">{t.description}</div>
                 </div>
               )}
               {tab===1 && (
                 <div className="flex flex-wrap gap-2">
                   {["♿ Wheelchair","🚻 Restrooms","🥛 Prasad","👟 Footwear","💊 First Aid","🚿 Bathing Ghat","📵 No Photography","🅿 Free Parking"].map(f => (
-                    <div key={f} className="bg-secondary rounded-lg px-2.5 py-1.5 text-[11px] font-medium text-foreground/80 whitespace-nowrap">{f}</div>
+                    <div key={f} className="bg-slate-50 border border-slate-100 rounded-xl px-3 py-2 text-[11px] font-bold text-slate-700 whitespace-nowrap">{f}</div>
                   ))}
                 </div>
               )}
               {tab===2 && (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {["🏨 Choultries — 0.3 km","🍽 Veg restaurants — 0.5 km","🏧 ATM — 0.2 km","🏥 Hospital — 1.1 km"].map(n => (
-                    <div key={n} className="flex justify-between items-center border-b border-border pb-2 last:border-0 last:pb-0">
-                      <span className="text-sm truncate mr-2">{n.split(" — ")[0]}</span>
-                      <span className="text-[11px] font-medium text-muted-foreground whitespace-nowrap">{n.split(" — ")[1]}</span>
+                    <div key={n} className="flex justify-between items-center border-b border-slate-100 pb-3 last:border-0 last:pb-0">
+                      <span className="text-sm font-medium text-slate-800 truncate mr-3">{n.split(" — ")[0]}</span>
+                      <span className="text-xs font-bold text-slate-500 whitespace-nowrap">{n.split(" — ")[1]}</span>
                     </div>
                   ))}
                 </div>
               )}
               {tab===3 && (
-                <div className="space-y-3">
-                  <div className="text-2xl font-serif font-semibold">4.3 <span className="text-sm text-muted-foreground">/ 5 · 2,841 reviews</span></div>
-                  <div className="space-y-2">
-                    <div className="border border-border rounded-xl p-3">
-                      <div className="text-sm">"Very peaceful in the morning hours."</div>
-                      <div className="text-xs text-muted-foreground mt-1">— Ramesh K · ⭐⭐⭐⭐⭐</div>
+                <div className="space-y-4">
+                  <div className="text-3xl font-serif font-bold text-slate-900">4.3 <span className="text-sm text-slate-500 font-medium">/ 5 · 2,841 reviews</span></div>
+                  <div className="space-y-3">
+                    <div className="border border-slate-100 rounded-2xl p-4 bg-slate-50/50">
+                      <div className="text-sm font-medium text-slate-800">"Very peaceful in the morning hours."</div>
+                      <div className="text-xs font-bold text-slate-500 mt-2">— Ramesh K · ⭐⭐⭐⭐⭐</div>
                     </div>
-                    <div className="border border-border rounded-xl p-3">
-                      <div className="text-sm">"Queue was manageable at 4 PM."</div>
-                      <div className="text-xs text-muted-foreground mt-1">— Priya S · ⭐⭐⭐⭐</div>
+                    <div className="border border-slate-100 rounded-2xl p-4 bg-slate-50/50">
+                      <div className="text-sm font-medium text-slate-800">"Queue was manageable at 4 PM."</div>
+                      <div className="text-xs font-bold text-slate-500 mt-2">— Priya S · ⭐⭐⭐⭐</div>
                     </div>
                   </div>
                 </div>
@@ -269,24 +320,15 @@ function TempleDetail() {
             </div>
           </div>
 
-          {/* Alerts */}
-          <div className="bg-card border border-border rounded-2xl p-5 card-soft">
-            <h3 className="font-serif text-lg font-semibold mb-2">Crowd Alerts</h3>
-            <p className="text-sm text-muted-foreground mb-4">Get notified when wait times drop below 30 mins.</p>
-            <button onClick={() => setAlertOn(a => !a)} className={`w-full rounded-full py-2.5 text-sm font-medium border transition-colors ${alertOn?"bg-saffron text-white border-saffron":"bg-white border-border text-foreground hover:border-saffron/50"}`}>
-              <Bell className="w-4 h-4 inline mr-1.5" /> {alertOn ? "Alert set — we'll notify you 🙏" : "Alert me when crowd drops"}
-            </button>
-          </div>
-
-          <div className="bg-card border border-border rounded-2xl p-5 card-soft">
-            <h3 className="font-serif text-lg font-semibold mb-3">Other temples nearby</h3>
+          <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+            <h3 className="font-serif text-xl font-bold text-slate-900 mb-4">Other temples nearby</h3>
             <div className="space-y-2">
               {temples.filter(o => o.id !== t.id).slice(0,4).map(o => (
-                <Link key={o.id} to="/temple/$slug" params={{ slug: o.slug }} className="flex items-center gap-3 p-2 rounded-xl hover:bg-secondary">
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-white font-serif" style={{ background: o.color }}>ॐ</div>
+                <Link key={o.id} to="/temple/$slug" params={{ slug: o.slug }} className="group flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-serif shadow-sm group-hover:scale-105 transition-transform" style={{ background: o.color }}>ॐ</div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-serif text-sm font-semibold truncate">{o.name}</div>
-                    <div className="text-xs text-muted-foreground">{o.district}</div>
+                    <div className="font-serif text-sm font-bold text-slate-800 truncate group-hover:text-saffron transition-colors">{o.name}</div>
+                    <div className="text-xs font-medium text-slate-500 mt-0.5">{o.district}</div>
                   </div>
                   <CrowdBadge status={o.crowdStatus} />
                 </Link>
