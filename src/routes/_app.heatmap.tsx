@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { temples } from "@/data/temples";
-import palaniImg from "@/assets/palani.png";
-import maduraiImg from "@/assets/Madurai.png";
+import palaniImg from "@/assets/palani2.png";
+import meenakshiImg  from "@/assets/Madurai.png";
 import srirangamImg from "@/assets/Srirangam.png";
 import arunachaleswararImg from "@/assets/Arunachaleswarar.png";
 import rameswaramImg from "@/assets/Rameswaram.png";
-import meenakshiImg from "@/assets/meenakshi.png";
+// import meenakshiImg from "@/assets/meenakshi.png";
 import { Maximize2, X } from "lucide-react";
 
 export const Route = createFileRoute("/_app/heatmap")({
@@ -75,6 +75,18 @@ function HeatmapPage() {
 
   const displayZones = t.id === 1 ? palaniZones : (t.id === 2 ? maduraiZones : (t.id === 3 ? srirangamZones : (t.id === 4 ? tiruvannamalaiZones : (t.id === 5 ? rameswaramZones : genericZones))));
 
+  const getMapImage = (id: number) => {
+    switch (id) {
+      case 1: return palaniImg;
+      case 2: return meenakshiImg;
+      case 3: return srirangamImg;
+      case 4: return arunachaleswararImg;
+      case 5: return rameswaramImg;
+      default: return null;
+    }
+  };
+  const mapImage = getMapImage(t.id);
+
   function zoneColor(p: number) {
     if (p < 35) return "rgba(22,163,74,0.35)";
     if (p < 60) return "rgba(234,179,8,0.4)";
@@ -117,9 +129,9 @@ function HeatmapPage() {
           </div>
         </div>
         <div className="aspect-[16/9] bg-secondary rounded-xl overflow-hidden relative group">
-          {t.id === 1 || t.id === 2 ? (
+          {mapImage ? (
             <>
-              <img src={t.id === 1 ? palaniImg : meenakshiImg} alt={`${t.name} Map`} className="absolute inset-0 w-full h-full object-cover" />
+              <img src={mapImage} alt={`${t.name} Map`} className="absolute inset-0 w-full h-full object-cover" />
               <button 
                 onClick={() => setFullView(true)}
                 className="absolute bottom-4 right-4 bg-black/70 hover:bg-black text-white px-3 py-2 rounded-lg flex items-center gap-2 text-xs font-medium backdrop-blur-sm transition-all shadow-lg"
@@ -163,7 +175,7 @@ function HeatmapPage() {
         <button className="text-sm rounded-full bg-white border border-border px-3 py-1">Last weekend</button>
       </div>
 
-      {fullView && (
+      {fullView && mapImage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md animate-in fade-in zoom-in duration-200">
           <button 
             onClick={() => setFullView(false)}
@@ -171,7 +183,7 @@ function HeatmapPage() {
           >
             <X size={32} />
           </button>
-          <img src={t.id === 1 ? palaniImg : meenakshiImg} alt={`${t.name} Map Full View`} className="max-w-[95vw] max-h-[95vh] object-contain rounded-xl shadow-2xl" />
+          <img src={mapImage} alt={`${t.name} Map Full View`} className="max-w-[95vw] max-h-[95vh] object-contain rounded-xl shadow-2xl" />
         </div>
       )}
     </div>

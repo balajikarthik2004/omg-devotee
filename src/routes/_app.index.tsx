@@ -93,7 +93,7 @@ function Dashboard() {
                     className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${
                       !district 
                         ? "bg-saffron/10 font-bold text-saffron" 
-                        : "font-medium text-foreground/80 hover:bg-secondary hover:text-foreground"
+                        : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
                     }`}
                   >
                     <span className="truncate">All Districts</span>
@@ -106,7 +106,7 @@ function Dashboard() {
                       className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${
                         d === district 
                           ? "bg-saffron/10 font-bold text-saffron" 
-                          : "font-medium text-foreground/80 hover:bg-secondary hover:text-foreground"
+                          : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
                       }`}
                     >
                       <span className="truncate">{d}</span>
@@ -139,7 +139,7 @@ function Dashboard() {
                       className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${
                         t.id === activeTempleId 
                           ? "bg-saffron/10 font-bold text-saffron" 
-                          : "font-medium text-foreground/80 hover:bg-secondary hover:text-foreground"
+                          : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
                       }`}
                     >
                       <span className="truncate">{t.name}</span>
@@ -186,9 +186,9 @@ function Dashboard() {
                     { t: "Queue update", b: "Lane B wait time +6 min", c: "text-saffron" },
                     { t: "Staff", b: "8 volunteers deployed to Lane C", c: "text-info" },
                   ].map((n, i) => (
-                    <div key={i} className="px-3 py-2 text-xs hover:bg-secondary/50">
-                      <div className={`font-semibold ${n.c}`}>{n.t}</div>
-                      <div className="text-muted-foreground mt-0.5">{n.b}</div>
+                    <div key={i} className="px-3 py-2 text-xs hover:bg-saffron hover:text-white group transition-colors">
+                      <div className={`font-semibold group-hover:text-white transition-colors ${n.c}`}>{n.t}</div>
+                      <div className="text-muted-foreground mt-0.5 group-hover:text-white/80 transition-colors">{n.b}</div>
                     </div>
                   ))}
                 </div>
