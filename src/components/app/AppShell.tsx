@@ -105,13 +105,6 @@ export function AppShell() {
         </header>
 
         <div className="flex-1 relative">
-          {pathname !== "/" && !pathname.startsWith("/temple/") && (
-            <div className="hidden lg:flex fixed top-4 right-4 z-50">
-              <Link to="/" className="flex items-center gap-1.5 px-3 py-1.5 bg-[#e32c26] text-white text-sm font-medium rounded-full shadow-md hover:bg-[#e32c26]/90 transition-all">
-                <ArrowLeft className="w-4 h-4" /> Home
-              </Link>
-            </div>
-          )}
           <Outlet />
         </div>
         <OmWatermark className="hidden lg:block fixed bottom-4 right-4 w-28 h-28 text-foreground opacity-[0.03] pointer-events-none" />

@@ -35,12 +35,26 @@ function PlanPage() {
   const hotel1 = `Hotel ${t.city} Grand`;
   const hotel2 = `${t.name.split(' ')[0]} Residency`;
   return (
-    <div className="max-w-4xl mx-auto px-4 lg:px-6 py-4 lg:py-6">
-      <div className="flex items-center gap-2 text-saffron"><Sparkles className="w-4 h-4" /><span className="text-sm font-medium uppercase tracking-wider">AI Smart Planner</span></div>
-      <h1 className="font-serif text-3xl lg:text-4xl font-bold mt-1">Plan my perfect visit</h1>
-      <p className="text-muted-foreground text-sm mt-1">Tell us your preferences — AI will suggest the ideal time and travel route.</p>
+    <div className="relative overflow-hidden">
+      <div className="pointer-events-none absolute -top-24 right-0 h-72 w-72 rounded-full bg-saffron/10 blur-3xl" />
+      <div className="pointer-events-none absolute top-24 -left-16 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
+      <div className="max-w-5xl mx-auto px-4 lg:px-8 py-6 lg:py-10 relative">
+        <div className="flex flex-wrap items-center gap-3 text-saffron">
+          <div className="flex items-center gap-2 rounded-full bg-saffron/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest border border-saffron/20">
+            <Sparkles className="w-4 h-4" /> AI Smart Planner
+          </div>
+          <div className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">Premium itinerary design</div>
+        </div>
+        <div className="mt-3">
+          <div>
+            <h1 className="font-serif text-3xl lg:text-4xl font-bold leading-tight">Plan my perfect visit</h1>
+            <p className="text-muted-foreground text-sm mt-2 max-w-xl">
+              Tell us your preferences — AI will craft the ideal time, route, and on-site flow with a premium comfort focus.
+            </p>
+          </div>
+        </div>
 
-      <div className="mt-4 space-y-3">
+        <div className="mt-6 space-y-4">
         <div className="grid lg:grid-cols-2 gap-3">
           <div className="space-y-4">
             <Step n={1} title="Where are you traveling from?">
@@ -55,9 +69,9 @@ function PlanPage() {
 
           <div className="h-full">
             {fromLocation.trim().length >= 3 ? (
-              <div className="animate-in fade-in zoom-in-95 duration-300 w-full h-full min-h-[250px] rounded-2xl overflow-hidden shadow-sm border border-border bg-card flex flex-col">
-                <div className="bg-saffron/10 px-4 py-2.5 border-b border-border flex items-center justify-between shrink-0">
-                  <div className="flex items-center gap-2 text-saffron font-medium text-sm">
+              <div className="animate-in fade-in zoom-in-95 duration-300 w-full h-full min-h-[260px] rounded-3xl overflow-hidden border border-border/60 bg-card shadow-[0_18px_45px_rgba(0,0,0,0.08)] flex flex-col">
+                <div className="bg-saffron/10 px-4 py-3 border-b border-border/60 flex items-center justify-between shrink-0">
+                  <div className="flex items-center gap-2 text-saffron font-semibold text-sm">
                     <MapPin className="w-4 h-4" /> Live Route Preview
                   </div>
                   <div className="flex items-center gap-2">
@@ -67,19 +81,20 @@ function PlanPage() {
                     </button>
                   </div>
                 </div>
-                <iframe 
+                <iframe
                   className="flex-1 w-full"
-                  frameBorder="0" 
-                  style={{ border: 0 }} 
-                  referrerPolicy="no-referrer-when-downgrade" 
+                  frameBorder="0"
+                  style={{ border: 0 }}
+                  referrerPolicy="no-referrer-when-downgrade"
                   src={`https://maps.google.com/maps?saddr=${encodeURIComponent(fromLocation)}&daddr=${encodeURIComponent(t.city + ', TN')}&output=embed`}
                   allowFullScreen
                 />
               </div>
             ) : (
-              <div className="w-full h-full min-h-[250px] rounded-2xl border-2 border-dashed border-border bg-secondary/50 flex flex-col items-center justify-center text-muted-foreground p-6 text-center">
+              <div className="w-full h-full min-h-[260px] rounded-3xl border border-dashed border-border/70 bg-secondary/40 flex flex-col items-center justify-center text-muted-foreground p-6 text-center">
                 <MapPin className="w-8 h-8 mb-3 opacity-50" />
                 <div className="text-sm font-medium">Enter your origin location to see the live route map</div>
+                <div className="text-xs text-muted-foreground/80 mt-1">We will tailor the ETA and route quality score.</div>
               </div>
             )}
           </div>
@@ -98,28 +113,28 @@ function PlanPage() {
           <PillRow value={purpose} setValue={setPurpose} options={[["darshan","Regular darshan"],["pooja","Special pooja"],["festival","Festival attendance"],["first","First visit"]]} />
         </Step>
 
-        <button onClick={handleGenerate} disabled={loading} className="w-full rounded-xl gradient-saffron text-white py-3 text-sm font-medium shadow-sm hover:opacity-95 disabled:opacity-70 flex justify-center items-center gap-2 transition-all mt-4">
+        <button onClick={handleGenerate} disabled={loading} className="w-full rounded-full gradient-saffron text-white py-3.5 text-sm font-semibold shadow-[0_12px_30px_rgba(234,179,8,0.35)] hover:opacity-95 disabled:opacity-70 flex justify-center items-center gap-2 transition-all mt-4">
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
           {loading ? "AI is planning..." : "Generate AI Itinerary"}
         </button>
       </div>
 
       {result && (
-        <div className="mt-6 fade-in rounded-xl p-[1px] gradient-saffron mb-10">
-          <div className="bg-card rounded-xl p-4 lg:p-6">
-            <div className="flex items-center gap-1.5 text-saffron font-medium text-sm"><Sparkles className="w-4 h-4" /> Your AI-Optimized Itinerary</div>
+        <div className="mt-6 fade-in rounded-2xl p-[1px] gradient-saffron mb-10">
+          <div className="bg-card rounded-2xl p-4 lg:p-6">
+            <div className="flex items-center gap-1.5 text-saffron font-semibold text-sm"><Sparkles className="w-4 h-4" /> Your AI-Optimized Itinerary</div>
             <h2 className="font-serif text-2xl font-bold mt-1.5">{t.name}</h2>
             <div className="text-sm text-muted-foreground mt-0.5">Date: {date || "Upcoming"} · Best Darshan Time: <span className="font-medium text-foreground">3:30 PM – 5:00 PM</span></div>
 
             {/* Travel & Logistics */}
-            <div className="mt-4 border border-border/50 bg-secondary/20 rounded-lg p-3 relative overflow-hidden">
+            <div className="mt-4 border border-border/60 bg-secondary/20 rounded-2xl p-3 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-saffron/10 rounded-full blur-2xl pointer-events-none"></div>
               <div className="flex items-center gap-1.5 mb-3">
                 <Navigation2 className="w-4 h-4 text-saffron" />
                 <div className="text-sm font-semibold">Travel & Logistics</div>
               </div>
               
-              <div className="flex items-center gap-4 bg-background border border-border/50 rounded-xl p-3 shadow-sm mb-3 relative z-10">
+              <div className="flex items-center gap-4 bg-background border border-border/60 rounded-2xl p-3 shadow-sm mb-3 relative z-10">
                 <div className="flex-1 min-w-0">
                   <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-0.5">Origin</div>
                   <div className="font-medium text-sm truncate">{fromLocation || "Your Location"}</div>
@@ -141,31 +156,31 @@ function PlanPage() {
                 
                 {/* Train Option */}
                 {trans.trains.length > 0 && (
-                  <div className="bg-background border border-border/50 rounded-xl p-4 shadow-sm hover:border-saffron/40 transition-colors">
+                  <div className="bg-background border border-border/60 rounded-2xl p-4 shadow-sm hover:border-saffron/40 transition-colors">
                     <div className="flex justify-between items-start mb-2">
                       <div className="text-sm font-semibold text-foreground flex items-center gap-2"><Train className="w-4 h-4 text-saffron"/> By Train</div>
                       <div className="text-xs font-bold text-saffron">~ {travelHours - 1 > 0 ? travelHours - 1 : 1}h 45m</div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                       {trans.trains.map((tr: any, i: number) => (
-                        <div key={i} className="bg-secondary/50 rounded-lg p-2 flex justify-between items-center">
+                        <div key={i} className="bg-secondary/50 rounded-xl p-2.5 flex justify-between items-center border border-border/20">
                           <div>
-                            <div className="font-semibold mb-0.5 text-foreground">{tr.name}</div>
-                            <div className="text-muted-foreground">{tr.time}</div>
+                            <div className="font-bold text-[13px] mb-0.5 text-foreground leading-tight">{tr.name}</div>
+                            <div className="font-bold text-[10px] text-saffron bg-saffron/10 px-2 py-0.5 rounded-md uppercase tracking-widest inline-block mt-1">{tr.time}</div>
                           </div>
-                          <div className="font-semibold text-emerald-600">{tr.price}</div>
+                          <div className="font-bold text-[11px] text-foreground bg-background border border-border/50 px-2.5 py-1 rounded-lg shadow-sm whitespace-nowrap">{tr.price}</div>
                         </div>
                       ))}
                     </div>
                     <div className="mt-2 text-xs text-muted-foreground flex items-center gap-1.5 border-t border-border/50 pt-2">
-                      <Car className="w-3.5 h-3.5 shrink-0"/> <div><span className="font-medium text-foreground">Local Transit:</span> Auto-rickshaws & Prepaid cabs available 24/7 from {t.city} junction to temple (approx. 15-20 mins).</div>
+                      <Car className="w-3.5 h-3.5 shrink-0"/> <div className="leading-snug"><span className="font-medium text-foreground">Last Mile Transit:</span> Auto & Cabs available from {t.city} Junction. <strong className="text-foreground/90 font-semibold">~15-20 mins</strong> to temple. Fare: Auto <strong className="text-emerald-600 font-bold">Rs. 150</strong> · Cab <strong className="text-emerald-600 font-bold">Rs. 300</strong></div>
                     </div>
                   </div>
                 )}
 
                 {/* Bus Option */}
                 {trans.buses.length > 0 && (
-                  <div className="bg-background border border-border/50 rounded-xl p-4 shadow-sm hover:border-saffron/40 transition-colors">
+                  <div className="bg-background border border-border/60 rounded-2xl p-4 shadow-sm hover:border-saffron/40 transition-colors">
                     <div className="flex justify-between items-start mb-2">
                       <div className="text-sm font-semibold text-foreground flex items-center gap-2"><Bus className="w-4 h-4 text-saffron"/> By Bus</div>
                       <div className="text-xs font-bold text-muted-foreground">~ {travelHours + 1}h {travelMins}m</div>
@@ -173,23 +188,23 @@ function PlanPage() {
                     <div className="text-xs text-muted-foreground mb-2">Frequent reliable bus services from your origin terminus to {t.city}.</div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                       {trans.buses.map((b: any, i: number) => (
-                        <div key={i} className="bg-secondary/50 rounded-lg p-2 flex justify-between items-center">
+                        <div key={i} className="bg-secondary/50 rounded-xl p-2.5 flex justify-between items-center border border-border/20">
                           <div>
-                            <div className="font-semibold mb-0.5 text-foreground">{b.name}</div>
-                            <div className="text-muted-foreground">{b.time}</div>
+                            <div className="font-bold text-[13px] mb-0.5 text-foreground leading-tight">{b.name}</div>
+                            <div className="font-bold text-[10px] text-saffron bg-saffron/10 px-2 py-0.5 rounded-md uppercase tracking-widest inline-block mt-1">{b.time}</div>
                           </div>
-                          <div className="font-semibold text-emerald-600">{b.price}</div>
+                          <div className="font-bold text-[11px] text-foreground bg-background border border-border/50 px-2.5 py-1 rounded-lg shadow-sm whitespace-nowrap">{b.price}</div>
                         </div>
                       ))}
                     </div>
                     <div className="mt-2 text-xs text-muted-foreground flex items-center gap-1.5 border-t border-border/50 pt-2">
-                      <Navigation2 className="w-3.5 h-3.5 shrink-0"/> <div><span className="font-medium text-foreground">Local Transit:</span> Frequent share-autos and mini-buses ply from {t.city} bus stand directly to the temple entrance.</div>
+                      <Navigation2 className="w-3.5 h-3.5 shrink-0"/> <div className="leading-snug"><span className="font-medium text-foreground">Last Mile Transit:</span> Share-autos and mini-buses ply from {t.city} Bus Stand. <strong className="text-foreground/90 font-semibold">~10-15 mins</strong> to temple. Fare: Share-Auto <strong className="text-emerald-600 font-bold">Rs. 30</strong> · Private Auto <strong className="text-emerald-600 font-bold">Rs. 100</strong></div>
                     </div>
                   </div>
                 )}
 
                 {/* Car Option */}
-                <div className="bg-background border border-border/50 rounded-xl p-4 shadow-sm hover:border-saffron/40 transition-colors">
+                <div className="bg-background border border-border/60 rounded-2xl p-4 shadow-sm hover:border-saffron/40 transition-colors">
                   <div className="flex justify-between items-start mb-2">
                     <div className="text-sm font-semibold text-foreground flex items-center gap-2"><Car className="w-4 h-4 text-saffron"/> Personal Car / Outstation Cab</div>
                     <div className="text-xs font-bold text-muted-foreground">~ {travelHours}h {travelMins}m</div>
@@ -212,14 +227,14 @@ function PlanPage() {
                   <button className="text-[10px] font-semibold text-saffron hover:underline">View all</button>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-background rounded-xl p-3 border border-border shadow-sm hover:border-saffron/40 transition-colors">
+                  <div className="bg-background rounded-2xl p-3 border border-border shadow-sm hover:border-saffron/40 transition-colors">
                     <div className="text-xs font-semibold truncate mb-1 text-foreground">{hotel1}</div>
                     <div className="flex items-center justify-between text-[10px] text-muted-foreground">
                       <span className="flex items-center gap-0.5 font-medium text-amber-500">⭐ 4.5</span>
                       <span>0.5 km away</span>
                     </div>
                   </div>
-                  <div className="bg-background rounded-xl p-3 border border-border shadow-sm hover:border-saffron/40 transition-colors">
+                  <div className="bg-background rounded-2xl p-3 border border-border shadow-sm hover:border-saffron/40 transition-colors">
                     <div className="text-xs font-semibold truncate mb-1 text-foreground">{hotel2}</div>
                     <div className="flex items-center justify-between text-[10px] text-muted-foreground">
                       <span className="flex items-center gap-0.5 font-medium text-amber-500">⭐ 4.2</span>
@@ -240,10 +255,10 @@ function PlanPage() {
                   { icon: Users, title: "Lowest Crowd", desc: "Drops to 30% capacity at 3:30 PM", color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20" },
                   { icon: ThermometerSun, title: "Comfortable Weather", desc: "Temperature cools down to 28°C", color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20" },
                   { icon: Bell, title: "Highly Auspicious", desc: "Aligns with Sayaratchai Pooja at 3:00 PM", color: "text-saffron", bg: "bg-saffron/10", border: "border-saffron/20" },
-                  { icon: Heart, title: "Senior Friendly", desc: "Less rush, wheelchair ramps easily accessible", color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
+                  { icon: Heart, title: "Senior citizen Friendly", desc: "Less rush, wheelchair ramps easily accessible", color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
                   { icon: Car, title: "Easy Parking", desc: "Lot B will be 40% free at 3:30 PM", color: "text-indigo-500", bg: "bg-indigo-500/10", border: "border-indigo-500/20" },
                 ].map((r, i) => (
-                  <div key={i} className={`flex gap-3 bg-background p-3 rounded-xl border ${r.border} shadow-sm hover:shadow-md transition-shadow`}>
+                  <div key={i} className={`flex gap-3 bg-background p-3 rounded-2xl border ${r.border} shadow-sm hover:shadow-md transition-shadow`}>
                     <div className={`w-8 h-8 rounded-full ${r.bg} ${r.color} flex items-center justify-center shrink-0`}>
                       <r.icon className="w-4 h-4" />
                     </div>
@@ -262,20 +277,20 @@ function PlanPage() {
                 <div className="text-sm font-semibold">Darshan Ticket Insights</div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div className="bg-secondary/40 border border-border/50 rounded-xl p-3 relative overflow-hidden group hover:border-border transition-colors">
+                <div className="bg-secondary/40 border border-border/50 rounded-2xl p-3 relative overflow-hidden group hover:border-border transition-colors">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1">General Free</div>
                   <div className="font-serif font-semibold text-lg text-foreground">45 - 60 mins</div>
-                  <div className="text-[10px] text-muted-foreground mt-1">Normal queue via Main Entrance. High crowd expected.</div>
+                  <div className="text-[10px] font-medium text-foreground/80 mt-1 leading-snug">Normal queue via Main Entrance. High crowd expected.</div>
                 </div>
-                <div className="bg-saffron/5 border border-saffron/20 rounded-xl p-3 relative overflow-hidden group hover:border-saffron/40 transition-colors">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-saffron mb-1">Special (₹100)</div>
+                <div className="bg-saffron/5 border border-saffron/20 rounded-2xl p-3 relative overflow-hidden group hover:border-saffron/40 transition-colors">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-saffron mb-1">Special (Rs. 100)</div>
                   <div className="font-serif font-semibold text-lg text-saffron">30 mins</div>
-                  <div className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1">Dedicated queue line B.</div>
+                  <div className="text-[10px] font-medium text-foreground/80 mt-1 flex items-center gap-1 leading-snug">Dedicated queue line B.</div>
                 </div>
-                <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-3 relative overflow-hidden group hover:border-emerald-500/40 transition-colors">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 mb-1 flex items-center gap-1"><Sparkles className="w-3.5 h-3.5"/> VIP Pass (₹500)</div>
-                  <div className="font-serif font-semibold text-lg text-emerald-600">~15 mins</div>
-                  <div className="text-[10px] text-muted-foreground mt-1">Fastest route. Direct access to Sanctum approach.</div>
+                <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-2xl p-3 relative overflow-hidden group hover:border-emerald-500/40 transition-colors">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 mb-1 flex items-center gap-1"><Sparkles className="w-3.5 h-3.5"/> VIP Pass (Rs. 500)</div>
+                  <div className="font-serif font-semibold text-lg text-emerald-600">15 mins</div>
+                  <div className="text-[10px] font-medium text-foreground/80 mt-1 leading-snug">Fastest route. Direct access to Sanctum approach.</div>
                 </div>
               </div>
             </div>
@@ -285,9 +300,9 @@ function PlanPage() {
             </div>
 
             <div className="mt-5 flex flex-wrap gap-3">
-              <button className="rounded-xl bg-foreground text-background px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5">🗺 Get Directions</button>
-              <button className="rounded-xl bg-white border border-border px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5">🔔 Set crowd alert</button>
-              <Link to="/temple/$slug" params={{ slug: t.slug }} className="rounded-xl bg-white border border-border px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5">View temple map →</Link>
+              <button className="rounded-full bg-foreground text-background px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5">🗺 Get Directions</button>
+              <button className="rounded-full bg-white border border-border px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5">🔔 Set crowd alert</button>
+              <Link to="/temple/$slug" params={{ slug: t.slug }} className="rounded-full bg-white border border-border px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5">View temple map →</Link>
             </div>
 
             <div className="mt-6 border-t border-border pt-4">
@@ -337,15 +352,16 @@ function PlanPage() {
           />
         </div>
       )}
+      </div>
     </div>
   );
 }
 
 function Step({ n, title, children }: any) {
   return (
-    <div className="bg-card border border-border rounded-xl p-3 card-soft transition-all focus-within:ring-1 focus-within:ring-saffron/20 focus-within:border-saffron/40">
-      <div className="flex items-center gap-2 mb-2">
-        <div className="w-5 h-5 rounded-md bg-saffron text-white text-xs font-semibold flex items-center justify-center shadow-sm">{n}</div>
+    <div className="bg-card border border-border/70 rounded-2xl p-4 shadow-[0_10px_26px_rgba(0,0,0,0.06)] transition-all focus-within:ring-1 focus-within:ring-saffron/20 focus-within:border-saffron/40">
+      <div className="flex items-center gap-2 mb-3">
+        <div className="w-6 h-6 rounded-lg bg-saffron text-white text-xs font-semibold flex items-center justify-center shadow-sm">{n}</div>
         <div className="font-serif text-base font-semibold">{title}</div>
       </div>
       {children}
@@ -357,7 +373,7 @@ function PillRow({ value, setValue, options }: any) {
   return (
     <div className="flex flex-wrap gap-2">
       {options.map(([v, l]: any) => (
-        <button key={v} onClick={() => setValue(v)} className={`text-sm rounded-xl px-4 py-2 border font-semibold transition-all ${value===v?"bg-foreground text-background border-foreground shadow-sm scale-[1.02]":"bg-white border-border hover:border-saffron/40 hover:bg-secondary text-muted-foreground hover:text-foreground"}`}>{l}</button>
+        <button key={v} onClick={() => setValue(v)} className={`text-sm rounded-full px-4 py-2 border font-semibold transition-all ${value===v?"bg-foreground text-background border-foreground shadow-sm scale-[1.02]":"bg-white border-border hover:border-saffron/40 hover:bg-secondary text-muted-foreground hover:text-foreground"}`}>{l}</button>
       ))}
     </div>
   );
@@ -369,24 +385,24 @@ function getTransportInfo(origin: string, dest: string) {
   if (o.includes("bangalore") || o.includes("bengaluru") || o.includes("blr")) {
     if (dest === "palani-murugan") return {
       roadTime: "6h 30m", route: "NH 44 and NH 83 via Salem",
-      buses: [{ name: "KPN Travels (AC Sleeper)", time: "10:30 PM", price: "₹850" }, { name: "SETC (Non-AC Seater)", time: "11:00 PM", price: "₹380" }],
-      trains: [{ name: "Tuticorin Exp to Dindigul (16732)", time: "09:15 PM", price: "₹250 (SL)" }]
+      buses: [{ name: "KPN Travels (AC Sleeper)", time: "10:30 PM", price: "Rs. 850" }, { name: "SETC (Non-AC Seater)", time: "11:00 PM", price: "Rs. 380" }],
+      trains: [{ name: "Tuticorin Exp to Dindigul (16732)", time: "09:15 PM", price: "Rs. 250 (SL)" }]
     };
     if (dest === "madurai-meenakshi") return {
       roadTime: "7h 00m", route: "NH 44 via Salem",
-      buses: [{ name: "SRM Transports (AC Sleeper)", time: "10:00 PM", price: "₹950" }, { name: "IntrCity SmartBus", time: "11:15 PM", price: "₹1,100" }],
-      trains: [{ name: "Tuticorin Exp (16236)", time: "09:15 PM", price: "₹300 (SL)" }, { name: "Nagercoil Exp (16340)", time: "10:30 PM", price: "₹320 (SL)" }]
+      buses: [{ name: "SRM Transports (AC Sleeper)", time: "10:00 PM", price: "Rs. 950" }, { name: "IntrCity SmartBus", time: "11:15 PM", price: "Rs. 1,100" }],
+      trains: [{ name: "Tuticorin Exp (16236)", time: "09:15 PM", price: "Rs. 300 (SL)" }, { name: "Nagercoil Exp (16340)", time: "10:30 PM", price: "Rs. 320 (SL)" }]
     };
   } else if (o.includes("chennai") || o.includes("madras") || o.includes("maa")) {
     if (dest === "palani-murugan") return {
       roadTime: "8h 00m", route: "NH 38 via Trichy",
-      buses: [{ name: "YBM Travels (AC Sleeper)", time: "09:30 PM", price: "₹900" }, { name: "SETC (AC Seater)", time: "10:00 PM", price: "₹450" }],
-      trains: [{ name: "Palakkad Exp (22651)", time: "09:40 PM", price: "₹315 (SL), ₹850 (3A)" }]
+      buses: [{ name: "YBM Travels (AC Sleeper)", time: "09:30 PM", price: "Rs. 900" }, { name: "SETC (AC Seater)", time: "10:00 PM", price: "Rs. 450" }],
+      trains: [{ name: "Palakkad Exp (22651)", time: "09:40 PM", price: "Rs. 315 (SL), Rs. 850 (3A)" }]
     };
     if (dest === "madurai-meenakshi") return {
       roadTime: "7h 30m", route: "NH 38 via Trichy",
-      buses: [{ name: "Parveen Travels (Volvo)", time: "10:15 PM", price: "₹1,200" }, { name: "SETC (Ultra Deluxe)", time: "10:30 PM", price: "₹480" }],
-      trains: [{ name: "Pandian Exp (12637)", time: "09:40 PM", price: "₹315 (SL)" }, { name: "Kanyakumari Exp (12633)", time: "05:15 PM", price: "₹320 (SL)" }]
+      buses: [{ name: "Parveen Travels (Volvo)", time: "10:15 PM", price: "Rs. 1,200" }, { name: "SETC (Ultra Deluxe)", time: "10:30 PM", price: "Rs. 480" }],
+      trains: [{ name: "Pandian Exp (12637)", time: "09:40 PM", price: "Rs. 315 (SL)" }, { name: "Kanyakumari Exp (12633)", time: "05:15 PM", price: "Rs. 320 (SL)" }]
     };
   }
   
