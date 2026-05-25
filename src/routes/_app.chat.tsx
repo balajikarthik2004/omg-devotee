@@ -46,13 +46,11 @@ function ChatPage() {
     <div className="flex flex-col h-[100dvh] lg:h-screen">
       {/* Header */}
       <header className="bg-white border-b border-border px-4 py-3 flex items-center gap-3">
-        <button onClick={() => router.history.back()} className="w-9 h-9 rounded-full hover:bg-secondary flex items-center justify-center transition-colors">
-          <ArrowLeft className="w-5 h-5 text-muted-foreground hover:text-foreground" />
-        </button>
-        <div className="w-10 h-10 rounded-full gradient-saffron flex items-center justify-center text-white font-serif text-lg">ॐ</div>
+        <Link to="/" className="lg:hidden w-9 h-9 rounded-full hover:bg-secondary flex items-center justify-center"><ArrowLeft className="w-6 h-6" /></Link>
+        <div className="w-10 h-10 rounded-full gradient-saffron flex items-center justify-center text-white font-serif text-xl">ॐ</div>
         <div className="flex-1 min-w-0">
           <div className="font-serif font-semibold flex items-center gap-1.5">OMG AI Temple Assistant</div>
-          <div className="text-xs text-muted-foreground flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-status-low"/> Online · Powered by AI</div>
+          <div className="text-sm text-muted-foreground flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-status-low"/> Online · Powered by AI</div>
         </div>
       </header>
 
@@ -60,12 +58,12 @@ function ChatPage() {
       <div className="flex-1 overflow-y-auto px-4 py-6 lg:px-8 pb-32 lg:pb-4 bg-background">
         {messages.length === 0 ? (
           <div className="max-w-2xl mx-auto text-center py-10">
-            <div className="w-20 h-20 mx-auto rounded-full gradient-saffron flex items-center justify-center text-white font-serif text-3xl">ॐ</div>
-            <h2 className="font-serif text-2xl font-semibold mt-4">Vanakkam! 🙏</h2>
+            <div className="w-20 h-20 mx-auto rounded-full gradient-saffron flex items-center justify-center text-white font-serif text-4xl">ॐ</div>
+            <h2 className="font-serif text-3xl font-semibold mt-4">Vanakkam! 🙏</h2>
             <p className="text-muted-foreground mt-1">I'm your personal temple guide. Ask me anything:</p>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
               {quick.map(q => (
-                <button key={q} onClick={() => send(q)} className="text-sm rounded-full bg-white border border-border px-3.5 py-2 hover:border-saffron/40">{q}</button>
+                <button key={q} onClick={() => send(q)} className="text-base rounded-full bg-white border border-border px-3.5 py-2 hover:border-saffron/40">{q}</button>
               ))}
             </div>
           </div>
@@ -73,7 +71,7 @@ function ChatPage() {
           <div className="max-w-2xl mx-auto space-y-3">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role==="user"?"justify-end":"justify-start"} fade-in`}>
-                <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${m.role==="user"?"bg-user-bg rounded-br-md":"bg-ai-bg rounded-bl-md"}`}>
+                <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-base ${m.role==="user"?"bg-user-bg rounded-br-md":"bg-ai-bg rounded-bl-md"}`}>
                   <div className="whitespace-pre-wrap">{m.text}</div>
                   {m.card}
                 </div>
@@ -96,9 +94,9 @@ function ChatPage() {
       {/* Input */}
       <div className="fixed lg:sticky bottom-16 lg:bottom-0 inset-x-0 bg-white border-t border-border p-3 lg:p-4 z-30">
         <div className="max-w-2xl mx-auto flex items-center gap-2 bg-secondary rounded-full px-4 py-2">
-          <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key==="Enter" && send(input)} placeholder="Ask about any temple..." className="flex-1 bg-transparent outline-none text-base" />
-          <button className="w-9 h-9 rounded-full flex items-center justify-center text-muted-foreground"><Mic className="w-4 h-4" /></button>
-          <button onClick={() => send(input)} className="w-10 h-10 rounded-full gradient-saffron text-white flex items-center justify-center"><Send className="w-4 h-4" /></button>
+          <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key==="Enter" && send(input)} placeholder="Ask about any temple..." className="flex-1 bg-transparent outline-none text-lg" />
+          <button className="w-9 h-9 rounded-full flex items-center justify-center text-muted-foreground"><Mic className="w-5 h-5" /></button>
+          <button onClick={() => send(input)} className="w-10 h-10 rounded-full gradient-saffron text-white flex items-center justify-center"><Send className="w-5 h-5" /></button>
         </div>
       </div>
     </div>
@@ -116,8 +114,10 @@ function generateReply(q: string): Msg {
       text: "🙏 Here are the temples with the least crowd right now:",
       card: <div className="mt-3 space-y-2">{sorted.map(t => (
         <Link key={t.id} to="/temple/$slug" params={{ slug: t.slug }} className="flex items-center gap-2 p-2 bg-white rounded-xl border border-border">
-          <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-serif text-sm" style={{ background: t.color }}>ॐ</div>
-          <div className="flex-1 min-w-0"><div className="font-serif text-sm font-semibold truncate">{t.name}</div><div className="text-xs text-muted-foreground">{t.district} · {t.waitMin}m wait</div></div>
+          <div className="w-10 h-10 rounded-full flex items-center justify-center text-white shrink-0 shadow-sm bg-cover bg-center overflow-hidden border border-border/50 relative" style={{ backgroundImage: `url(${t.image})`, backgroundColor: t.color }}>
+            {!t.image && <span className="font-serif text-base drop-shadow-md">ॐ</span>}
+          </div>
+          <div className="flex-1 min-w-0"><div className="font-serif text-base font-semibold truncate">{t.name}</div><div className="text-sm text-muted-foreground">{t.district} · {t.waitMin}m wait</div></div>
           <CrowdBadge status={t.crowdStatus} />
         </Link>
       ))}</div>
@@ -130,11 +130,11 @@ function generateReply(q: string): Msg {
       text: `🙏 Here's the live status for ${t.name}:`,
       card: (
         <div className="mt-3 bg-white rounded-xl border border-border p-3 space-y-1.5">
-          <div className="font-serif font-semibold text-sm">{t.name}</div>
-          <div className="flex items-center gap-2 text-sm"><CrowdBadge status={t.crowdStatus} /> right now</div>
-          <div className="text-sm">⏱ Wait: {t.waitMin} min</div>
-          <div className="text-sm text-saffron">🤖 Best time: 3 – 5 PM</div>
-          <Link to="/temple/$slug" params={{ slug: t.slug }} className="text-sm text-saffron font-medium">View temple details →</Link>
+          <div className="font-serif font-semibold text-base">{t.name}</div>
+          <div className="flex items-center gap-2 text-base"><CrowdBadge status={t.crowdStatus} /> right now</div>
+          <div className="text-base">⏱ Wait: {t.waitMin} min</div>
+          <div className="text-base text-saffron">🤖 Best time: 3 – 5 PM</div>
+          <Link to="/temple/$slug" params={{ slug: t.slug }} className="text-base text-saffron font-medium">View temple details →</Link>
         </div>
       )
     };
@@ -158,7 +158,7 @@ function generateReply(q: string): Msg {
     return {
       role: "ai",
       text: `🪔 Today's pooja schedule for ${t.name}:`,
-      card: <div className="mt-3 bg-white rounded-xl border border-border p-3 space-y-1 text-sm">{t.poojas.map(p => <div key={p} className="flex justify-between border-b border-border last:border-0 py-1"><span>{p.split(" ").slice(2).join(" ")}</span><span className="text-muted-foreground">{p.split(" ").slice(0,2).join(" ")}</span></div>)}</div>
+      card: <div className="mt-3 bg-white rounded-xl border border-border p-3 space-y-1 text-base">{t.poojas.map(p => <div key={p} className="flex justify-between border-b border-border last:border-0 py-1"><span>{p.split(" ").slice(2).join(" ")}</span><span className="text-muted-foreground">{p.split(" ").slice(0,2).join(" ")}</span></div>)}</div>
     };
   }
 
@@ -169,8 +169,10 @@ function generateReply(q: string): Msg {
       text: "🕉 Murugan temples I track across Tamil Nadu:",
       card: <div className="mt-3 space-y-2">{m.map(t => (
         <Link key={t.id} to="/temple/$slug" params={{ slug: t.slug }} className="flex items-center gap-2 p-2 bg-white rounded-xl border border-border">
-          <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-serif text-sm" style={{ background: t.color }}>ॐ</div>
-          <div className="flex-1 min-w-0"><div className="font-serif text-sm font-semibold truncate">{t.name}</div><div className="text-xs text-muted-foreground">{t.district}</div></div>
+          <div className="w-10 h-10 rounded-full flex items-center justify-center text-white shrink-0 shadow-sm bg-cover bg-center overflow-hidden border border-border/50 relative" style={{ backgroundImage: `url(${t.image})`, backgroundColor: t.color }}>
+            {!t.image && <span className="font-serif text-base drop-shadow-md">ॐ</span>}
+          </div>
+          <div className="flex-1 min-w-0"><div className="font-serif text-base font-semibold truncate">{t.name}</div><div className="text-sm text-muted-foreground">{t.district}</div></div>
           <CrowdBadge status={t.crowdStatus} />
         </Link>
       ))}</div>

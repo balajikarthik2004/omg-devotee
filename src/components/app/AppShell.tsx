@@ -1,12 +1,12 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { Home, Sparkles, Map, User, Bell, Calendar, Navigation, Settings, HeartHandshake } from "lucide-react";
+import { Home, Sparkles, Map, Bell, Calendar, Navigation, Settings, HeartHandshake, MessageCircle, ArrowLeft } from "lucide-react";
 import { OmWatermark } from "./OmWatermark";
-import logoPng from "@/assets/logo.png";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: Home, exact: true },
   { to: "/plan", label: "AI Plan", icon: Sparkles },
   { to: "/heatmap", label: "Heatmap", icon: Map },
+  { to: "/chat", label: "Ask AI", icon: MessageCircle },
   { to: "/donations", label: "Donations", icon: HeartHandshake },
 ];
 
@@ -22,66 +22,95 @@ export function AppShell() {
 
   return (
     <div className="min-h-screen flex w-full bg-background">
-      {/* Sidebar (desktop) */}
-      <aside className="hidden lg:flex flex-col w-[260px] border-r border-border bg-sidebar sticky top-0 h-screen shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
-        <div className="px-6 py-7 border-b border-border bg-gradient-to-b from-saffron/10 to-transparent relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-saffron/20 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
-          <div className="flex items-center gap-3.5 relative z-10">
-            <div className="w-11 h-11 rounded-xl bg-white border border-border shadow-sm flex items-center justify-center overflow-hidden">
-              <img src={logoPng} alt="OMG Logo" className="w-7 h-7 object-contain" />
+      {/* Sidebar (Desktop) — OMG official navy #131a72 → red #e32c26 */}
+      <aside
+        className="hidden lg:flex flex-col w-[260px] sticky top-0 h-screen text-white shrink-0"
+        style={{ background: "linear-gradient(180deg, #131a72 0%, #1e2680 60%, #e32c26 100%)" }}
+      >
+        {/* Logo */}
+        <Link to="/" className="px-4 py-4 border-b border-white/10 flex items-center gap-2.5 hover:bg-white/5 transition-colors cursor-pointer block">
+          <div className="flex items-center gap-2.5">
+            <div
+              className="w-8 h-8 rounded-lg flex items-center justify-center font-serif font-bold text-base shadow-md shrink-0"
+              style={{ background: "#e32c26", color: "white" }}
+            >
+              ॐ
             </div>
             <div>
-              <div className="font-serif text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-foreground to-foreground/70">OMG</div>
-              <div className="text-[10px] font-bold text-saffron uppercase tracking-[0.2em] mt-0.5">Smart Temple</div>
+              <div className="font-serif font-bold text-base text-white leading-tight">OMG</div>
+              <div className="text-xs text-white/50 leading-tight">AI Devotee</div>
             </div>
           </div>
-        </div>
-        
-        <div className="px-4 py-3">
-          <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2 px-2">Menu</div>
-          <nav className="flex-1 space-y-1.5 overflow-y-auto">
-            {[...navItems, ...sidebarExtras].map(item => {
-              const Icon = item.icon;
-              const active = isActive(item.to, (item as any).exact);
-              return (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group ${
-                    active ? "bg-gradient-to-r from-saffron/10 to-saffron/5 text-saffron border border-saffron/20 shadow-sm" : "text-foreground/70 hover:bg-secondary hover:text-foreground border border-transparent"
-                  }`}
-                >
-                  <Icon className={`w-[18px] h-[18px] ${active ? "text-saffron" : "text-muted-foreground group-hover:text-foreground"}`} />
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
-        
-        <div className="mt-auto p-4 border-t border-border bg-secondary/30 relative overflow-hidden">
-          <div className="flex items-center gap-3 mb-3 px-2">
-             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-saffron to-amber-600 text-white flex items-center justify-center font-bold text-sm shadow-md">BK</div>
-             <div className="flex-1 min-w-0">
-               <div className="text-sm font-bold text-foreground truncate">Balaji Krishnan</div>
-               <div className="text-[11px] text-muted-foreground font-medium truncate">Devotee Tier</div>
-             </div>
-          </div>
-          <Link to="/profile" className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-secondary/80 text-sm font-medium text-foreground/80 transition-colors border border-transparent hover:border-border">
-            <span className="flex items-center gap-2"><Settings className="w-4 h-4 text-muted-foreground" /> Settings</span>
+        </Link>
+
+        {/* Nav */}
+        <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
+          {[...navItems, ...sidebarExtras].map(item => {
+            const Icon = item.icon;
+            const active = isActive(item.to, (item as any).exact);
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                className={`group flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-base font-medium transition-all ${
+                  active
+                    ? "bg-white/20 text-white border border-white/20 shadow-sm"
+                    : "text-white/70 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                <Icon className={`w-5 h-5 shrink-0 transition-transform ${active ? "scale-105" : "group-hover:scale-105"}`} />
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Footer */}
+        <div className="px-3 py-3 border-t border-white/10">
+          <Link to="/profile" className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/10 transition-colors">
+            <Settings className="w-4 h-4" /> Settings
           </Link>
-          <div className="mt-4 text-[12px] text-saffron/80 font-serif text-center font-medium">வாழ்க வளமுடன்</div>
+          <div className="px-3 mt-1 text-xs text-white/30 font-serif">வாழ்க வளமுடன்</div>
         </div>
       </aside>
 
-      {/* Main */}
-      <main className="flex-1 min-w-0 pb-20 lg:pb-0 relative">
-        <Outlet />
-        <OmWatermark className="hidden lg:block fixed bottom-4 right-4 w-32 h-32 text-foreground opacity-[0.03] pointer-events-none" />
+      {/* Main Content */}
+      <main className="flex-1 min-w-0 pb-16 lg:pb-0 relative flex flex-col min-h-screen">
+        {/* Top Header (mobile only) */}
+        <header className="lg:hidden sticky top-0 z-40 border-b border-border h-12 flex items-center justify-between px-4 shrink-0" style={{ background: "linear-gradient(90deg, #131a72, #283088)" }}>
+          <div className="flex items-center gap-2">
+            {pathname !== "/" && (
+              <Link to="/" className="mr-1 -ml-1.5 p-1 text-white hover:bg-white/10 rounded-full transition-colors flex items-center justify-center">
+                <ArrowLeft className="w-5 h-5" />
+              </Link>
+            )}
+            <Link to="/" className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded flex items-center justify-center font-serif text-sm font-bold shadow-sm" style={{ background: "#e32c26", color: "white" }}>
+                ॐ
+              </div>
+              <div className="font-serif font-semibold text-base text-white">OMG Devotee</div>
+            </Link>
+          </div>
+          <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 text-white/80 transition-colors">
+            <Bell className="w-5 h-5" />
+          </button>
+        </header>
+
+        <div className="flex-1 relative">
+          {pathname !== "/" && !pathname.startsWith("/temple/") && (
+            <div className="hidden lg:flex fixed top-4 right-4 z-50">
+              <Link to="/" className="flex items-center gap-1.5 px-3 py-1.5 bg-[#e32c26] text-white text-sm font-medium rounded-full shadow-md hover:bg-[#e32c26]/90 transition-all">
+                <ArrowLeft className="w-4 h-4" /> Home
+              </Link>
+            </div>
+          )}
+          <Outlet />
+        </div>
+        <OmWatermark className="hidden lg:block fixed bottom-4 right-4 w-28 h-28 text-foreground opacity-[0.03] pointer-events-none" />
       </main>
 
-      {/* Bottom nav (mobile) */}
-      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-t border-border h-16 grid grid-cols-5">
+      {/* Bottom Nav (mobile) */}
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-border h-14 grid grid-cols-5 shadow-lg">
         {navItems.map(item => {
           const Icon = item.icon;
           const active = isActive(item.to, (item as any).exact);
@@ -89,12 +118,15 @@ export function AppShell() {
             <Link
               key={item.to}
               to={item.to}
-              className={`flex flex-col items-center justify-center gap-0.5 text-[11px] ${
-                active ? "text-saffron" : "text-muted-foreground"
+              className={`flex flex-col items-center justify-center gap-0.5 text-xs transition-all relative ${
+                active ? "text-[#e32c26]" : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              <Icon className="w-5 h-5" />
-              <span className="font-medium">{item.label}</span>
+              {active && <div className="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-[#e32c26] rounded-b-full" />}
+              <div className={`p-1 rounded-lg transition-all ${active ? "bg-[#e32c26]/10" : ""}`}>
+                <Icon className="w-5 h-5" />
+              </div>
+              <span className={`font-medium ${active ? "opacity-100" : "opacity-70"}`}>{item.label}</span>
             </Link>
           );
         })}
