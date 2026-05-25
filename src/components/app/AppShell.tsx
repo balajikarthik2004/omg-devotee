@@ -1,6 +1,7 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { Home, Sparkles, Map, Bell, Calendar, Navigation, Settings, HeartHandshake, MessageCircle, ArrowLeft } from "lucide-react";
 import { OmWatermark } from "./OmWatermark";
+import logoPng from "../../assets/logo.png";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: Home, exact: true },
@@ -22,29 +23,32 @@ export function AppShell() {
 
   return (
     <div className="min-h-screen flex w-full bg-background">
-      {/* Sidebar (Desktop) — OMG official navy #131a72 → red #e32c26 */}
+      {/* Sidebar (Desktop) — OMG official premium gradient */}
       <aside
         className="hidden lg:flex flex-col w-[260px] sticky top-0 h-screen text-white shrink-0"
         style={{ background: "linear-gradient(180deg, #131a72 0%, #1e2680 60%, #e32c26 100%)" }}
       >
+        {/* Ambient glow effect */}
+        <div className="absolute top-0 left-0 right-0 h-[300px] bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+        <div className="absolute -top-[150px] -left-[150px] w-[300px] h-[300px] bg-white/5 rounded-full blur-3xl pointer-events-none" />
+        
         {/* Logo */}
-        <Link to="/" className="px-4 py-4 border-b border-white/10 flex items-center gap-2.5 hover:bg-white/5 transition-colors cursor-pointer block">
-          <div className="flex items-center gap-2.5">
+        <Link to="/" className="px-5 py-6 border-b border-white/10 flex items-center gap-3.5 hover:bg-white/5 transition-all duration-300 cursor-pointer block group relative z-10">
+          <div className="flex items-center gap-3.5">
             <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center font-serif font-bold text-base shadow-md shrink-0"
-              style={{ background: "#e32c26", color: "white" }}
+              className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden bg-white p-0.5 group-hover:scale-105 transition-transform duration-300 ring-1 ring-white/20"
             >
-              ॐ
+              <img src={logoPng} alt="OMG Logo" className="w-full h-full object-contain rounded-lg" />
             </div>
             <div>
-              <div className="font-serif font-bold text-base text-white leading-tight">OMG</div>
-              <div className="text-xs text-white/50 leading-tight">AI Devotee</div>
+              <div className="font-serif font-bold text-lg text-white leading-tight tracking-wide group-hover:text-white/90 transition-colors">OMG</div>
+              <div className="text-xs text-white/60 leading-tight font-medium uppercase tracking-widest mt-0.5">AI Devotee</div>
             </div>
           </div>
         </Link>
 
         {/* Nav */}
-        <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
+        <nav className="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto relative z-10">
           {[...navItems, ...sidebarExtras].map(item => {
             const Icon = item.icon;
             const active = isActive(item.to, (item as any).exact);
@@ -52,14 +56,17 @@ export function AppShell() {
               <Link
                 key={item.to}
                 to={item.to}
-                className={`group flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-base font-medium transition-all ${
+                className={`group flex items-center gap-4 px-5 py-4 rounded-xl text-base font-semibold transition-all duration-300 relative overflow-hidden ${
                   active
-                    ? "bg-white/20 text-white border border-white/20 shadow-sm"
-                    : "text-white/70 hover:bg-white/10 hover:text-white"
+                    ? "bg-white/20 text-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] backdrop-blur-md ring-1 ring-white/30"
+                    : "text-white/70 hover:bg-white/10 hover:text-white hover:shadow-md hover:ring-1 hover:ring-white/10"
                 }`}
               >
-                <Icon className={`w-5 h-5 shrink-0 transition-transform ${active ? "scale-105" : "group-hover:scale-105"}`} />
-                {item.label}
+                {active && (
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-10 bg-gradient-to-b from-white to-white/60 rounded-r-full shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                )}
+                <Icon className={`w-6 h-6 shrink-0 transition-transform duration-300 ${active ? "scale-110 text-white drop-shadow-md" : "group-hover:scale-110 group-hover:text-white"}`} />
+                <span className="tracking-wide drop-shadow-sm">{item.label}</span>
               </Link>
             );
           })}
@@ -77,18 +84,19 @@ export function AppShell() {
       {/* Main Content */}
       <main className="flex-1 min-w-0 pb-16 lg:pb-0 relative flex flex-col min-h-screen">
         {/* Top Header (mobile only) */}
-        <header className="lg:hidden sticky top-0 z-40 border-b border-border h-12 flex items-center justify-between px-4 shrink-0" style={{ background: "linear-gradient(90deg, #131a72, #283088)" }}>
-          <div className="flex items-center gap-2">
+        <header className="lg:hidden sticky top-0 z-40 border-b border-white/10 shadow-md h-14 flex items-center justify-between px-4 shrink-0 overflow-hidden relative" style={{ background: "linear-gradient(90deg, #0f163b, #1a2366)" }}>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl pointer-events-none" />
+          <div className="flex items-center gap-3 relative z-10">
             {pathname !== "/" && (
-              <Link to="/" className="mr-1 -ml-1.5 p-1 text-white hover:bg-white/10 rounded-full transition-colors flex items-center justify-center">
+              <Link to="/" className="mr-1 -ml-1.5 p-1.5 text-white/90 hover:text-white hover:bg-white/10 rounded-full transition-colors flex items-center justify-center">
                 <ArrowLeft className="w-5 h-5" />
               </Link>
             )}
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded flex items-center justify-center font-serif text-sm font-bold shadow-sm" style={{ background: "#e32c26", color: "white" }}>
-                ॐ
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-md overflow-hidden bg-white p-[1px] ring-1 ring-white/20 transition-transform group-hover:scale-105">
+                <img src={logoPng} alt="OMG Logo" className="w-full h-full object-contain rounded-md" />
               </div>
-              <div className="font-serif font-semibold text-base text-white">OMG Devotee</div>
+              <div className="font-serif font-bold text-lg text-white tracking-wide">OMG Devotee</div>
             </Link>
           </div>
           <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 text-white/80 transition-colors">

@@ -55,13 +55,13 @@ function TempleDetail() {
   return (
     <div className="pb-32 lg:pb-8">
       {/* Hero */}
-      <div className="relative h-[260px] lg:h-[280px] overflow-hidden" style={{ 
+      <div className="relative h-[180px] lg:h-[200px] overflow-hidden" style={{ 
         background: hasBgImg 
           ? `url(${bgImages[t.slug]}) center 20% / cover no-repeat` 
           : `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})` 
       }}>
-        {hasBgImg && <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-black/10 to-black/10" />}
-        {!hasBgImg && <svg viewBox="0 0 100 100" className="absolute -right-10 -bottom-10 w-72 h-72 text-white opacity-[0.08]"><text x="50" y="72" textAnchor="middle" fontSize="80" fill="currentColor" fontFamily="Noto Serif">ॐ</text></svg>}
+        {hasBgImg && <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/10 to-black/30" />}
+        {!hasBgImg && <svg viewBox="0 0 100 100" className="absolute -right-10 -bottom-10 w-48 h-48 text-white opacity-[0.08]"><text x="50" y="72" textAnchor="middle" fontSize="80" fill="currentColor" fontFamily="Noto Serif">ॐ</text></svg>}
         
         <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 z-10">
           <Link to="/" className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white"><ArrowLeft className="w-5 h-5" /></Link>
