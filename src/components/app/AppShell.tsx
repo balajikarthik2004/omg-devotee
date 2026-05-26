@@ -5,8 +5,8 @@ import logoPng from "../../assets/logo.png";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: Home, exact: true },
-  { to: "/plan", label: "AI Plan", icon: Sparkles },
-  { to: "/heatmap", label: "Heatmap", icon: Map },
+  { to: "/plan", label: "AI Trip Plan", icon: Sparkles },
+  { to: "/heatmap", label: "Temple map", icon: Map },
   { to: "/chat", label: "Ask AI", icon: MessageCircle },
   { to: "/donations", label: "Donations", icon: HeartHandshake },
 ];
