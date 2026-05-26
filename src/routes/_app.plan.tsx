@@ -32,8 +32,17 @@ function PlanPage() {
 
   const travelHours = fromLocation ? (fromLocation.length % 5) + 2 : 4;
   const travelMins = fromLocation ? (fromLocation.charCodeAt(0) % 60) : 30;
-  const hotel1 = `Hotel ${t.city} Grand`;
-  const hotel2 = "Hotel Tamil Nadu";
+  const hotels = t.slug === "palani-murugan" ? [
+    { name: "Ganpat Grand", rating: "4.5", dist: "0.5" },
+    { name: "Hotel Tamil Nadu", rating: "4.2", dist: "1.2" },
+    { name: "Hotel SR Palani", rating: "4.4", dist: "0.8" },
+    { name: "Hotel Subam", rating: "4.3", dist: "0.9" }
+  ] : [
+    { name: `Hotel ${t.city} Grand`, rating: "4.5", dist: "0.5" },
+    { name: "Hotel Tamil Nadu", rating: "4.2", dist: "1.2" },
+    { name: `${t.name.split(' ')[0]} Residency`, rating: "4.1", dist: "0.9" },
+    { name: "Sree Kumaran Inn", rating: "4.0", dist: "1.5" }
+  ];
   return (
     <div className="relative overflow-hidden">
       <div className="pointer-events-none absolute -top-24 right-0 h-72 w-72 rounded-full bg-saffron/10 blur-3xl" />
@@ -122,14 +131,32 @@ function PlanPage() {
         {result && (
           <div className="mt-6 fade-in rounded-2xl p-[1px] gradient-saffron mb-10">
             <div className="bg-card rounded-2xl p-4 lg:p-6">
-              <div className="flex items-center gap-1.5 text-saffron font-semibold text-sm"><Sparkles className="w-4 h-4" /> Your AI-Optimized Itinerary</div>
-              <h2 className="font-serif text-2xl font-bold mt-1.5">{t.name}</h2>
-              <div className="flex flex-wrap items-center gap-2 mt-3 mb-1">
-                <div className="bg-slate-100 text-slate-700 font-bold px-3 py-1.5 rounded-lg text-xs border border-slate-200/60 shadow-sm flex items-center gap-1.5">
-                  <span className="text-base leading-none">📅</span> Date: {date || "Upcoming"}
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-2">
+                <div>
+                  <div className="flex items-center gap-1.5 text-saffron font-semibold text-sm"><Sparkles className="w-4 h-4" /> Your AI-Optimized Itinerary</div>
+                  <h2 className="font-serif text-2xl font-bold mt-1.5">{t.name}</h2>
                 </div>
-                <div className="bg-emerald-50 text-emerald-700 font-bold px-3 py-1.5 rounded-lg text-xs border border-emerald-200 shadow-sm flex items-center gap-1.5">
-                  <span className="text-base leading-none">✨</span> Best Darshan: 3:30 PM – 5:00 PM
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                  <div className="flex items-center gap-2.5 bg-gradient-to-b from-white to-slate-50/80 px-3.5 py-2 rounded-xl border border-slate-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow">
+                    <div className="bg-indigo-50 border border-indigo-100/50 w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
+                      <span className="text-sm leading-none drop-shadow-sm">📅</span>
+                    </div>
+                    <div>
+                      <div className="text-[9px] uppercase tracking-widest text-slate-400 font-bold leading-tight mb-0.5">Travel Date</div>
+                      <div className="text-xs font-extrabold text-slate-800 leading-tight tracking-tight">{date || "Upcoming"}</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2.5 bg-gradient-to-b from-emerald-50/80 to-emerald-100/30 px-3.5 py-2 rounded-xl border border-emerald-200/60 shadow-[0_2px_12px_rgba(16,185,129,0.08)] relative overflow-hidden group hover:border-emerald-300/80 transition-colors">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:translate-x-full duration-1000 ease-in-out transition-transform"></div>
+                    <div className="bg-emerald-100/80 border border-emerald-200/50 w-8 h-8 rounded-lg flex items-center justify-center shrink-0 relative z-10">
+                      <span className="text-sm leading-none drop-shadow-sm">✨</span>
+                    </div>
+                    <div className="relative z-10">
+                      <div className="text-[9px] uppercase tracking-widest text-emerald-600 font-bold leading-tight mb-0.5">Best Darshan</div>
+                      <div className="text-xs font-extrabold text-emerald-900 leading-tight tracking-tight">3:30 PM – 5:00 PM</div>
+                    </div>
+                  </div>
                 </div>
               </div>
               {/* Travel & Logistics */}
@@ -172,7 +199,11 @@ function PlanPage() {
                           <div key={i} className="bg-secondary/50 rounded-xl p-2.5 flex justify-between items-center border border-border/20">
                             <div>
                               <div className="font-bold text-[13px] mb-0.5 text-foreground leading-tight">{tr.name}</div>
-                              <div className="font-bold text-[10px] text-black bg-white/40 px-2 py-0.5 rounded-md uppercase tracking-widest inline-block mt-1">{tr.time}</div>
+                              <div className="flex flex-wrap gap-1.5 mt-1">
+                                {tr.time.split(',').map((tStr: string, idx: number) => (
+                                  <div key={idx} className="font-bold text-[10px] text-black bg-white/40 border border-white/20 px-2 py-0.5 rounded-md uppercase tracking-widest inline-block shadow-sm">{tStr.trim()}</div>
+                                ))}
+                              </div>
                             </div>
                             <div className="font-bold text-[11px] text-foreground bg-background border border-border/50 px-2.5 py-1 rounded-lg shadow-sm whitespace-nowrap">{tr.price}</div>
                           </div>
@@ -197,7 +228,11 @@ function PlanPage() {
                           <div key={i} className="bg-secondary/50 rounded-xl p-2.5 flex justify-between items-center border border-border/20">
                             <div>
                               <div className="font-bold text-[13px] mb-0.5 text-foreground leading-tight">{b.name}</div>
-                              <div className="font-bold text-[10px] text-black bg-white/40 px-2 py-0.5 rounded-md uppercase tracking-widest inline-block mt-1">{b.time}</div>
+                              <div className="flex flex-wrap gap-1.5 mt-1">
+                                {b.time.split(',').map((tStr: string, idx: number) => (
+                                  <div key={idx} className="font-bold text-[10px] text-black bg-white/40 border border-white/20 px-2 py-0.5 rounded-md uppercase tracking-widest inline-block shadow-sm">{tStr.trim()}</div>
+                                ))}
+                              </div>
                             </div>
                             <div className="font-bold text-[11px] text-foreground bg-background border border-border/50 px-2.5 py-1 rounded-lg shadow-sm whitespace-nowrap">{b.price}</div>
                           </div>
@@ -232,21 +267,16 @@ function PlanPage() {
                     </div>
                     <button className="text-[10px] font-semibold text-saffron hover:underline">View all</button>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-background rounded-2xl p-3 border border-border shadow-sm hover:border-saffron/40 transition-colors">
-                      <div className="text-xs font-semibold truncate mb-1 text-foreground">{hotel1}</div>
-                      <div className="flex items-center justify-between text-[10px] text-muted-foreground">
-                        <span className="flex items-center gap-0.5 font-medium text-amber-500">⭐ 4.5</span>
-                        <span>0.5 km away</span>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {hotels.map(h => (
+                      <div key={h.name} className="bg-background rounded-2xl p-3 border border-border shadow-sm hover:border-saffron/40 transition-colors">
+                        <div className="text-xs font-semibold truncate mb-1 text-foreground">{h.name}</div>
+                        <div className="flex items-center justify-between text-[10px] text-muted-foreground">
+                          <span className="flex items-center gap-0.5 font-medium text-amber-500">⭐ {h.rating}</span>
+                          <span>{h.dist} km away</span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="bg-background rounded-2xl p-3 border border-border shadow-sm hover:border-saffron/40 transition-colors">
-                      <div className="text-xs font-semibold truncate mb-1 text-foreground">{hotel2}</div>
-                      <div className="flex items-center justify-between text-[10px] text-muted-foreground">
-                        <span className="flex items-center gap-0.5 font-medium text-amber-500">⭐ 4.2</span>
-                        <span>1.2 km away</span>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -391,8 +421,15 @@ function getTransportInfo(origin: string, dest: string) {
   if (o.includes("bangalore") || o.includes("bengaluru") || o.includes("blr")) {
     if (dest === "palani-murugan") return {
       roadTime: "6h 30m", route: "NH 44 and NH 83 via Salem",
-      buses: [{ name: "SETC (Non-AC Seater)", time: "11:00 PM", price: "Duration: 7h 30m" }, { name: "TNSTC (AC Sleeper)", time: "10:30 PM", price: "Duration: 7h 00m" }],
-      trains: [{ name: "Tuticorin Exp to Dindigul (16732)", time: "09:15 PM", price: "Duration: 8h 10m" }]
+      buses: [
+        { name: "SETC (Non-AC Seater)", time: "11:00 PM, 11:45 PM", price: "Duration: 7h 30m" }, 
+        { name: "TNSTC (AC Sleeper)", time: "10:30 PM", price: "Duration: 7h 00m" },
+        { name: "National Travels (Volvo)", time: "11:15 PM", price: "Duration: 6h 45m" }
+      ],
+      trains: [
+        { name: "Tuticorin Exp to Dindigul (16732)", time: "09:15 PM", price: "Duration: 8h 10m" },
+        { name: "Nagercoil Exp to Dindigul (16340)", time: "08:45 PM", price: "Duration: 7h 30m" }
+      ]
     };
     if (dest === "madurai-meenakshi") return {
       roadTime: "7h 00m", route: "NH 44 via Salem",
@@ -402,8 +439,17 @@ function getTransportInfo(origin: string, dest: string) {
   } else if (o.includes("chennai") || o.includes("madras") || o.includes("maa")) {
     if (dest === "palani-murugan") return {
       roadTime: "8h 00m", route: "NH 38 via Trichy",
-      buses: [{ name: "SETC (AC Seater)", time: "10:00 PM", price: "Duration: 9h 00m" }, { name: "YBM Travels (AC Sleeper)", time: "09:30 PM", price: "Duration: 8h 30m" }],
-      trains: [{ name: "Palakkad Exp (22651)", time: "09:40 PM", price: "Duration: 9h 45m" }]
+      buses: [
+        { name: "SETC (AC Seater)", time: "10:00 PM", price: "Duration: 9h 00m" }, 
+        { name: "SETC (Non-AC Seater)", time: "11:00 PM, 11:45 PM", price: "Duration: 9h 30m" },
+        { name: "TNSTC (Ultra Deluxe)", time: "08:30 PM", price: "Duration: 9h 30m" },
+        { name: "YBM Travels (AC Sleeper)", time: "09:30 PM", price: "Duration: 8h 30m" },
+        { name: "KPN Travels (Volvo A/C)", time: "11:00 PM", price: "Duration: 8h 15m" }
+      ],
+      trains: [
+        { name: "Palakkad Exp (22651)", time: "09:40 PM", price: "Duration: 9h 45m" },
+        { name: "Vaigai SF Exp to Dindigul (12635)", time: "01:50 PM", price: "Duration: 6h 15m" }
+      ]
     };
     if (dest === "madurai-meenakshi") return {
       roadTime: "7h 30m", route: "NH 38 via Trichy",
