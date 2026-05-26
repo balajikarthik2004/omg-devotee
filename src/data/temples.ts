@@ -40,13 +40,13 @@ const basePoojas = [
 ];
 
 const palaniPoojas = [
-  "5:40 AM Vishvarupa Darsanam",
+  "5:40 AM Vishvarupa Darshanam",
   "6:50 AM Vila Pooja",
-  "8:00 AM Sirukala Shanthi Pooja",
+  "8:00 AM Sirukala Shanti Pooja",
   "9:00 AM Kala Shanthi Pooja",
-  "12:00 PM Uchi Kaala Pooja (Noon pooja)",
-  "5:30 PM Sayaraksha Pooja (Evening pooja)",
-  "8:00 PM Rakaala Pooja (Last pooja)",
+  "12:00 PM Uchikala Pooja",
+  "5:30 PM Sayaraksha Pooja",
+  "8:00 PM Rakkala Pooja",
 ];
 
 const meenakshiPoojas = [
@@ -59,8 +59,8 @@ const meenakshiPoojas = [
 ];
 
 export const temples: Temple[] = [
-  { id:1, slug:"palani-murugan", name:"Palani Murugan Temple", image: "https://commons.wikimedia.org/wiki/Special:FilePath/Palani_Murugan_Temple.jpg?width=800", deityImage: "/deities/murugan_palani_1779692676216.png", deity:"Lord Murugan (Dhandayuthapani Swamy)", district:"Dindigul", city:"Palani", established:"2000+ years", tier:"Tier 1 Major Kshetram", openTime:"06:00", closeTime:"21:00", afternoonClose:"12:30", afternoonOpen:"15:00", crowd:12450, capacity:20000, crowdPct:62, waitMin:45, parking:{lotA:80,lotB:68,overflow:0}, color:"#F97316", gradientFrom:"#FFF7ED", gradientTo:"#FFEDD5", specialDay:"Tuesday", crowdStatus:"MODERATE", poojas: basePoojas },
-  { id:2, slug:"madurai-meenakshi", name:"Madurai Meenakshi Temple", image: "https://commons.wikimedia.org/wiki/Special:FilePath/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg?width=800", deityImage: "/deities/meenakshi_madurai_1779692694024.png", deity:"Goddess Meenakshi & Lord Sundareswarar", district:"Madurai", city:"Madurai", openTime:"05:00", closeTime:"22:00", afternoonClose:"12:30", afternoonOpen:"16:00", crowd:18320, capacity:25000, crowdPct:73, waitMin:62, parking:{lotA:91,lotB:78,overflow:45}, color:"#7C3AED", gradientFrom:"#F5F3FF", gradientTo:"#EDE9FE", specialDay:"Friday", crowdStatus:"HIGH", poojas: basePoojas },
+  { id:1, slug:"palani-murugan", name:"Palani Murugan Temple", image: "https://commons.wikimedia.org/wiki/Special:FilePath/Palani_Murugan_Temple.jpg?width=800", deityImage: "/deities/murugan_palani_1779692676216.png", deity:"Lord Murugan (Dhandayuthapani Swamy)", district:"Dindigul", city:"Palani", established:"2000+ years", tier:"Tier 1 Major Kshetram", openTime:"06:00", closeTime:"21:00", afternoonClose:"12:30", afternoonOpen:"15:00", crowd:12450, capacity:20000, crowdPct:62, waitMin:45, parking:{lotA:80,lotB:68,overflow:0}, color:"#F97316", gradientFrom:"#FFF7ED", gradientTo:"#FFEDD5", specialDay:"Tuesday", crowdStatus:"MODERATE", poojas: palaniPoojas },
+  { id:2, slug:"madurai-meenakshi", name:"Madurai Meenakshi Temple", image: "https://commons.wikimedia.org/wiki/Special:FilePath/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg?width=800", deityImage: "/deities/meenakshi_madurai_1779692694024.png", deity:"Goddess Meenakshi & Lord Sundareswarar", district:"Madurai", city:"Madurai", openTime:"05:00", closeTime:"22:00", afternoonClose:"12:30", afternoonOpen:"16:00", crowd:18320, capacity:25000, crowdPct:73, waitMin:62, parking:{lotA:91,lotB:78,overflow:45}, color:"#7C3AED", gradientFrom:"#F5F3FF", gradientTo:"#EDE9FE", specialDay:"Friday", crowdStatus:"HIGH", poojas: meenakshiPoojas },
   { id:3, slug:"srirangam", name:"Srirangam Temple", image: "https://commons.wikimedia.org/wiki/Special:FilePath/Ranganathaswamy_temple_tiruchirappalli.jpg?width=800", deityImage: "/deities/ranganatha_srirangam_1779692710953.png", deity:"Lord Ranganatha (Vishnu)", district:"Tiruchirappalli", city:"Srirangam", openTime:"06:00", closeTime:"21:00", crowd:9840, capacity:22000, crowdPct:45, waitMin:28, parking:{lotA:54,lotB:38,overflow:0}, color:"#059669", gradientFrom:"#F0FDF4", gradientTo:"#DCFCE7", specialDay:"Saturday", crowdStatus:"LOW", poojas: basePoojas },
   { id:4, slug:"tiruvannamalai", name:"Tiruvannamalai Arunachaleswarar Temple", image: "https://commons.wikimedia.org/wiki/Special:FilePath/Arunachalam_temple_from_a_nearby_hill.jpg?width=800", deityImage: "/deities/shiva_lingam_1779692728170.png", deity:"Lord Shiva (Arunachaleswarar)", district:"Tiruvannamalai", city:"Tiruvannamalai", openTime:"05:30", closeTime:"21:30", crowd:22100, capacity:25000, crowdPct:88, waitMin:85, parking:{lotA:96,lotB:94,overflow:82}, color:"#DC2626", gradientFrom:"#FFF1F2", gradientTo:"#FFE4E6", specialDay:"Full Moon", crowdStatus:"CRITICAL", poojas: basePoojas },
   { id:5, slug:"rameswaram", name:"Rameswaram Temple", image: "https://commons.wikimedia.org/wiki/Special:FilePath/Ramanathaswamy_temple7.JPG?width=800", deityImage: "/deities/shiva_lingam_1779692728170.png", deity:"Lord Shiva (Ramanathaswamy)", district:"Ramanathapuram", city:"Rameswaram", openTime:"05:00", closeTime:"21:00", crowd:7650, capacity:20000, crowdPct:38, waitMin:18, parking:{lotA:42,lotB:30,overflow:0}, color:"#0284C7", gradientFrom:"#F0F9FF", gradientTo:"#E0F2FE", specialDay:"Monday", crowdStatus:"LOW", poojas: basePoojas },

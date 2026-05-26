@@ -26,13 +26,13 @@ function Dashboard() {
   const [q, setQ] = useState("");
   const [district, setDistrict] = useState<string>("");
   const [activeFilter, setActiveFilter] = useState<string>("All");
-  
+
   const [templeOpen, setTempleOpen] = useState(false);
   const [districtOpen, setDistrictOpen] = useState(false);
   const [bellOpen, setBellOpen] = useState(false);
   const [now, setNow] = useState(new Date());
   const [activeTempleId, setActiveTempleId] = useState(1); // 1 = Palani
-  
+
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(timer);
@@ -54,7 +54,7 @@ function Dashboard() {
     return temples.filter(t => {
       // District filter
       if (district && t.district !== district) return false;
-      
+
       // Category filter
       if (activeFilter === "Low Crowd" && t.crowdStatus !== "low") {
         return false;
@@ -73,7 +73,7 @@ function Dashboard() {
       {/* Premium Top Navbar */}
       <div className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-white/20 bg-white/80 px-4 lg:px-8 backdrop-blur-xl shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
         <div className="flex items-center gap-4">
-          
+
           {/* District Selector (First) */}
           <div className="relative hidden sm:block group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-saffron/20 to-rose-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
@@ -90,11 +90,10 @@ function Dashboard() {
                 <div className="max-h-80 overflow-y-auto py-1">
                   <button
                     onClick={() => { setDistrict(""); setDistrictOpen(false); }}
-                    className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${
-                      !district 
-                        ? "bg-saffron/10 font-bold text-saffron" 
-                        : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
-                    }`}
+                    className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${!district
+                      ? "bg-saffron/10 font-bold text-saffron"
+                      : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
+                      }`}
                   >
                     <span className="truncate">All Districts</span>
                     {!district && <span className="w-1.5 h-1.5 rounded-full bg-saffron" />}
@@ -103,11 +102,10 @@ function Dashboard() {
                     <button
                       key={d}
                       onClick={() => { setDistrict(d); setDistrictOpen(false); }}
-                      className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${
-                        d === district 
-                          ? "bg-saffron/10 font-bold text-saffron" 
-                          : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
-                      }`}
+                      className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${d === district
+                        ? "bg-saffron/10 font-bold text-saffron"
+                        : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
+                        }`}
                     >
                       <span className="truncate">{d}</span>
                       {d === district && <span className="w-1.5 h-1.5 rounded-full bg-saffron" />}
@@ -136,11 +134,10 @@ function Dashboard() {
                     <button
                       key={t.id}
                       onClick={() => { setActiveTempleId(t.id); setTempleOpen(false); }}
-                      className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${
-                        t.id === activeTempleId 
-                          ? "bg-saffron/10 font-bold text-saffron" 
-                          : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
-                      }`}
+                      className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${t.id === activeTempleId
+                        ? "bg-saffron/10 font-bold text-saffron"
+                        : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
+                        }`}
                     >
                       <span className="truncate">{t.name}</span>
                       {t.id === activeTempleId && <span className="w-1.5 h-1.5 rounded-full bg-saffron" />}
@@ -207,7 +204,7 @@ function Dashboard() {
           <div className="relative overflow-hidden rounded-3xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.06)] bg-gradient-to-br from-white via-white to-saffron/5 p-8 text-foreground backdrop-blur-xl">
             <div className="absolute top-0 right-0 w-96 h-96 bg-saffron/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
             <div className="absolute bottom-0 left-20 w-64 h-64 bg-rose-500/5 rounded-full blur-3xl pointer-events-none" />
-            
+
             <div className="grid gap-8 md:grid-cols-3 md:items-center relative z-10">
               <div>
                 <div className="text-3xl font-bold font-serif text-slate-900 tracking-tight">{activeTemple.name}</div>
@@ -217,9 +214,9 @@ function Dashboard() {
                     <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
                     LIVE <span className="text-emerald-600/80 font-semibold normal-case tracking-normal ml-1">· Updated {now.toLocaleTimeString("en-IN", { hour12: false })}</span>
                   </div>
-                  <Link 
-                    to="/temple/$slug" 
-                    params={{ slug: activeTemple.slug }} 
+                  <Link
+                    to="/temple/$slug"
+                    params={{ slug: activeTemple.slug }}
                     className="group inline-flex items-center gap-1.5 text-xs font-bold text-white bg-gradient-to-r from-saffron to-amber-500 hover:from-saffron/90 hover:to-amber-500/90 transition-all shadow-[0_4px_12px_rgba(249,115,22,0.3)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.4)] hover:-translate-y-0.5 px-5 py-2.5 rounded-full ml-1"
                   >
                     Explore Full Details <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
@@ -239,10 +236,11 @@ function Dashboard() {
                       </linearGradient>
                     </defs>
                   </svg>
-                  <div className="text-center">
+                  <div className="text-center flex flex-col items-center">
                     <div className="text-3xl font-extrabold tabular-nums text-slate-800">63%</div>
                     <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">Capacity</div>
                   </div>
+                  <div className="absolute -bottom-8 text-[12px] font-extrabold text-rose-600 bg-rose-50 border border-rose-200 px-3.5 py-1 rounded-full shadow-md w-max z-10 animate-pulse">Wait: {activeTemple.waitMin} mins</div>
                 </div>
                 <div>
                   <div className="text-5xl font-extrabold tabular-nums tracking-tight text-slate-900 drop-shadow-sm">12,500</div>
@@ -251,9 +249,23 @@ function Dashboard() {
               </div>
               <div className="space-y-3.5 text-sm">
                 <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium"> Today's total Devotees</span><span className="font-bold tabular-nums text-slate-800">38,240</span></div>
-                <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Peak (10:30 AM)</span><span className="font-bold tabular-nums text-slate-800">15,820</span></div>
+                <div className="flex justify-between border-b border-slate-200/60 pb-2.5">
+                  <span className="text-slate-500 font-medium">Peak (10:30 AM)</span>
+                  <span className="text-right">
+                    <div className="font-bold tabular-nums text-slate-800">15,820</div>
+                    <div className="text-[11px] font-bold text-rose-500 mt-0.5">Expected Wait: ~{activeTemple.waitMin + 45} mins</div>
+                  </span>
+                </div>
                 <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Darshan Flow</span><span className="font-bold text-emerald-600">1,250 / hr</span></div>
-                <div className="flex justify-between"><span className="text-slate-500 font-medium">Next Peak <br /> (5:00 PM - 6:30 PM)</span><span className="font-bold text-rose-500">18,500 Expected</span></div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500 font-medium">
+                    Next Peak <br /> (5:00 PM - 6:30 PM)
+                  </span>
+                  <span className="text-right">
+                    <div className="font-bold ">18,500 Expected</div>
+                    <div className="text-[11px] font-bold text-rose-500 mt-0.5">Expected Wait: ~{activeTemple.waitMin + 60} mins</div>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -261,7 +273,7 @@ function Dashboard() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 lg:px-6 py-6 space-y-8 w-full">
-        
+
         {/* Devotee Essentials */}
         {(!q && district === "" && activeFilter === "All") && (
           <section className="animate-in fade-in slide-in-from-bottom-2 duration-500">
@@ -270,7 +282,7 @@ function Dashboard() {
               <h2 className="font-serif text-lg font-semibold text-foreground">Devotee Essentials</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              
+
               {/* Daily Panchangam / Calendar */}
               <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl group-hover:bg-amber-500/10 transition-colors" />
@@ -294,19 +306,19 @@ function Dashboard() {
                 <div className="grid grid-cols-2 gap-3">
                   <button className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-emerald-50 border border-slate-100 hover:border-emerald-200 transition-all text-left group/btn shadow-sm hover:shadow">
                     <div className="p-1.5 bg-white rounded-xl shadow-sm group-hover/btn:scale-110 transition-transform"><Ticket className="w-4 h-4 text-emerald-600" /></div>
-                    <span className="text-[11px] font-bold text-slate-700 leading-tight">Book<br/>Darshan</span>
+                    <span className="text-[11px] font-bold text-slate-700 leading-tight">Book<br />Darshan</span>
                   </button>
                   <button className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-amber-50 border border-slate-100 hover:border-amber-200 transition-all text-left group/btn shadow-sm hover:shadow">
                     <div className="p-1.5 bg-white rounded-xl shadow-sm group-hover/btn:scale-110 transition-transform"><Coins className="w-4 h-4 text-amber-500" /></div>
-                    <span className="text-[11px] font-bold text-slate-700 leading-tight">Digital<br/>Hundi</span>
+                    <span className="text-[11px] font-bold text-slate-700 leading-tight">Digital<br />Hundi</span>
                   </button>
                   <button className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 transition-all text-left group/btn shadow-sm hover:shadow">
                     <div className="p-1.5 bg-white rounded-xl shadow-sm group-hover/btn:scale-110 transition-transform"><PackageOpen className="w-4 h-4 text-indigo-500" /></div>
-                    <span className="text-[11px] font-bold text-slate-700 leading-tight">Order<br/>Prasadam</span>
+                    <span className="text-[11px] font-bold text-slate-700 leading-tight">Order<br />Prasadam</span>
                   </button>
                   <button className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-rose-50 border border-slate-100 hover:border-rose-200 transition-all text-left group/btn shadow-sm hover:shadow">
                     <div className="p-1.5 bg-white rounded-xl shadow-sm group-hover/btn:scale-110 transition-transform"><Heart className="w-4 h-4 text-rose-500" /></div>
-                    <span className="text-[11px] font-bold text-slate-700 leading-tight">Donate<br/>Annadhan</span>
+                    <span className="text-[11px] font-bold text-slate-700 leading-tight">Donate<br />Annadhan</span>
                   </button>
                 </div>
               </div>
@@ -325,7 +337,7 @@ function Dashboard() {
                   View Live Crowd <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
-              
+
             </div>
           </section>
         )}
@@ -336,7 +348,7 @@ function Dashboard() {
             <h2 className="font-serif text-2xl font-bold flex items-center gap-2 text-slate-900 tracking-tight">Live Darshan Feed</h2>
             <div className="text-xs text-slate-500 font-bold tracking-widest uppercase bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full shadow-sm">{results.length} Temples</div>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {results.map(t => (
               <Link key={t.id} to="/temple/$slug" params={{ slug: t.slug }} className="group flex flex-col bg-white border border-slate-100 rounded-3xl p-5 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
@@ -348,7 +360,7 @@ function Dashboard() {
                       <div className="font-serif font-bold text-slate-900 truncate text-xl group-hover:text-saffron transition-colors">{t.name}</div>
                     </div>
                     <div className="text-sm text-slate-500 font-medium flex items-center gap-1.5 mt-1"><MapPin className="w-3.5 h-3.5 text-slate-400" /> {t.district} · {t.deity}</div>
-                    
+
                     <div className="flex flex-wrap items-center gap-2 mt-4">
                       <CrowdBadge status={t.crowdStatus} />
                       <span className="text-xs font-bold text-slate-600 bg-slate-50 border border-slate-100 px-2.5 py-1 rounded-lg shadow-sm">Wait: {t.waitMin} min</span>
@@ -356,7 +368,7 @@ function Dashboard() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs relative z-10">
                   <span className="text-slate-500 font-medium">AI Optimal Darshan Time: <strong className="text-slate-800">3:00 – 5:00 PM</strong></span>
                   <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-saffron group-hover:border-saffron group-hover:shadow-md transition-all">
@@ -366,7 +378,7 @@ function Dashboard() {
               </Link>
             ))}
           </div>
-          
+
           {results.length === 0 && (
             <div className="text-center text-muted-foreground py-16 bg-card rounded-2xl border border-border">
               <div className="text-4xl mb-3">🙏</div>

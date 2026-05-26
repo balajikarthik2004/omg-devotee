@@ -13,6 +13,16 @@ const bgImages: Record<string, string> = {
   "madurai-meenakshi": meenakshiImg,
 };
 
+function formatHM(hm?: string) {
+  if (!hm) return "";
+  let [h, m] = hm.split(":");
+  let hInt = parseInt(h);
+  let ampm = hInt >= 12 ? "PM" : "AM";
+  if (hInt > 12) hInt -= 12;
+  if (hInt === 0) hInt = 12;
+  return `${hInt}:${m} ${ampm}`;
+}
+
 export const Route = createFileRoute("/_app/temple/$slug")({
   loader: ({ params }) => {
     const t = getTemple(params.slug);
@@ -107,10 +117,11 @@ function TempleDetail() {
                     </linearGradient>
                   </defs>
                 </svg>
-                <div className="text-center">
+                <div className="text-center flex flex-col items-center">
                   <div className="text-3xl font-extrabold tabular-nums text-slate-800">{Math.round(pct)}%</div>
                   <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">Capacity</div>
                 </div>
+                <div className="absolute -bottom-8 text-[12px] font-extrabold text-rose-600 bg-rose-50 border border-rose-200 px-3.5 py-1 rounded-full shadow-md w-max z-10 animate-pulse"> Wait: {wait} mins</div>
               </div>
               <div>
                 <div className="text-5xl font-extrabold tabular-nums tracking-tight text-slate-900 drop-shadow-sm">{t.crowd.toLocaleString()}</div>
@@ -118,10 +129,24 @@ function TempleDetail() {
               </div>
             </div>
             <div className="space-y-3.5 text-sm">
-              <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Today's Total</span><span className="font-bold tabular-nums text-slate-800">38,240</span></div>
-              <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Peak (10:30 AM)</span><span className="font-bold tabular-nums text-slate-800">15,820</span></div>
+              <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Today's Total Devotee</span><span className="font-bold tabular-nums text-slate-800">38,240</span></div>
+              <div className="flex justify-between border-b border-slate-200/60 pb-2.5">
+                <span className="text-slate-500 font-medium">Peak (10:30 AM)</span>
+                <span className="text-right">
+                  <div className="font-bold tabular-nums text-slate-800">15,820</div>
+                  <div className="text-[11px] font-bold text-rose-500 mt-0.5">Expected Wait: ~{t.waitMin + 45} mins</div>
+                </span>
+              </div>
               <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Darshan Flow</span><span className="font-bold text-emerald-600">1,250 / hr</span></div>
-              <div className="flex justify-between"><span className="text-slate-500 font-medium">Next Peak Est.</span><span className="font-bold text-rose-500">{t.afternoonOpen || "5:30 PM"}</span></div>
+              <div className="flex justify-between">
+                <span className="text-slate-500 font-medium">
+                    Next Peak <br /> (5:00 PM - 6:30 PM)
+                  </span>
+                <span className="text-right">
+                 <div className="font-bold ">18,500 Expected</div>
+                  <div className="text-[11px] font-bold text-rose-500 mt-0.5">Expected Wait: ~{t.waitMin + 60} mins</div>
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -142,7 +167,7 @@ function TempleDetail() {
               <div className="text-sm text-muted-foreground mb-5">Predictive insights based on live crowd data & historical trends</div>
               
               <div className="grid sm:grid-cols-2 gap-3 mb-6">
-                <SlotCard ok time="6:30 – 8:00 AM" period="Morning" label="Highly Recommended" />
+                <SlotCard ok time="5:30 – 7:00 AM" period="Morning" label="Highly Recommended" />
                 <SlotCard warn time="10:00 – 11:00 AM" period="Mid-morning" label="Moderate Crowd" />
                 <SlotCard ok time="3:00 – 5:30 PM" period="Afternoon" label="Recommended" />
                 <SlotCard bad time="8:30 – 10:00 AM" period="Avoid" label="School Groups Rush" />
@@ -201,23 +226,23 @@ function TempleDetail() {
             <div className="mt-5 grid sm:grid-cols-2 gap-y-6 gap-x-4 text-sm">
               <div>
                 <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">Morning</div>
-                <div className="font-semibold text-slate-800">Open 6:00 AM</div>
-                <div className="text-slate-500 mt-0.5">First Pooja 6:15 AM</div>
+                <div className="font-semibold text-slate-800">Open {formatHM(t.openTime)}</div>
+                <div className="text-slate-500 mt-0.5">First Pooja {t.poojas[0]?.split(" ").slice(0, 2).join(" ")}</div>
               </div>
               <div>
                 <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">Afternoon Break</div>
-                <div className="font-semibold text-slate-800">Closed 12:30 PM</div>
-                <div className="text-slate-500 mt-0.5">Until 3:00 PM</div>
+                <div className="font-semibold text-slate-800">{t.afternoonClose ? `Closed ${formatHM(t.afternoonClose)}` : 'No Afternoon Break'}</div>
+                <div className="text-slate-500 mt-0.5">{t.afternoonOpen ? `Until ${formatHM(t.afternoonOpen)}` : 'Open All Day'}</div>
               </div>
               <div>
                 <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">Evening</div>
-                <div className="font-semibold text-slate-800">Reopens 3:00 PM</div>
-                <div className="text-slate-500 mt-0.5">Maha Aarti 6:30 PM</div>
+                <div className="font-semibold text-slate-800">{t.afternoonOpen ? `Reopens ${formatHM(t.afternoonOpen)}` : 'Evening Darshan'}</div>
+                <div className="text-slate-500 mt-0.5">Last Pooja {t.poojas[t.poojas.length - 1]?.split(" ").slice(0, 2).join(" ")}</div>
               </div>
               <div>
                 <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">Closes</div>
-                <div className="font-semibold text-slate-800">Last Entry 8:30 PM</div>
-                <div className="text-slate-500 mt-0.5">Gates close 9:00 PM</div>
+                <div className="font-semibold text-slate-800">Last Entry {formatHM(t.closeTime)}</div>
+                <div className="text-slate-500 mt-0.5">Gates close {formatHM(t.closeTime)}</div>
               </div>
             </div>
             <div className="mt-6 flex">
@@ -260,12 +285,52 @@ function TempleDetail() {
         {/* Right column */}
         <div className="space-y-6">
           {/* Alerts */}
-          <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
-            <h3 className="font-serif text-xl font-bold text-slate-900 mb-2">Crowd Alerts</h3>
-            <p className="text-sm font-medium text-slate-500 mb-5">Get notified when wait times drop below 30 mins.</p>
-            <button onClick={() => setAlertOn(a => !a)} className={`w-full rounded-full py-3 text-sm font-bold border transition-colors ${alertOn?"bg-saffron text-white border-saffron shadow-md":"bg-slate-50 border-slate-200 text-slate-700 hover:border-saffron/50 hover:bg-white"}`}>
-              <Bell className="w-4 h-4 inline mr-1.5" /> {alertOn ? "Alert set — we'll notify you 🙏" : "Alert me when crowd drops"}
-            </button>
+          <div className="bg-gradient-to-br from-white to-orange-50/50 border border-orange-100 rounded-3xl p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none transition-all group-hover:bg-orange-500/20"></div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-4 text-orange-600">
+                <Bell className="w-5 h-5" />
+                <h3 className="font-serif text-xl font-bold text-slate-900">Smart Alerts</h3>
+              </div>
+              
+              <div className="flex items-center gap-5 mb-6 bg-white/60 backdrop-blur-sm border border-orange-100/50 rounded-2xl p-4">
+                <div className="relative grid h-16 w-16 place-items-center shrink-0">
+                  <svg viewBox="0 0 100 100" className="absolute inset-0 -rotate-90 drop-shadow-sm">
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(0,0,0,0.05)" strokeWidth="8" />
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="url(#alertGradient)" strokeWidth="8" strokeLinecap="round"
+                      strokeDasharray={`${(pct / 100) * 264} 264`} className="transition-all duration-1000" />
+                    <defs>
+                      <linearGradient id="alertGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#f97316" />
+                        <stop offset="100%" stopColor="#ef4444" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div className="text-center flex flex-col items-center">
+                    <div className="text-sm font-extrabold tabular-nums text-slate-800">{Math.round(pct)}%</div>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-800 leading-tight">Get notified when capacity drops</p>
+                  <p className="text-[11px] font-medium text-slate-500 mt-1">We'll alert you when wait time is under 30 mins.</p>
+                </div>
+              </div>
+
+              <button 
+                onClick={() => setAlertOn(a => !a)} 
+                className={`relative overflow-hidden w-full rounded-full py-3 text-sm font-bold border transition-all duration-300 ${
+                  alertOn
+                  ? "bg-emerald-50 text-emerald-700 border-emerald-200 shadow-sm"
+                  : "bg-gradient-to-r from-orange-500 to-rose-500 text-white border-transparent shadow-[0_4px_15px_rgba(249,115,22,0.3)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.4)] hover:-translate-y-0.5"
+                }`}
+              >
+                <div className="relative z-10 flex items-center justify-center gap-2">
+                  {alertOn ? <CheckCircle2 className="w-4 h-4" /> : <Bell className="w-4 h-4" />}
+                  {alertOn ? "Alert Active" : "Alert me when crowd drops"}
+                </div>
+              </button>
+            </div>
           </div>
 
           {/* Tabs */}

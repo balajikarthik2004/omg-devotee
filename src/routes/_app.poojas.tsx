@@ -122,7 +122,7 @@ function PoojaPage() {
           <div className="bg-white rounded-full p-1.5 shadow-sm border border-border/50 text-base leading-none">⭐</div>
           <div className="flex-1">
             <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Today's Special</div>
-            <div className="text-foreground mt-0.5">Abhishekam for registered devotees at 6:30 AM · Special Sashti Pooja at 7:00 AM</div>
+            <div className="text-foreground mt-0.5">Abhishekam for registered devotees at 5:40 AM · Special Sashti Pooja at 7:00 AM</div>
           </div>
         </div>
       </div>
@@ -152,7 +152,7 @@ function PoojaPage() {
               </div>
               
               <div className="mt-auto flex items-center justify-between text-xs pt-4 border-t border-border/50 relative z-10">
-                <div className="font-bold text-foreground bg-secondary/80 px-3 py-1.5 rounded-lg border border-border/50 shadow-sm">{f.d}</div>
+                <div className="font-bold text-white text-foreground bg-secondary/80 px-3 py-1.5 rounded-lg border border-border/50 shadow-sm">{f.d}</div>
                 <div className="text-saffron font-bold text-[10px] tracking-widest uppercase">{f.c} Expected</div>
               </div>
             </div>
