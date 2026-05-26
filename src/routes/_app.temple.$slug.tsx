@@ -104,28 +104,27 @@ function TempleDetail() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center justify-center gap-6">
-              <div className="relative grid h-36 w-36 place-items-center shrink-0">
-                <svg viewBox="0 0 100 100" className="absolute inset-0 -rotate-90 drop-shadow-md">
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(0,0,0,0.05)" strokeWidth="8" />
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="url(#saffronGradientDetail)" strokeWidth="8" strokeLinecap="round"
-                    strokeDasharray={`${(pct / 100) * 264} 264`} className="transition-all duration-1000" />
-                  <defs>
-                    <linearGradient id="saffronGradientDetail" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#f97316" />
-                      <stop offset="100%" stopColor="#ef4444" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-                <div className="text-center flex flex-col items-center">
-                  <div className="text-3xl font-extrabold tabular-nums text-slate-800">{Math.round(pct)}%</div>
-                  <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">Capacity</div>
+            <div className="flex items-center justify-center">
+              <div className="relative bg-white border border-slate-200/60 rounded-3xl p-6 shadow-[0_12px_36px_rgba(0,0,0,0.06)] overflow-hidden w-full max-w-sm group hover:border-rose-200/80 transition-all duration-500">
+                <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-rose-500 via-orange-500 to-amber-500" />
+                <div className="absolute -top-12 -right-12 w-32 h-32 bg-rose-50 rounded-full blur-3xl pointer-events-none group-hover:bg-rose-100/50 transition-colors duration-700" />
+                <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-orange-50 rounded-full blur-3xl pointer-events-none group-hover:bg-orange-100/50 transition-colors duration-700" />
+                
+                <div className="relative z-10 flex flex-col items-center text-center">
+                  <div className="inline-flex items-center gap-1.5 bg-rose-50 border border-rose-100/50 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-rose-600 mb-4 shadow-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" /> Live Darshan Wait
+                  </div>
+                  
+                  <div className="flex items-baseline gap-1.5 justify-center">
+                    <div className="text-6xl font-extrabold tabular-nums tracking-tighter text-slate-800 drop-shadow-sm">{wait}</div>
+                    <div className="text-xl font-bold text-slate-500 mb-2">mins</div>
+                  </div>
+                  
+                  <div className="mt-3 text-[13px] font-medium text-slate-600 leading-relaxed bg-slate-50 border border-slate-100 rounded-xl p-3 w-full shadow-inner">
+                    If you join the line now,<br/>
+                    you will reach the Sanctum in <strong className="text-rose-600 font-bold">{wait} mins</strong>.
+                  </div>
                 </div>
-                <div className="absolute -bottom-8 text-[12px] font-extrabold text-rose-600 bg-rose-50 border border-rose-200 px-3.5 py-1 rounded-full shadow-md w-max z-10 animate-pulse"> Wait: {wait} mins</div>
-              </div>
-              <div>
-                <div className="text-5xl font-extrabold tabular-nums tracking-tight text-slate-900 drop-shadow-sm">{t.crowd.toLocaleString()}</div>
-                <div className="text-xs text-slate-500 font-semibold mt-2 uppercase tracking-wide">Devotees Inside</div>
               </div>
             </div>
             <div className="space-y-3.5 text-sm">
@@ -134,7 +133,7 @@ function TempleDetail() {
                 <span className="text-slate-500 font-medium">Peak (10:30 AM)</span>
                 <span className="text-right">
                   <div className="font-bold tabular-nums text-slate-800">15,820</div>
-                  <div className="text-[11px] font-bold text-rose-500 mt-0.5">Expected Wait: ~{t.waitMin + 45} mins</div>
+                  <div className="text-[11px] font-bold text-rose-500 mt-0.5">Maximum Wait: ~{t.waitMin + 45} mins</div>
                 </span>
               </div>
               <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Darshan Flow</span><span className="font-bold text-emerald-600">1,250 / hr</span></div>
@@ -294,26 +293,45 @@ function TempleDetail() {
                 <h3 className="font-serif text-xl font-bold text-slate-900">Smart Alerts</h3>
               </div>
               
-              <div className="flex items-center gap-5 mb-6 bg-white/60 backdrop-blur-sm border border-orange-100/50 rounded-2xl p-4">
-                <div className="relative grid h-16 w-16 place-items-center shrink-0">
-                  <svg viewBox="0 0 100 100" className="absolute inset-0 -rotate-90 drop-shadow-sm">
-                    <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(0,0,0,0.05)" strokeWidth="8" />
-                    <circle cx="50" cy="50" r="42" fill="none" stroke="url(#alertGradient)" strokeWidth="8" strokeLinecap="round"
-                      strokeDasharray={`${(pct / 100) * 264} 264`} className="transition-all duration-1000" />
-                    <defs>
-                      <linearGradient id="alertGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#f97316" />
-                        <stop offset="100%" stopColor="#ef4444" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                  <div className="text-center flex flex-col items-center">
-                    <div className="text-sm font-extrabold tabular-nums text-slate-800">{Math.round(pct)}%</div>
+              <div className="bg-white/60 backdrop-blur-sm border border-orange-100/50 rounded-2xl p-5 mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-200/50">
+                  <div className="flex items-center gap-4">
+                    <div className="relative grid h-14 w-14 place-items-center shrink-0">
+                      <svg viewBox="0 0 100 100" className="absolute inset-0 -rotate-90 drop-shadow-sm">
+                        <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(0,0,0,0.05)" strokeWidth="8" />
+                        <circle cx="50" cy="50" r="42" fill="none" stroke="url(#alertGradient)" strokeWidth="8" strokeLinecap="round"
+                          strokeDasharray={`${(pct / 100) * 264} 264`} className="transition-all duration-1000" />
+                        <defs>
+                          <linearGradient id="alertGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#f97316" />
+                            <stop offset="100%" stopColor="#ef4444" />
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                      <div className="text-center flex flex-col items-center">
+                        <div className="text-xs font-extrabold tabular-nums text-slate-800">{Math.round(pct)}%</div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest">Capacity</div>
+                      <div className="text-sm font-semibold text-slate-800 leading-tight mt-0.5">{pct > 80 ? "High Crowd" : pct > 50 ? "Moderate Crowd" : "Low Crowd"}</div>
+                    </div>
+                  </div>
+                  
+                  <div className="sm:text-right sm:border-l border-slate-200/50 sm:pl-4">
+                    <div className="text-xl font-extrabold tabular-nums tracking-tight text-slate-900 drop-shadow-sm">{t.crowd.toLocaleString()}</div>
+                    <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">Devotees Inside</div>
                   </div>
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-800 leading-tight">Get notified when capacity drops</p>
-                  <p className="text-[11px] font-medium text-slate-500 mt-1">We'll alert you when wait time is under 30 mins.</p>
+
+                <div className="flex items-center gap-3">
+                  <div className="bg-orange-100 text-orange-600 rounded-full p-2 shrink-0">
+                    <Bell className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800 leading-tight">Get notified when capacity drops</p>
+                    <p className="text-[11px] font-medium text-slate-500 mt-0.5">We'll alert you when wait time is under 30 mins.</p>
+                  </div>
                 </div>
               </div>
 
