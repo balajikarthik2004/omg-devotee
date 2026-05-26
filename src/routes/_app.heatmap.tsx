@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { temples } from "@/data/temples";
-import palaniImg from "@/assets/palani2.png";
+import palaniImg from "@/assets/palani3.png";
 import meenakshiImg  from "@/assets/Madurai.png";
 import srirangamImg from "@/assets/Srirangam.png";
 import arunachaleswararImg from "@/assets/Arunachaleswarar.png";
@@ -155,7 +155,16 @@ function HeatmapPage() {
         </div>
       </div>
 
-      <div className="mt-5 grid sm:grid-cols-2 gap-3">
+      <div className="mt-5 bg-card border border-border/70 rounded-2xl p-3.5 card-soft flex flex-wrap items-center gap-3 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+        <span className="text-sm font-bold text-foreground">Timeline:</span>
+        <button className="text-sm font-bold rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-700 px-3.5 py-1.5 flex items-center gap-2 shadow-sm transform scale-[1.02] transition-all">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_6px_rgba(16,185,129,0.8)]"></span> Live now
+        </button>
+        <button className="text-sm font-medium rounded-full bg-white border border-border/60 px-3.5 py-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors">Past 6 hours</button>
+        <button className="text-sm font-medium rounded-full bg-white border border-border/60 px-3.5 py-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors">Last weekend</button>
+      </div>
+
+      <div className="mt-4 grid sm:grid-cols-2 gap-3">
         {displayZones.map(z => (
           <div key={z.name} className="bg-card border border-border rounded-2xl p-4 card-soft">
             <div className="flex items-center gap-2">
@@ -168,12 +177,6 @@ function HeatmapPage() {
         ))}
       </div>
 
-      <div className="mt-5 bg-card border border-border rounded-2xl p-4 card-soft flex flex-wrap items-center gap-2">
-        <span className="text-sm font-medium">Timeline:</span>
-        <button className="text-sm rounded-full bg-foreground text-background px-3 py-1">● Live now</button>
-        <button className="text-sm rounded-full bg-white border border-border px-3 py-1">Past 6 hours</button>
-        <button className="text-sm rounded-full bg-white border border-border px-3 py-1">Last weekend</button>
-      </div>
 
       {fullView && mapImage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md animate-in fade-in zoom-in duration-200">
