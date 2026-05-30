@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Send, Mic, ArrowLeft, Sparkles } from "lucide-react";
 import { temples } from "@/data/temples";
 import { CrowdBadge } from "@/components/app/CrowdBadge";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/_app/chat")({
   head: () => ({ meta: [{ title: "AI Temple Assistant — OMG Smart Temple" }] }),
@@ -17,6 +18,7 @@ function ChatPage() {
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+  const { t: tStr } = useTranslation();
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, typing]);
 
@@ -36,7 +38,7 @@ function ChatPage() {
     setInput("");
     setTyping(true);
     setTimeout(() => {
-      const reply = generateReply(text);
+      const reply = generateReply(text, tStr);
       setMessages(m => [...m, reply]);
       setTyping(false);
     }, 1500);
@@ -49,8 +51,8 @@ function ChatPage() {
         <Link to="/" className="lg:hidden w-9 h-9 rounded-full hover:bg-secondary flex items-center justify-center"><ArrowLeft className="w-6 h-6" /></Link>
         <div className="w-10 h-10 rounded-full gradient-saffron flex items-center justify-center text-white font-serif text-xl">ॐ</div>
         <div className="flex-1 min-w-0">
-          <div className="font-serif font-semibold flex items-center gap-1.5">OMG AI Temple Assistant</div>
-          <div className="text-sm text-muted-foreground flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-status-low"/> Online · Powered by AI</div>
+          <div className="font-serif font-semibold flex items-center gap-1.5">{tStr("OMG AI Temple Assistant")}</div>
+          <div className="text-sm text-muted-foreground flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-status-low"/> {tStr("Online · Powered by AI")}</div>
         </div>
       </header>
 
@@ -59,11 +61,11 @@ function ChatPage() {
         {messages.length === 0 ? (
           <div className="max-w-2xl mx-auto text-center py-10">
             <div className="w-20 h-20 mx-auto rounded-full gradient-saffron flex items-center justify-center text-white font-serif text-4xl">ॐ</div>
-            <h2 className="font-serif text-3xl font-semibold mt-4">Vanakkam! 🙏</h2>
-            <p className="text-muted-foreground mt-1">I'm your personal temple guide. Ask me anything:</p>
+            <h2 className="font-serif text-3xl font-semibold mt-4">{tStr("Vanakkam! 🙏")}</h2>
+            <p className="text-muted-foreground mt-1">{tStr("I'm your personal temple guide. Ask me anything:")}</p>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
               {quick.map(q => (
-                <button key={q} onClick={() => send(q)} className="text-base rounded-full bg-white border border-border px-3.5 py-2 hover:border-saffron/40">{q}</button>
+                <button key={q} onClick={() => send(q)} className="text-base rounded-full bg-white border border-border px-3.5 py-2 hover:border-saffron/40">{tStr(q)}</button>
               ))}
             </div>
           </div>
@@ -72,7 +74,7 @@ function ChatPage() {
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role==="user"?"justify-end":"justify-start"} fade-in`}>
                 <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-base ${m.role==="user"?"bg-user-bg rounded-br-md":"bg-ai-bg rounded-bl-md"}`}>
-                  <div className="whitespace-pre-wrap">{m.text}</div>
+                  <div className="whitespace-pre-wrap">{m.role === "user" ? tStr(m.text) : m.text}</div>
                   {m.card}
                 </div>
               </div>
@@ -94,7 +96,7 @@ function ChatPage() {
       {/* Input */}
       <div className="fixed lg:sticky bottom-16 lg:bottom-0 inset-x-0 bg-white border-t border-border p-3 lg:p-4 z-30">
         <div className="max-w-2xl mx-auto flex items-center gap-2 bg-secondary rounded-full border border-border/80 shadow-sm px-4 py-2">
-          <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key==="Enter" && send(input)} placeholder="Ask about any temple..." className="flex-1 bg-transparent outline-none text-lg text-white placeholder:text-white/70" />
+          <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key==="Enter" && send(input)} placeholder={tStr("Ask about any temple...")} className="flex-1 bg-transparent outline-none text-lg text-white placeholder:text-white/70" />
           <button className="w-9 h-9 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors"><Mic className="w-5 h-5" /></button>
           <button onClick={() => send(input)} className="w-10 h-10 rounded-full gradient-saffron text-white flex items-center justify-center hover:scale-105 transition-transform"><Send className="w-5 h-5" /></button>
         </div>
@@ -103,7 +105,7 @@ function ChatPage() {
   );
 }
 
-function generateReply(q: string): Msg {
+function generateReply(q: string, tStr: any): Msg {
   const lower = q.toLowerCase();
   const t = temples.find(x => lower.includes(x.name.split(" ")[0].toLowerCase()) || lower.includes(x.slug.split("-")[0]));
 
@@ -111,13 +113,13 @@ function generateReply(q: string): Msg {
     const sorted = [...temples].sort((a,b) => a.crowdPct - b.crowdPct).slice(0,3);
     return {
       role: "ai",
-      text: "🙏 Here are the temples with the least crowd right now:",
+      text: "🙏 " + tStr("Here are the temples with the least crowd right now:"),
       card: <div className="mt-3 space-y-2">{sorted.map(t => (
         <Link key={t.id} to="/temple/$slug" params={{ slug: t.slug }} className="flex items-center gap-2 p-2 bg-white rounded-xl border border-border">
           <div className="w-10 h-10 rounded-full flex items-center justify-center text-white shrink-0 shadow-sm bg-cover bg-center overflow-hidden border border-border/50 relative" style={{ backgroundImage: `url(${t.image})`, backgroundColor: t.color }}>
             {!t.image && <span className="font-serif text-base drop-shadow-md">ॐ</span>}
           </div>
-          <div className="flex-1 min-w-0"><div className="font-serif text-base font-semibold truncate">{t.name}</div><div className="text-sm text-muted-foreground">{t.district} · {t.waitMin}m wait</div></div>
+          <div className="flex-1 min-w-0"><div className="font-serif text-base font-semibold truncate">{tStr(t.name)}</div><div className="text-sm text-muted-foreground">{tStr(t.district)} · {t.waitMin}m {tStr("wait")}</div></div>
           <CrowdBadge status={t.crowdStatus} />
         </Link>
       ))}</div>
@@ -127,14 +129,14 @@ function generateReply(q: string): Msg {
   if (t && (lower.includes("crowd") || lower.includes("status") || lower.includes("wait"))) {
     return {
       role: "ai",
-      text: `🙏 Here's the live status for ${t.name}:`,
+      text: `🙏 ${tStr("Here's the live status for")} ${tStr(t.name)}:`,
       card: (
         <div className="mt-3 bg-white rounded-xl border border-border p-3 space-y-1.5">
-          <div className="font-serif font-semibold text-base">{t.name}</div>
-          <div className="flex items-center gap-2 text-base"><CrowdBadge status={t.crowdStatus} /> right now</div>
-          <div className="text-base">⏱ Wait: {t.waitMin} min</div>
-          <div className="text-base text-saffron">🤖 Best time: 3 – 5 PM</div>
-          <Link to="/temple/$slug" params={{ slug: t.slug }} className="text-base text-saffron font-medium">View temple details →</Link>
+          <div className="font-serif font-semibold text-base">{tStr(t.name)}</div>
+          <div className="flex items-center gap-2 text-base"><CrowdBadge status={t.crowdStatus} /> {tStr("right now")}</div>
+          <div className="text-base">⏱ {tStr("Wait:")} {t.waitMin} min</div>
+          <div className="text-base text-saffron">🤖 {tStr("Best time: 3 – 5 PM")}</div>
+          <Link to="/temple/$slug" params={{ slug: t.slug }} className="text-base text-saffron font-medium">{tStr("View temple details →")}</Link>
         </div>
       )
     };
@@ -143,22 +145,22 @@ function generateReply(q: string): Msg {
   if (t && (lower.includes("time") || lower.includes("best") || lower.includes("when"))) {
     return {
       role: "ai",
-      text: `✨ Best times to visit ${t.name} today:\n🌅 Early morning 6:00–7:30 AM — Very peaceful\n🌇 Afternoon 3:00–5:30 PM — Recommended ⭐\n🌙 Evening 7:00–8:30 PM — Moderate crowd\n\nAvoid 9:00–11:30 AM. It's a ${t.specialDay} special day — early morning will be extra auspicious. 🙏`
+      text: `✨ ${tStr("Best times to visit")} ${tStr(t.name)} ${tStr("today:")}\n🌅 ${tStr("Early morning 6:00–7:30 AM — Very peaceful")}\n🌇 ${tStr("Afternoon 3:00–5:30 PM — Recommended ⭐")}\n🌙 ${tStr("Evening 7:00–8:30 PM — Moderate crowd")}\n\n${tStr("Avoid 9:00–11:30 AM.")} ${tStr("It's a")} ${t.specialDay} ${tStr("special day — early morning will be extra auspicious. 🙏")}`
     };
   }
 
   if (t && lower.includes("parking")) {
     return {
       role: "ai",
-      text: `🚗 Parking at ${t.name}:\n• Lot A: ${t.parking.lotA}% full\n• Lot B: ${t.parking.lotB}% full\n• Overflow: ${t.parking.overflow}% — available\n\nTip: Park at Lot B or the overflow lot after 3 PM.`
+      text: `🚗 ${tStr("Parking at")} ${tStr(t.name)}:\n• ${tStr("Lot A:")} ${t.parking.lotA}% full\n• ${tStr("Lot B:")} ${t.parking.lotB}% full\n• ${tStr("Overflow:")} ${t.parking.overflow}% — ${tStr("available")}\n\n${tStr("Tip: Park at Lot B or the overflow lot after 3 PM.")}`
     };
   }
 
   if (t && (lower.includes("pooja") || lower.includes("timing") || lower.includes("schedule"))) {
     return {
       role: "ai",
-      text: `🪔 Today's pooja schedule for ${t.name}:`,
-      card: <div className="mt-3 bg-white rounded-xl border border-border p-3 space-y-1 text-base">{t.poojas.map(p => <div key={p} className="flex justify-between border-b border-border last:border-0 py-1"><span>{p.split(" ").slice(2).join(" ")}</span><span className="text-muted-foreground">{p.split(" ").slice(0,2).join(" ")}</span></div>)}</div>
+      text: `🪔 ${tStr("Today's pooja schedule for")} ${tStr(t.name)}:`,
+      card: <div className="mt-3 bg-white rounded-xl border border-border p-3 space-y-1 text-base">{t.poojas.map(p => <div key={p} className="flex justify-between border-b border-border last:border-0 py-1"><span>{tStr(p.split(" ").slice(2).join(" "))}</span><span className="text-muted-foreground">{p.split(" ").slice(0,2).join(" ")}</span></div>)}</div>
     };
   }
 
@@ -166,18 +168,18 @@ function generateReply(q: string): Msg {
     const m = temples.filter(t => t.deity.toLowerCase().includes("murugan"));
     return {
       role: "ai",
-      text: "🕉 Murugan temples I track across Tamil Nadu:",
+      text: "🕉 " + tStr("Murugan temples I track across Tamil Nadu:"),
       card: <div className="mt-3 space-y-2">{m.map(t => (
         <Link key={t.id} to="/temple/$slug" params={{ slug: t.slug }} className="flex items-center gap-2 p-2 bg-white rounded-xl border border-border">
           <div className="w-10 h-10 rounded-full flex items-center justify-center text-white shrink-0 shadow-sm bg-cover bg-center overflow-hidden border border-border/50 relative" style={{ backgroundImage: `url(${t.image})`, backgroundColor: t.color }}>
             {!t.image && <span className="font-serif text-base drop-shadow-md">ॐ</span>}
           </div>
-          <div className="flex-1 min-w-0"><div className="font-serif text-base font-semibold truncate">{t.name}</div><div className="text-sm text-muted-foreground">{t.district}</div></div>
+          <div className="flex-1 min-w-0"><div className="font-serif text-base font-semibold truncate">{tStr(t.name)}</div><div className="text-sm text-muted-foreground">{tStr(t.district)}</div></div>
           <CrowdBadge status={t.crowdStatus} />
         </Link>
       ))}</div>
     };
   }
 
-  return { role: "ai", text: "🙏 I can help with live crowd status, best times to visit, parking, pooja timings, and temple recommendations across Tamil Nadu. Try asking about a specific temple like Palani, Meenakshi, or Srirangam." };
+  return { role: "ai", text: "🙏 " + tStr("I can help with live crowd status, best times to visit, parking, pooja timings, and temple recommendations across Tamil Nadu. Try asking about a specific temple like Palani, Meenakshi, or Srirangam.") };
 }

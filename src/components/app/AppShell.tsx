@@ -1,5 +1,7 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { Home, Sparkles, Map, Bell, Calendar, Navigation, Settings, HeartHandshake, MessageCircle, ArrowLeft } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "../LanguageSwitcher";
 import { OmWatermark } from "./OmWatermark";
 import logoPng from "../../assets/logo.png";
 
@@ -17,6 +19,7 @@ const sidebarExtras = [
 ];
 
 export function AppShell() {
+  const { t } = useTranslation();
   const pathname = useRouterState({ select: r => r.location.pathname });
   const isActive = (to: string, exact?: boolean) =>
     exact ? pathname === to : pathname === to || pathname.startsWith(to + "/");
@@ -66,18 +69,21 @@ export function AppShell() {
                   <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-10 bg-gradient-to-b from-white to-white/60 rounded-r-full shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                 )}
                 <Icon className={`w-6 h-6 shrink-0 transition-transform duration-300 ${active ? "scale-110 text-white drop-shadow-md" : "group-hover:scale-110 group-hover:text-white"}`} />
-                <span className="tracking-wide drop-shadow-sm">{item.label}</span>
+                <span className="tracking-wide drop-shadow-sm">{t(item.label)}</span>
               </Link>
             );
           })}
         </nav>
 
         {/* Footer */}
-        <div className="px-3 py-3 border-t border-white/10">
-          <Link to="/profile" className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/10 transition-colors">
-            <Settings className="w-4 h-4" /> Settings
-          </Link>
-          <div className="px-3 mt-1 text-xs text-white/30 font-serif">வாழ்க வளமுடன்</div>
+        <div className="px-3 py-3 border-t border-white/10 flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <Link to="/profile" className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/10 transition-colors">
+              <Settings className="w-4 h-4" /> {t("Settings")}
+            </Link>
+            <LanguageSwitcher className="w-8 h-8 text-white/60 hover:text-white" />
+          </div>
+          <div className="px-4 mt-1 text-xs text-white/30 font-serif">வாழ்க வளமுடன்</div>
         </div>
       </aside>
 
@@ -96,12 +102,15 @@ export function AppShell() {
               <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-md overflow-hidden bg-white p-[1px] ring-1 ring-white/20 transition-transform group-hover:scale-105">
                 <img src={logoPng} alt="OMG Logo" className="w-full h-full object-contain rounded-md" />
               </div>
-              <div className="font-serif font-bold text-lg text-white tracking-wide">OMG Devotee</div>
+              <div className="font-serif font-bold text-lg text-white tracking-wide">{t("OMG Devotee")}</div>
             </Link>
           </div>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 text-white/80 transition-colors">
-            <Bell className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher className="w-8 h-8 text-white/80" />
+            <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 text-white/80 transition-colors">
+              <Bell className="w-5 h-5" />
+            </button>
+          </div>
         </header>
 
         <div className="flex-1 relative">
@@ -127,7 +136,7 @@ export function AppShell() {
               <div className={`p-1 rounded-lg transition-all ${active ? "bg-[#e32c26]/10" : ""}`}>
                 <Icon className="w-5 h-5" />
               </div>
-              <span className={`font-medium ${active ? "opacity-100" : "opacity-70"}`}>{item.label}</span>
+              <span className={`font-medium ${active ? "opacity-100" : "opacity-70"}`}>{t(item.label)}</span>
             </Link>
           );
         })}

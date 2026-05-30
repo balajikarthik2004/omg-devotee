@@ -3,6 +3,7 @@ import { getTemple, forecastFor, temples } from "@/data/temples";
 import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Share2, Bookmark, Bell, Sparkles, Navigation, MessageCircle, MapPin, Clock, CheckCircle2, XCircle, AlertTriangle, Sunrise, Sun, Moon, Lock } from "lucide-react";
 import { Area, AreaChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { useTranslation } from "react-i18next";
 import { CrowdBadge } from "@/components/app/CrowdBadge";
 
 import muruganImg from "@/assets/murugan.png";
@@ -45,6 +46,7 @@ function TempleDetail() {
   const nowHour = new Date().getHours();
   const [pct, setPct] = useState(t.crowdPct);
   const [wait, setWait] = useState(t.waitMin);
+  const { t: tStr } = useTranslation();
   const [alertOn, setAlertOn] = useState(false);
 
   useEffect(() => {
@@ -55,7 +57,7 @@ function TempleDetail() {
     return () => clearInterval(i);
   }, []);
 
-  const tabContent = ["About", "Facilities", "Nearby", "Reviews"];
+  const tabContent = [tStr("About"), tStr("Facilities"), tStr("Nearby"), tStr("Reviews")];
   const [tab, setTab] = useState(0);
 
   const now = new Date();
@@ -81,9 +83,9 @@ function TempleDetail() {
           </div>
         </div>
         <div className="absolute bottom-0 inset-x-0 p-5 lg:p-8 text-white z-10">
-          <h1 className="font-serif text-3xl lg:text-4xl font-semibold leading-tight drop-shadow-lg">{t.name}</h1>
-          <div className="text-sm opacity-90 mt-1 drop-shadow-md">{t.established || "Ancient temple"} · {t.tier || "Major Kshetram"}</div>
-          <div className="text-sm opacity-90 flex items-center gap-1 mt-1 drop-shadow-md"><MapPin className="w-4 h-4" /> {t.city}, {t.district} District</div>
+          <h1 className="font-serif text-3xl lg:text-4xl font-semibold leading-tight drop-shadow-lg">{tStr(t.name)}</h1>
+          <div className="text-sm opacity-90 mt-1 drop-shadow-md">{tStr(t.established || "Ancient temple")} · {tStr(t.tier || "Major Kshetram")}</div>
+          <div className="text-sm opacity-90 flex items-center gap-1 mt-1 drop-shadow-md"><MapPin className="w-4 h-4" /> {tStr(t.city)}, {tStr(t.district)} {tStr("District")}</div>
         </div>
       </div>
 
@@ -95,12 +97,12 @@ function TempleDetail() {
 
           <div className="grid gap-8 md:grid-cols-3 md:items-center relative z-10">
             <div>
-              <div className="text-3xl font-bold font-serif text-slate-900 tracking-tight">{t.name}</div>
-              <div className="text-sm text-slate-500 mt-1 font-medium tracking-wide uppercase">Crowd Intelligence Dashboard</div>
+              <div className="text-3xl font-bold font-serif text-slate-900 tracking-tight">{tStr(t.name)}</div>
+              <div className="text-sm text-slate-500 mt-1 font-medium tracking-wide uppercase">{tStr("Crowd Intelligence Dashboard")}</div>
               <div className="flex flex-wrap items-center gap-3 mt-6">
                 <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 border border-emerald-200/60 px-3.5 py-1.5 text-xs font-bold tracking-wider text-emerald-700 shadow-sm">
                   <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
-                  LIVE <span className="text-emerald-600/80 font-semibold normal-case tracking-normal ml-1">· Updated {now.toLocaleTimeString("en-IN", { hour12: false })}</span>
+                  {tStr("LIVE")} <span className="text-emerald-600/80 font-semibold normal-case tracking-normal ml-1">· {tStr("Updated")} {now.toLocaleTimeString("en-IN", { hour12: false })}</span>
                 </div>
               </div>
             </div>
@@ -112,38 +114,38 @@ function TempleDetail() {
 
                 <div className="relative z-10 flex flex-col items-center text-center">
                   <div className="inline-flex items-center gap-1.5 bg-rose-50 border border-rose-100/50 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-rose-600 mb-4 shadow-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" /> Live Darshan Wait
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" /> {tStr("Live Darshan Wait")}
                   </div>
 
                   <div className="flex items-baseline gap-1.5 justify-center">
                     <div className="text-6xl font-extrabold tabular-nums tracking-tighter text-slate-800 drop-shadow-sm">{wait}</div>
-                    <div className="text-xl font-bold text-slate-500 mb-2">mins</div>
+                    <div className="text-xl font-bold text-slate-500 mb-2">{tStr("mins")}</div>
                   </div>
 
                   <div className="mt-3 text-[13px] font-medium text-slate-600 leading-relaxed bg-slate-50 border border-slate-100 rounded-xl p-3 w-full shadow-inner">
-                    If you join the line now,<br />
-                    you will reach the Sanctum in <strong className="text-rose-600 font-bold">{wait} mins</strong>.
+                    {tStr("If you join the line now,")}<br />
+                    {tStr("you will reach the Sanctum in")} <strong className="text-rose-600 font-bold">{wait} {tStr("mins")}</strong>.
                   </div>
                 </div>
               </div>
             </div>
             <div className="space-y-3.5 text-sm">
-              <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Today's Total Devotee</span><span className="font-bold tabular-nums text-slate-800">38,240</span></div>
+              <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">{tStr("Today's Total Devotee")}</span><span className="font-bold tabular-nums text-slate-800">38,240</span></div>
               <div className="flex justify-between border-b border-slate-200/60 pb-2.5">
-                <span className="text-slate-500 font-medium">Peak (10:30 AM)</span>
+                <span className="text-slate-500 font-medium">{tStr("Peak (10:30 AM)")}</span>
                 <span className="text-right">
                   <div className="font-bold tabular-nums text-slate-800">15,820</div>
-                  <div className="text-[11px] font-bold text-rose-500 mt-0.5">Maximum Wait: ~{t.waitMin + 45} mins</div>
+                  <div className="text-[11px] font-bold text-rose-500 mt-0.5">{tStr("Maximum Wait:")} ~{t.waitMin + 45} {tStr("mins")}</div>
                 </span>
               </div>
-              <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Darshan Flow</span><span className="font-bold text-emerald-600">1,250 / hr</span></div>
+              <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">{tStr("Darshan Flow")}</span><span className="font-bold text-emerald-600">1,250 / {tStr("hr")}</span></div>
               <div className="flex justify-between">
                 <span className="text-slate-500 font-medium">
-                  Next Peak <br /> (5:00 PM - 6:30 PM)
+                  {tStr("Next Peak")} <br /> (5:00 PM - 6:30 PM)
                 </span>
                 <span className="text-right">
-                  <div className="font-bold ">18,500 Expected</div>
-                  <div className="text-[11px] font-bold text-rose-500 mt-0.5">Expected Wait: ~{t.waitMin + 60} mins</div>
+                  <div className="font-bold ">18,500 {tStr("Expected")}</div>
+                  <div className="text-[11px] font-bold text-rose-500 mt-0.5">{tStr("Expected Wait:")} ~{t.waitMin + 60} {tStr("mins")}</div>
                 </span>
               </div>
             </div>
@@ -161,15 +163,15 @@ function TempleDetail() {
 
             <div className="relative z-10">
               <div className="flex items-center gap-2 text-indigo-700 font-bold text-lg mb-1">
-                <Sparkles className="w-5 h-5" /> AI Visit Intelligence
+                <Sparkles className="w-5 h-5" /> {tStr("AI Visit Intelligence")}
               </div>
-              <div className="text-sm text-muted-foreground mb-5">Predictive insights based on live crowd data & historical trends</div>
+              <div className="text-sm text-muted-foreground mb-5">{tStr("Predictive insights based on live crowd data & historical trends")}</div>
 
               <div className="grid sm:grid-cols-2 gap-3 mb-6">
-                <SlotCard ok time="5:30 – 7:00 AM" period="Morning" label="Highly Recommended" />
-                <SlotCard warn time="10:00 – 11:00 AM" period="Mid-morning" label="Moderate Crowd" />
-                <SlotCard ok time="3:00 – 5:30 PM" period="Afternoon" label="Recommended" />
-                <SlotCard bad time="8:30 – 10:00 AM" period="Avoid" label="School Groups Rush" />
+                <SlotCard ok time="5:30 – 7:00 AM" period={tStr("Morning")} label={tStr("Highly Recommended")} />
+                <SlotCard warn time="10:00 – 11:00 AM" period={tStr("Mid-morning")} label={tStr("Moderate Crowd")} />
+                <SlotCard ok time="3:00 – 5:30 PM" period={tStr("Afternoon")} label={tStr("Recommended")} />
+                <SlotCard bad time="8:30 – 10:00 AM" period={tStr("Avoid")} label={tStr("School Groups Rush")} />
               </div>
 
               <div className="bg-white/80 backdrop-blur-md border border-indigo-100/50 rounded-xl p-4 shadow-sm flex gap-3">
@@ -177,8 +179,8 @@ function TempleDetail() {
                   <Sparkles className="w-4 h-4 text-indigo-600" />
                 </div>
                 <div className="text-sm text-slate-700 leading-relaxed">
-                  <span className="font-semibold text-indigo-900 block mb-1">Insight for Today</span>
-                  Today is <strong>{t.specialDay}</strong> — a highly auspicious day. Our models predict a <strong>40% surge</strong> in devotees. For a peaceful darshan, arrive before 7:00 AM or after 3:00 PM.
+                  <span className="font-semibold text-indigo-900 block mb-1">{tStr("Insight for Today")}</span>
+                  {tStr("Today is")} <strong>{t.specialDay}</strong> — {tStr("a highly auspicious day. Our models predict a")} <strong>40% {tStr("surge")}</strong> {tStr("in devotees. For a peaceful darshan, arrive before 7:00 AM or after 3:00 PM.")}
                 </div>
               </div>
 
@@ -187,7 +189,7 @@ function TempleDetail() {
                   <span className="absolute inset-0 rounded-full border-2 border-indigo-400 animate-[ping_2s_ease-in-out_infinite] opacity-40 pointer-events-none" />
                   <div className="absolute inset-0 bg-white/20 group-hover:translate-x-[150%] -translate-x-[150%] skew-x-12 transition-transform duration-700 ease-out pointer-events-none" />
                   <Sparkles className="w-4 h-4 relative z-10" />
-                  <span className="relative z-10 tracking-wide">Ask AI Assistant</span>
+                  <span className="relative z-10 tracking-wide">{tStr("Ask AI Assistant")}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10" />
                 </Link>
               </div>
@@ -197,8 +199,8 @@ function TempleDetail() {
           {/* Forecast chart */}
           <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-serif text-xl font-bold text-slate-900">Today's crowd forecast</h3>
-              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">6 AM – 9 PM</span>
+              <h3 className="font-serif text-xl font-bold text-slate-900">{tStr("Today's crowd forecast")}</h3>
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">{tStr("6 AM – 9 PM")}</span>
             </div>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
@@ -211,7 +213,7 @@ function TempleDetail() {
                   </defs>
                   <XAxis dataKey="label" tick={{ fontSize: 11 }} interval={1} stroke="#A8A29E" />
                   <YAxis tick={{ fontSize: 11 }} stroke="#A8A29E" />
-                  <Tooltip formatter={(v: any) => [`${v}%`, "Crowd"]} contentStyle={{ borderRadius: 12, border: "1px solid #F5F0E8" }} />
+                  <Tooltip formatter={(v: any) => [`${v}%`, tStr("Crowd")]} contentStyle={{ borderRadius: 12, border: "1px solid #F5F0E8" }} />
                   <ReferenceLine x={`${nowHour > 12 ? nowHour - 12 : nowHour}${nowHour >= 12 ? 'PM' : 'AM'}`} stroke="#1C1917" strokeDasharray="3 3" />
                   <Area type="monotone" dataKey="pct" stroke="#F97316" strokeWidth={2} fill="url(#g1)" />
                 </AreaChart>
@@ -221,34 +223,34 @@ function TempleDetail() {
 
           {/* Timings */}
           <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
-            <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-status-low animate-pulse" /><span className="font-bold text-slate-800">Temple is open</span></div>
+            <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-status-low animate-pulse" /><span className="font-bold text-slate-800">{tStr("Temple is open")}</span></div>
             <div className="mt-5 grid sm:grid-cols-2 gap-y-6 gap-x-4 text-sm">
               <div>
-                <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">Morning</div>
-                <div className="font-semibold text-slate-800">Open {formatHM(t.openTime)}</div>
-                <div className="text-slate-500 mt-0.5">First Pooja {t.poojas[0]?.split(" ").slice(0, 2).join(" ")}</div>
+                <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">{tStr("Morning")}</div>
+                <div className="font-semibold text-slate-800">{tStr("Open")} {formatHM(t.openTime)}</div>
+                <div className="text-slate-500 mt-0.5">{tStr("First Pooja")} {t.poojas[0]?.split(" ").slice(0, 2).join(" ")}</div>
               </div>
               <div>
-                <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">Afternoon Break</div>
-                <div className="font-semibold text-slate-800">{t.afternoonClose ? `Closed ${formatHM(t.afternoonClose)}` : 'No Afternoon Break'}</div>
-                <div className="text-slate-500 mt-0.5">{t.afternoonOpen ? `Until ${formatHM(t.afternoonOpen)}` : 'Open All Day'}</div>
+                <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">{tStr("Afternoon Break")}</div>
+                <div className="font-semibold text-slate-800">{t.afternoonClose ? `${tStr("Closed")} ${formatHM(t.afternoonClose)}` : tStr("No Afternoon Break")}</div>
+                <div className="text-slate-500 mt-0.5">{t.afternoonOpen ? `${tStr("Until")} ${formatHM(t.afternoonOpen)}` : tStr("Open All Day")}</div>
               </div>
               <div>
-                <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">Evening</div>
-                <div className="font-semibold text-slate-800">{t.afternoonOpen ? `Reopens ${formatHM(t.afternoonOpen)}` : 'Evening Darshan'}</div>
-                <div className="text-slate-500 mt-0.5">Last Pooja {t.poojas[t.poojas.length - 1]?.split(" ").slice(0, 2).join(" ")}</div>
+                <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">{tStr("Evening")}</div>
+                <div className="font-semibold text-slate-800">{t.afternoonOpen ? `${tStr("Reopens")} ${formatHM(t.afternoonOpen)}` : tStr("Evening Darshan")}</div>
+                <div className="text-slate-500 mt-0.5">{tStr("Last Pooja")} {t.poojas[t.poojas.length - 1]?.split(" ").slice(0, 2).join(" ")}</div>
               </div>
               <div>
-                <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">Closes</div>
-                <div className="font-semibold text-slate-800">Last Entry {formatHM(t.closeTime)}</div>
-                <div className="text-slate-500 mt-0.5">Gates close {formatHM(t.closeTime)}</div>
+                <div className="text-slate-500 font-bold tracking-widest uppercase text-xs mb-1">{tStr("Closes")}</div>
+                <div className="font-semibold text-slate-800">{tStr("Last Entry")} {formatHM(t.closeTime)}</div>
+                <div className="text-slate-500 mt-0.5">{tStr("Gates close")} {formatHM(t.closeTime)}</div>
               </div>
             </div>
             <div className="mt-6 flex">
               <Link to="/poojas" className="relative group inline-flex items-center justify-center gap-2.5 text-sm font-bold text-white px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_25px_rgba(249,115,22,0.4)] bg-gradient-to-r from-orange-500 to-rose-500 shadow-lg shadow-orange-200 overflow-hidden w-full sm:w-auto">
                 <span className="absolute inset-0 rounded-full border-2 border-orange-400 animate-[ping_2s_ease-in-out_infinite] opacity-40 pointer-events-none" />
                 <div className="absolute inset-0 bg-white/20 group-hover:translate-x-[150%] -translate-x-[150%] skew-x-12 transition-transform duration-700 ease-out pointer-events-none" />
-                <span className="relative z-10 tracking-wide">View full pooja schedule</span>
+                <span className="relative z-10 tracking-wide">{tStr("View full pooja schedule")}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10" />
               </Link>
             </div>
@@ -256,11 +258,11 @@ function TempleDetail() {
 
           {/* Parking */}
           <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
-            <h3 className="font-serif text-xl font-bold text-slate-900">Parking status</h3>
+            <h3 className="font-serif text-xl font-bold text-slate-900">{tStr("Parking status")}</h3>
             <div className="mt-4 grid sm:grid-cols-3 gap-4">
               {(["lotA", "lotB", "overflow"] as const).map((k, i) => {
                 const v = t.parking[k];
-                const label = k === "lotA" ? "Lot A" : k === "lotB" ? "Lot B" : "Overflow";
+                const label = k === "lotA" ? tStr("Lot A") : k === "lotB" ? tStr("Lot B") : tStr("Overflow");
                 const colorClass = v > 80 ? "text-rose-600" : v > 50 ? "text-amber-500" : "text-emerald-500";
                 const bgClass = v > 80 ? "bg-rose-500" : v > 50 ? "bg-amber-500" : "bg-emerald-500";
                 return (
@@ -276,7 +278,7 @@ function TempleDetail() {
             </div>
             <div className="mt-4 text-sm font-medium text-indigo-900 bg-indigo-50 border border-indigo-100 rounded-2xl p-4 flex items-start gap-3">
               <span className="text-xl">🤖</span>
-              <span>Park at Lot B or the overflow lot today — Lot A will be full by 10:30 AM.</span>
+              <span>{tStr("Park at Lot B or the overflow lot today — Lot A will be full by 10:30 AM.")}</span>
             </div>
           </div>
         </div>
@@ -290,7 +292,7 @@ function TempleDetail() {
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-4 text-orange-600">
                 <Bell className="w-5 h-5" />
-                <h3 className="font-serif text-xl font-bold text-slate-900">Smart Alerts</h3>
+                <h3 className="font-serif text-xl font-bold text-slate-900">{tStr("Smart Alerts")}</h3>
               </div>
 
               <div className="bg-white/60 backdrop-blur-sm border border-orange-100/50 rounded-2xl p-5 mb-6">
@@ -314,28 +316,28 @@ function TempleDetail() {
                     </div>
                     <div>
                       <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest">Capacity</div>
-                      <div className="text-sm font-semibold text-slate-800 leading-tight mt-0.5">{pct > 80 ? "High Crowd" : pct > 50 ? "Moderate Crowd" : "Low Crowd"}</div>
+                      <div className="text-sm font-semibold text-slate-800 leading-tight mt-0.5">{pct > 80 ? tStr("High Crowd") : pct > 50 ? tStr("Moderate Crowd") : tStr("Low Crowd")}</div>
                     </div>
                   </div>
 
                   <div className="sm:text-right sm:border-l border-slate-200/50 sm:pl-4">
                     <div className="text-xl font-extrabold tabular-nums tracking-tight text-slate-900 drop-shadow-sm">{t.crowd.toLocaleString()}</div>
-                    <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">Devotees Inside</div>
+                    <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">{tStr("Devotees Inside")}</div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2 mb-4 pb-4 border-b border-slate-200/50 text-center">
                   <div>
                     <div className="text-xl font-extrabold tabular-nums tracking-tight text-slate-900 drop-shadow-sm">4,320</div>
-                    <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">In queue</div>
+                    <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">{tStr("In queue")}</div>
                   </div>
                   <div className="border-l border-slate-200/50">
                     <div className="text-xl font-extrabold tabular-nums tracking-tight text-slate-900 drop-shadow-sm">45m</div>
-                    <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">Wait</div>
+                    <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">{tStr("Wait")}</div>
                   </div>
                   <div className="border-l border-slate-200/50">
                     <div className="text-xl font-extrabold tabular-nums tracking-tight text-slate-900 drop-shadow-sm">8m</div>
-                    <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">Darshan</div>
+                    <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest mt-0.5">{tStr("Darshan")}</div>
                   </div>
                 </div>
 
@@ -344,8 +346,8 @@ function TempleDetail() {
                     <Bell className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-800 leading-tight">Get notified when capacity drops</p>
-                    <p className="text-[11px] font-medium text-slate-500 mt-0.5">We'll alert you when wait time is under 30 mins.</p>
+                    <p className="text-sm font-semibold text-slate-800 leading-tight">{tStr("Get notified when capacity drops")}</p>
+                    <p className="text-[11px] font-medium text-slate-500 mt-0.5">{tStr("We'll alert you when wait time is under 30 mins.")}</p>
                   </div>
                 </div>
               </div>
@@ -359,7 +361,7 @@ function TempleDetail() {
               >
                 <div className="relative z-10 flex items-center justify-center gap-2">
                   {alertOn ? <CheckCircle2 className="w-4 h-4" /> : <Bell className="w-4 h-4" />}
-                  {alertOn ? "Alert Active" : "Alert me when crowd drops"}
+                  {alertOn ? tStr("Alert Active") : tStr("Alert me when crowd drops")}
                 </div>
               </button>
             </div>
@@ -376,8 +378,8 @@ function TempleDetail() {
               {tab === 0 && (
                 <div className="space-y-5">
                   <div className="flex flex-col gap-1.5 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Deity</span>
-                    <span className="font-bold text-slate-900 break-words">{t.deity}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">{tStr("Deity")}</span>
+                    <span className="font-bold text-slate-900 break-words">{tStr(t.deity)}</span>
                   </div>
                   <div className="leading-relaxed text-sm text-slate-700 font-medium">{t.description}</div>
                 </div>
@@ -418,14 +420,14 @@ function TempleDetail() {
           </div>
 
           <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
-            <h3 className="font-serif text-xl font-bold text-slate-900 mb-4">Other temples nearby</h3>
+            <h3 className="font-serif text-xl font-bold text-slate-900 mb-4">{tStr("Other temples nearby")}</h3>
             <div className="space-y-2">
               {temples.filter(o => o.id !== t.id).slice(0, 4).map(o => (
                 <Link key={o.id} to="/temple/$slug" params={{ slug: o.slug }} className="group flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-serif shadow-sm group-hover:scale-105 transition-transform" style={{ background: o.color }}>ॐ</div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-serif text-sm font-bold text-slate-800 truncate group-hover:text-saffron transition-colors">{o.name}</div>
-                    <div className="text-xs font-medium text-slate-500 mt-0.5">{o.district}</div>
+                    <div className="font-serif text-sm font-bold text-slate-800 truncate group-hover:text-saffron transition-colors">{tStr(o.name)}</div>
+                    <div className="text-xs font-medium text-slate-500 mt-0.5">{tStr(o.district)}</div>
                   </div>
                   <CrowdBadge status={o.crowdStatus} />
                 </Link>
@@ -437,10 +439,10 @@ function TempleDetail() {
 
       {/* Sticky action bar (mobile) */}
       <div className="lg:hidden fixed bottom-16 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-border p-2 grid grid-cols-4 gap-2">
-        <ActionBtn icon={<Navigation className="w-4 h-4" />} label="Navigate" />
-        <ActionBtn icon={<Bell className="w-4 h-4" />} label="Alert" />
-        <Link to="/chat" className="flex flex-col items-center justify-center gap-0.5 text-[11px] text-foreground/80"><MessageCircle className="w-4 h-4" />Ask AI</Link>
-        <ActionBtn icon={<Share2 className="w-4 h-4" />} label="Share" />
+        <ActionBtn icon={<Navigation className="w-4 h-4" />} label={tStr("Navigate")} />
+        <ActionBtn icon={<Bell className="w-4 h-4" />} label={tStr("Alert")} />
+        <Link to="/chat" className="flex flex-col items-center justify-center gap-0.5 text-[11px] text-foreground/80"><MessageCircle className="w-4 h-4" />{tStr("Ask AI")}</Link>
+        <ActionBtn icon={<Share2 className="w-4 h-4" />} label={tStr("Share")} />
       </div>
     </div>
   );

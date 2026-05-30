@@ -3,6 +3,7 @@ import { useMemo, useState, useEffect } from "react";
 import { Search, Mic, Sparkles, Sunrise, Sun, Moon, ArrowRight, MapPin, BellRing, Landmark, ChevronDown, Bell, Calendar, HandHeart, Ticket, Coins, PackageOpen, Heart } from "lucide-react";
 import { temples, districts } from "@/data/temples";
 import { CrowdBadge } from "@/components/app/CrowdBadge";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/_app/")({
   head: () => ({
@@ -22,11 +23,11 @@ function greeting() {
 }
 
 function Dashboard() {
-  const g = greeting();
+  const { t } = useTranslation();
   const [q, setQ] = useState("");
   const [district, setDistrict] = useState<string>("");
   const [activeFilter, setActiveFilter] = useState<string>("All");
-
+  
   const [templeOpen, setTempleOpen] = useState(false);
   const [districtOpen, setDistrictOpen] = useState(false);
   const [bellOpen, setBellOpen] = useState(false);
@@ -82,7 +83,7 @@ function Dashboard() {
               className="relative flex items-center gap-2.5 rounded-full border border-border bg-white px-4 py-2.5 text-sm font-semibold shadow-sm transition-all hover:border-saffron/30"
             >
               <MapPin size={15} className="text-saffron transition-transform group-hover:scale-110" />
-              <span className="text-foreground tracking-wide">{district || "All Districts"}</span>
+              <span className="text-foreground tracking-wide">{district ? t(district) : t("All Districts")}</span>
               <ChevronDown size={14} className="text-muted-foreground transition-transform group-hover:translate-y-0.5 ml-1" />
             </button>
             {districtOpen && (
@@ -95,7 +96,7 @@ function Dashboard() {
                       : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
                       }`}
                   >
-                    <span className="truncate">All Districts</span>
+                    <span className="truncate">{t("All Districts")}</span>
                     {!district && <span className="w-1.5 h-1.5 rounded-full bg-saffron" />}
                   </button>
                   {districts.map((d) => (
@@ -107,7 +108,7 @@ function Dashboard() {
                         : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
                         }`}
                     >
-                      <span className="truncate">{d}</span>
+                      <span className="truncate">{t(d)}</span>
                       {d === district && <span className="w-1.5 h-1.5 rounded-full bg-saffron" />}
                     </button>
                   ))}
@@ -124,23 +125,23 @@ function Dashboard() {
               className="relative flex items-center gap-2.5 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold shadow-sm transition-all hover:border-saffron/30"
             >
               <Landmark size={15} className="text-saffron transition-transform group-hover:scale-110" />
-              <span className="text-foreground tracking-wide">{activeTemple.name}</span>
+              <span className="text-foreground tracking-wide">{t(activeTemple.name)}</span>
               <ChevronDown size={14} className="text-muted-foreground transition-transform group-hover:translate-y-0.5 ml-1" />
             </button>
             {templeOpen && (
               <div className="absolute left-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-xl border border-border bg-white/95 backdrop-blur-lg shadow-xl ring-1 ring-black/5 animate-in fade-in slide-in-from-top-2">
                 <div className="max-h-80 overflow-y-auto py-1">
-                  {temples.map((t) => (
+                  {temples.map((templeItem) => (
                     <button
-                      key={t.id}
-                      onClick={() => { setActiveTempleId(t.id); setTempleOpen(false); }}
-                      className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${t.id === activeTempleId
+                      key={templeItem.id}
+                      onClick={() => { setActiveTempleId(templeItem.id); setTempleOpen(false); }}
+                      className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${templeItem.id === activeTempleId
                         ? "bg-saffron/10 font-bold text-saffron"
                         : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
                         }`}
                     >
-                      <span className="truncate">{t.name}</span>
-                      {t.id === activeTempleId && <span className="w-1.5 h-1.5 rounded-full bg-saffron" />}
+                      <span className="truncate">{t(templeItem.name)}</span>
+                      {templeItem.id === activeTempleId && <span className="w-1.5 h-1.5 rounded-full bg-saffron" />}
                     </button>
                   ))}
                 </div>
@@ -159,7 +160,7 @@ function Dashboard() {
             </span>
           </div>
           <div className="hidden sm:flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1.5 shadow-sm">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{activeTemple.district.split(" ")[0]}</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{district ? t(district).split(" ")[0] : t(activeTemple.district).split(" ")[0]}</span>
             <span className="text-xs font-semibold text-foreground">34°C ☀</span>
           </div>
           <div className="relative">
@@ -175,13 +176,13 @@ function Dashboard() {
             {bellOpen && (
               <div className="absolute right-0 top-full z-50 mt-1 w-72 overflow-hidden rounded-lg border border-border bg-white shadow-lg">
                 <div className="border-b border-border bg-secondary px-3 py-2 text-xs font-semibold">
-                  Notifications
+                  {t("Notifications")}
                 </div>
                 <div className="divide-y divide-border">
                   {[
-                    { t: "Peak alert", b: "Inner sanctum approaching capacity", c: "text-danger" },
-                    { t: "Queue update", b: "Lane B wait time +6 min", c: "text-saffron" },
-                    { t: "Staff", b: "8 volunteers deployed to Lane C", c: "text-info" },
+                    { t: t("Peak alert"), b: t("Inner sanctum approaching capacity"), c: "text-danger" },
+                    { t: t("Queue update"), b: t("Lane B wait time +6 min"), c: "text-saffron" },
+                    { t: t("Staff"), b: t("8 volunteers deployed to Lane C"), c: "text-info" },
                   ].map((n, i) => (
                     <div key={i} className="px-3 py-2 text-xs hover:bg-saffron hover:text-white group transition-colors">
                       <div className={`font-semibold group-hover:text-white transition-colors ${n.c}`}>{n.t}</div>
@@ -207,19 +208,19 @@ function Dashboard() {
 
             <div className="grid gap-8 md:grid-cols-3 md:items-center relative z-10">
               <div>
-                <div className="text-3xl font-bold font-serif text-slate-900 tracking-tight">{activeTemple.name}</div>
-                <div className="text-sm text-slate-500 mt-1 font-medium tracking-wide uppercase">Crowd Intelligence Dashboard</div>
+                <div className="text-3xl font-bold font-serif text-slate-900 tracking-tight">{t(activeTemple.name)}</div>
+                <div className="text-sm text-slate-500 mt-1 font-medium tracking-wide uppercase">{t("Crowd Intelligence Dashboard")}</div>
                 <div className="flex flex-wrap items-center gap-3 mt-6">
                   <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 border border-emerald-200/60 px-3.5 py-1.5 text-xs font-bold tracking-wider text-emerald-700 shadow-sm">
                     <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
-                    LIVE <span className="text-emerald-600/80 font-semibold normal-case tracking-normal ml-1">· Updated {now.toLocaleTimeString("en-IN", { hour12: false })}</span>
+                    {t("LIVE")} <span className="text-emerald-600/80 font-semibold normal-case tracking-normal ml-1">· {t("Updated")} {now.toLocaleTimeString("en-IN", { hour12: false })}</span>
                   </div>
                   <Link
                     to="/temple/$slug"
                     params={{ slug: activeTemple.slug }}
                     className="group inline-flex items-center gap-1.5 text-xs font-bold text-white bg-gradient-to-r from-saffron to-amber-500 hover:from-saffron/90 hover:to-amber-500/90 transition-all shadow-[0_4px_12px_rgba(249,115,22,0.3)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.4)] hover:-translate-y-0.5 px-5 py-2.5 rounded-full ml-1"
                   >
-                    Explore Full Details <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                    {t("Explore Full Details")} <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </div>
               </div>
@@ -231,38 +232,38 @@ function Dashboard() {
                   
                   <div className="relative z-10 flex flex-col items-center text-center">
                     <div className="inline-flex items-center gap-1.5 bg-rose-50 border border-rose-100/50 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-rose-600 mb-4 shadow-sm">
-                      <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" /> Live Queue Status
+                      <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" /> {t("Live Queue Status")}
                     </div>
                     
                     <div className="flex items-baseline gap-1.5 justify-center">
                       <div className="text-6xl font-extrabold tabular-nums tracking-tighter text-slate-800 drop-shadow-sm">{activeTemple.waitMin}</div>
-                      <div className="text-xl font-bold text-slate-500 mb-2">mins</div>
+                      <div className="text-xl font-bold text-slate-500 mb-2">{t("mins")}</div>
                     </div>
                     
                     <div className="mt-3 text-[13px] font-medium text-slate-600 leading-relaxed bg-slate-50 border border-slate-100 rounded-xl p-3 w-full shadow-inner">
-                      If you enter the queue now,<br/>
-                      expected Darshan is in <strong className="text-rose-600 font-bold">{activeTemple.waitMin} mins</strong>.
+                      {t("If you enter the queue now,")}<br/>
+                      {t("expected Darshan is in")} <strong className="text-rose-600 font-bold">{activeTemple.waitMin} {t("mins")}</strong>.
                     </div>
                   </div>
                 </div>
               </div>
               <div className="space-y-3.5 text-sm">
-                <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium"> Today's total Devotees</span><span className="font-bold tabular-nums text-slate-800">38,240</span></div>
+                <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium"> {t("Today's total Devotees")}</span><span className="font-bold tabular-nums text-slate-800">38,240</span></div>
                 <div className="flex justify-between border-b border-slate-200/60 pb-2.5">
-                  <span className="text-slate-500 font-medium">Peak (10:30 AM)</span>
+                  <span className="text-slate-500 font-medium">{t("Peak (10:30 AM)")}</span>
                   <span className="text-right">
                     <div className="font-bold tabular-nums text-slate-800">15,820</div>
-                    <div className="text-[11px] font-bold text-rose-500 mt-0.5">Maximum Wait: ~{activeTemple.waitMin + 45} mins</div>
+                    <div className="text-[11px] font-bold text-rose-500 mt-0.5">{t("Maximum Wait:")} ~{activeTemple.waitMin + 45} {t("mins")}</div>
                   </span>
                 </div>
-                <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">Darshan Flow</span><span className="font-bold text-emerald-600">1,250 / hr</span></div>
+                <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">{t("Darshan Flow")}</span><span className="font-bold text-emerald-600">1,250 / hr</span></div>
                 <div className="flex justify-between">
                   <span className="text-slate-500 font-medium">
-                    Next Peak <br /> (5:00 PM - 6:30 PM)
+                    {t("Next Peak")} <br /> (5:00 PM - 6:30 PM)
                   </span>
                   <span className="text-right">
-                    <div className="font-bold ">18,500 Expected</div>
-                    <div className="text-[11px] font-bold text-rose-500 mt-0.5">Expected Wait: ~{activeTemple.waitMin + 60} mins</div>
+                    <div className="font-bold ">18,500 {t("Expected")}</div>
+                    <div className="text-[11px] font-bold text-rose-500 mt-0.5">{t("Expected Wait:")} ~{activeTemple.waitMin + 60} {t("mins")}</div>
                   </span>
                 </div>
               </div>
@@ -278,7 +279,7 @@ function Dashboard() {
           <section className="animate-in fade-in slide-in-from-bottom-2 duration-500">
             <div className="flex items-center gap-2 mb-3">
               <Sparkles className="w-4 h-4 text-saffron" />
-              <h2 className="font-serif text-lg font-semibold text-foreground">Devotee Essentials</h2>
+              <h2 className="font-serif text-lg font-semibold text-foreground">{t("Devotee Essentials")}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -288,36 +289,36 @@ function Dashboard() {
                 <div className="flex items-center justify-between mb-4 relative z-10">
                   <div className="text-xs font-bold uppercase tracking-widest text-saffron flex items-center gap-2">
                     <div className="p-1.5 bg-saffron/10 rounded-lg"><Calendar className="w-4 h-4" /></div>
-                    Panchangam
+                    {t("Panchangam")}
                   </div>
-                  <div className="text-[10px] bg-slate-50 px-2.5 py-1 rounded-full font-bold text-slate-500 border border-slate-200 uppercase tracking-widest">Valarpirai</div>
+                  <div className="text-[10px] bg-slate-50 px-2.5 py-1 rounded-full font-bold text-slate-500 border border-slate-200 uppercase tracking-widest">{t("Valarpirai")}</div>
                 </div>
-                <div className="font-serif text-2xl font-bold mb-2 text-slate-900 relative z-10">Pradosham</div>
-                <div className="text-sm text-slate-500 leading-relaxed font-medium relative z-10">Highly auspicious day for Lord Shiva. Special abhishekam begins at 4:30 PM.</div>
+                <div className="font-serif text-2xl font-bold mb-2 text-slate-900 relative z-10">{t("Pradosham")}</div>
+                <div className="text-sm text-slate-500 leading-relaxed font-medium relative z-10">{t("Highly auspicious day for Lord Shiva. Special abhishekam begins at 4:30 PM.")}</div>
               </div>
 
               {/* Quick E-Services */}
               <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
                 <div className="text-xs font-bold uppercase tracking-widest text-slate-400 flex items-center gap-2 mb-4">
                   <div className="p-1.5 bg-slate-50 rounded-lg text-slate-500"><HandHeart className="w-4 h-4" /></div>
-                  Quick Services
+                  {t("Quick Services")}
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <button className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-emerald-50 border border-slate-100 hover:border-emerald-200 transition-all text-left group/btn shadow-sm hover:shadow">
                     <div className="p-1.5 bg-white rounded-xl shadow-sm group-hover/btn:scale-110 transition-transform"><Ticket className="w-4 h-4 text-emerald-600" /></div>
-                    <span className="text-[11px] font-bold text-slate-700 leading-tight">Book<br />Darshan</span>
+                    <span className="text-[11px] font-bold text-slate-700 leading-tight" dangerouslySetInnerHTML={{__html: t("Book Darshan").replace(' ', '<br />')}}></span>
                   </button>
                   <button className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-amber-50 border border-slate-100 hover:border-amber-200 transition-all text-left group/btn shadow-sm hover:shadow">
                     <div className="p-1.5 bg-white rounded-xl shadow-sm group-hover/btn:scale-110 transition-transform"><Coins className="w-4 h-4 text-amber-500" /></div>
-                    <span className="text-[11px] font-bold text-slate-700 leading-tight">Digital<br />Hundi</span>
+                    <span className="text-[11px] font-bold text-slate-700 leading-tight" dangerouslySetInnerHTML={{__html: t("Digital Hundi").replace(' ', '<br />')}}></span>
                   </button>
                   <button className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 transition-all text-left group/btn shadow-sm hover:shadow">
                     <div className="p-1.5 bg-white rounded-xl shadow-sm group-hover/btn:scale-110 transition-transform"><PackageOpen className="w-4 h-4 text-indigo-500" /></div>
-                    <span className="text-[11px] font-bold text-slate-700 leading-tight">Order<br />Prasadam</span>
+                    <span className="text-[11px] font-bold text-slate-700 leading-tight" dangerouslySetInnerHTML={{__html: t("Order Prasadam").replace(' ', '<br />')}}></span>
                   </button>
                   <button className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-rose-50 border border-slate-100 hover:border-rose-200 transition-all text-left group/btn shadow-sm hover:shadow">
                     <div className="p-1.5 bg-white rounded-xl shadow-sm group-hover/btn:scale-110 transition-transform"><Heart className="w-4 h-4 text-rose-500" /></div>
-                    <span className="text-[11px] font-bold text-slate-700 leading-tight">Donate<br />Annadhan</span>
+                    <span className="text-[11px] font-bold text-slate-700 leading-tight" dangerouslySetInnerHTML={{__html: t("Donate Annadhan").replace(' ', '<br />')}}></span>
                   </button>
                 </div>
               </div>
@@ -328,12 +329,12 @@ function Dashboard() {
                 <div>
                   <div className="text-xs font-bold uppercase tracking-widest text-rose-600 flex items-center gap-2 mb-3 relative z-10">
                     <div className="p-1.5 bg-rose-100 rounded-lg"><BellRing className="w-4 h-4 animate-bounce text-rose-600" /></div>
-                    Live Alert
+                    {t("Live Alert")}
                   </div>
-                  <div className="text-sm font-semibold leading-relaxed relative z-10 text-slate-800">Kapaleeshwarar Temple queue is moving exceptionally fast right now. Estimated wait time is only 15 mins!</div>
+                  <div className="text-sm font-semibold leading-relaxed relative z-10 text-slate-800">{t("Kapaleeshwarar Temple queue is moving exceptionally fast right now. Estimated wait time is only 15 mins!")}</div>
                 </div>
                 <Link to="/temple/$slug" params={{ slug: "kapaleeshwarar" }} className="mt-5 text-[11px] font-bold uppercase tracking-widest text-rose-600 inline-flex items-center gap-1.5 hover:text-rose-700 w-fit relative z-10 bg-white/50 px-3 py-1.5 rounded-full border border-rose-200 backdrop-blur-sm transition-all hover:bg-white shadow-sm">
-                  View Live Crowd <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                  {t("View Live Crowd")} <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
 
@@ -344,32 +345,32 @@ function Dashboard() {
         {/* Live Temple Feed */}
         <section>
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-serif text-2xl font-bold flex items-center gap-2 text-slate-900 tracking-tight">Live Darshan Feed</h2>
-            <div className="text-xs text-slate-500 font-bold tracking-widest uppercase bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full shadow-sm">{results.length} Temples</div>
+            <h2 className="font-serif text-2xl font-bold flex items-center gap-2 text-slate-900 tracking-tight">{t("Live Darshan Feed")}</h2>
+            <div className="text-xs text-slate-500 font-bold tracking-widest uppercase bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full shadow-sm">{results.length} {t("Temples")}</div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {results.map(t => (
-              <Link key={t.id} to="/temple/$slug" params={{ slug: t.slug }} className="group flex flex-col bg-white border border-slate-100 rounded-3xl p-5 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none" style={{ background: t.color }}></div>
+            {results.map(temple => (
+              <Link key={temple.id} to="/temple/$slug" params={{ slug: temple.slug }} className="group flex flex-col bg-white border border-slate-100 rounded-3xl p-5 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none" style={{ background: temple.color }}></div>
                 <div className="flex gap-5 relative z-10">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-serif text-3xl shrink-0 shadow-md group-hover:scale-105 transition-transform duration-300" style={{ background: t.color }}>ॐ</div>
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-serif text-3xl shrink-0 shadow-md group-hover:scale-105 transition-transform duration-300" style={{ background: temple.color }}>ॐ</div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between">
-                      <div className="font-serif font-bold text-slate-900 truncate text-xl group-hover:text-saffron transition-colors">{t.name}</div>
+                      <div className="font-serif font-bold text-slate-900 truncate text-xl group-hover:text-saffron transition-colors">{t(temple.name)}</div>
                     </div>
-                    <div className="text-sm text-slate-500 font-medium flex items-center gap-1.5 mt-1"><MapPin className="w-3.5 h-3.5 text-slate-400" /> {t.district} · {t.deity}</div>
+                    <div className="text-sm text-slate-500 font-medium flex items-center gap-1.5 mt-1"><MapPin className="w-3.5 h-3.5 text-slate-400" /> {t(temple.district)} · {t(temple.deity)}</div>
 
                     <div className="flex flex-wrap items-center gap-2 mt-4">
-                      <CrowdBadge status={t.crowdStatus} />
-                      <span className="text-xs font-bold text-slate-600 bg-slate-50 border border-slate-100 px-2.5 py-1 rounded-lg shadow-sm">Wait: {t.waitMin} min</span>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-lg shadow-sm">Open Now</span>
+                      <CrowdBadge status={temple.crowdStatus} />
+                      <span className="text-xs font-bold text-slate-600 bg-slate-50 border border-slate-100 px-2.5 py-1 rounded-lg shadow-sm">{t("Wait:")} {temple.waitMin} {t("mins")}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-lg shadow-sm">{t("Open Now")}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs relative z-10">
-                  <span className="text-slate-500 font-medium">AI Optimal Darshan Time: <strong className="text-slate-800">3:00 – 5:00 PM</strong></span>
+                  <span className="text-slate-500 font-medium">{t("AI Optimal Darshan Time:")} <strong className="text-slate-800">3:00 – 5:00 PM</strong></span>
                   <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-saffron group-hover:border-saffron group-hover:shadow-md transition-all">
                     <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" />
                   </div>
@@ -381,8 +382,8 @@ function Dashboard() {
           {results.length === 0 && (
             <div className="text-center text-muted-foreground py-16 bg-card rounded-2xl border border-border">
               <div className="text-4xl mb-3">🙏</div>
-              <div className="font-medium text-foreground">No temples found</div>
-              <div className="text-sm mt-1">Try adjusting your filters or search terms.</div>
+              <div className="font-medium text-foreground">{t("No temples found")}</div>
+              <div className="text-sm mt-1">{t("Try adjusting your filters or search terms.")}</div>
             </div>
           )}
         </section>
