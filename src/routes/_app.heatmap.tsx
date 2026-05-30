@@ -1,13 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { temples } from "@/data/temples";
-import palaniImg from "@/assets/palani3.png";
-import meenakshiImg  from "@/assets/Madurai.png";
-import srirangamImg from "@/assets/Srirangam.png";
-import arunachaleswararImg from "@/assets/Arunachaleswarar.png";
-import rameswaramImg from "@/assets/Rameswaram.png";
-import { Maximize2, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useHeatmapZones } from "@/features/heatmap/hooks/useHeatmapZones";
+import { ZoneList } from "@/features/heatmap/components/ZoneList";
+import { HeatmapDisplay } from "@/features/heatmap/components/HeatmapDisplay";
 
 export const Route = createFileRoute("/_app/heatmap")({
   head: () => ({ meta: [{ title: "Live Heatmap — OMG Smart Temple" }] }),
@@ -20,89 +17,7 @@ function HeatmapPage() {
   const [fullView, setFullView] = useState(false);
   const t = temples.find(x => x.id === sel)!;
 
-  const genericZones = [
-    { name: tStr("Main Entrance"), pct: t.parking.lotA, x: 40, y: 80, w: 120, h: 50, advice: tStr("Use East Gate instead") },
-    { name: tStr("Queue Lane A"), pct: Math.min(95, t.crowdPct + 15), x: 40, y: 140, w: 60, h: 100, advice: tStr("Wait 30 min or visit after 4 PM") },
-    { name: tStr("Queue Lane B"), pct: Math.max(20, t.crowdPct - 20), x: 105, y: 140, w: 55, h: 100, advice: tStr("Faster lane today") },
-    { name: tStr("Sanctum approach"), pct: t.crowdPct, x: 170, y: 100, w: 90, h: 80, advice: tStr("~15-20 min wait") },
-    { name: tStr("Prasad counter"), pct: Math.max(15, t.crowdPct - 30), x: 270, y: 80, w: 80, h: 60, advice: tStr("Light queue") },
-    { name: tStr("Parking Lot A"), pct: t.parking.lotA, x: 270, y: 150, w: 80, h: 70, advice: tStr("Almost full — use overflow") },
-  ];
-
-  const palaniZones = [
-    { name: tStr("Sanctum Sanctorum"), pct: Math.min(95, t.crowdPct + 25), advice: tStr("Peak crowd right now. Expected wait ~45 mins.") },
-    { name: tStr("Steps Route"), pct: Math.min(85, t.crowdPct + 15), advice: tStr("Heavy footfall. Use Rope Car or Winch if possible.") },
-    { name: tStr("Rope Car Station"), pct: Math.max(20, t.crowdPct - 10), advice: tStr("Moderate queue. ~20 mins wait.") },
-    { name: tStr("Winch Station"), pct: Math.max(15, t.crowdPct - 25), advice: tStr("Moving fast. Good alternative to steps.") },
-    { name: tStr("Panchamirtham Counter"), pct: Math.max(10, t.crowdPct - 35), advice: tStr("Clear. Get your prasadam quickly.") },
-    { name: tStr("Base Parking Area"), pct: t.parking.lotA, advice: tStr("Almost full. Consider overflow parking.") },
-  ];
-
-  const maduraiZones = [
-    { name: tStr("Amman Sannithi"), pct: Math.min(98, t.crowdPct + 25), advice: tStr("Highest crowd density. Free darshan wait is ~60m.") },
-    { name: tStr("Swami Sannithi"), pct: Math.min(85, t.crowdPct + 10), advice: tStr("Moderate to high queue. Try special ticket lane.") },
-    { name: tStr("Golden Lotus Tank"), pct: Math.max(40, t.crowdPct - 20), advice: tStr("Beautiful and relatively clear. Great for resting.") },
-    { name: tStr("Thousand Pillar Hall"), pct: Math.max(30, t.crowdPct - 30), advice: tStr("Low crowd. Excellent time to visit the museum.") },
-    { name: tStr("South Tower Entrance"), pct: Math.max(25, t.crowdPct - 40), advice: tStr("Fastest entry point right now. Use this gate.") },
-    { name: tStr("Chithirai Streets (Outer)"), pct: t.parking.lotB, advice: tStr("Traffic is heavy. Park at the multistory lot.") },
-  ];
-
-  const srirangamZones = [
-    { name: tStr("Rajagopuram Entrance"), pct: t.parking.lotA, advice: tStr("Main entry point. Busy but moving steadily.") },
-    { name: tStr("Ranga Ranga Gopuram"), pct: Math.min(80, t.crowdPct + 10), advice: tStr("High footfall. Stay in your designated lanes.") },
-    { name: tStr("Garuda Mandapam"), pct: Math.min(95, t.crowdPct + 20), advice: tStr("Heavy crowd merging here. Expect delays.") },
-    { name: tStr("Sanctum Sanctorum"), pct: Math.min(100, t.crowdPct + 35), advice: tStr("Peak wait time. General queue is ~75m.") },
-    { name: tStr("Thayar Sannithi"), pct: Math.max(30, t.crowdPct - 15), advice: tStr("Relatively clear. Good time to visit.") },
-    { name: tStr("Chithirai Streets (Parking)"), pct: t.parking.lotB, advice: tStr("Parking filling up quickly. Use North Gate parking.") },
-  ];
-
-  const tiruvannamalaiZones = [
-    { name: tStr("Rajagopuram (East)"), pct: Math.min(98, t.crowdPct + 20), advice: tStr("Massive crowd buildup at the main entrance.") },
-    { name: tStr("Kili Gopuram"), pct: Math.min(90, t.crowdPct + 15), advice: tStr("Dense queue merging point. Moves slowly.") },
-    { name: tStr("Arunachaleswarar Sannithi"), pct: Math.min(100, t.crowdPct + 30), advice: tStr("Peak density. Darshan wait is 1.5 - 2 hrs.") },
-    { name: tStr("Unnamalai Amman Sannithi"), pct: Math.min(85, t.crowdPct + 5), advice: tStr("High crowd, but slightly faster than Swami sannithi.") },
-    { name: tStr("Girivalam Path (Inner)"), pct: Math.max(50, t.crowdPct - 20), advice: tStr("Steady flow of devotees circumambulating.") },
-    { name: tStr("Thousand Pillar Mandapam"), pct: Math.max(25, t.crowdPct - 40), advice: tStr("Relatively quiet. Perfect spot to sit and meditate.") },
-  ];
-
-  const rameswaramZones = [
-    { name: tStr("Agni Theertham"), pct: Math.min(95, t.crowdPct + 25), advice: tStr("Heavy crowd at the beach. Complete holy dip early.") },
-    { name: tStr("22 Holy Wells (Theerthams)"), pct: Math.min(100, t.crowdPct + 35), advice: tStr("Peak density. Expect significant delays moving between wells.") },
-    { name: tStr("Ramanathaswamy Sannithi"), pct: Math.min(90, t.crowdPct + 20), advice: tStr("High wait time. Keep moving in the queue.") },
-    { name: tStr("Parvathavardhini Amman"), pct: Math.max(60, t.crowdPct - 10), advice: tStr("Moderate crowd. Darshan is relatively quicker here.") },
-    { name: tStr("Third Corridor (Prakaram)"), pct: Math.max(40, t.crowdPct - 25), advice: tStr("Famous long corridor is somewhat clear for walking.") },
-    { name: tStr("East Gate Parking"), pct: t.parking.lotA, advice: tStr("Almost full. Proceed to West Gate parking lot.") },
-  ];
-
-  const displayZones = t.id === 1 ? palaniZones : (t.id === 2 ? maduraiZones : (t.id === 3 ? srirangamZones : (t.id === 4 ? tiruvannamalaiZones : (t.id === 5 ? rameswaramZones : genericZones))));
-
-  const getMapImage = (id: number) => {
-    switch (id) {
-      case 1: return palaniImg;
-      case 2: return meenakshiImg;
-      case 3: return srirangamImg;
-      case 4: return arunachaleswararImg;
-      case 5: return rameswaramImg;
-      default: return null;
-    }
-  };
-  const mapImage = getMapImage(t.id);
-
-  function zoneColor(p: number) {
-    if (p < 35) return "rgba(22,163,74,0.35)";
-    if (p < 60) return "rgba(234,179,8,0.4)";
-    if (p < 80) return "rgba(217,119,6,0.45)";
-    return "rgba(220,38,38,0.5)";
-  }
-  function zoneStroke(p: number) {
-    if (p < 35) return "#16A34A";
-    if (p < 60) return "#EAB308";
-    if (p < 80) return "#D97706";
-    return "#DC2626";
-  }
-  function waitFor(p: number) {
-    return Math.round(p * 0.7);
-  }
+  const { displayZones, mapImage, genericZones } = useHeatmapZones(t);
 
   return (
     <div className="max-w-5xl mx-auto px-4 lg:px-8 py-6">
@@ -117,79 +32,15 @@ function HeatmapPage() {
         ))}
       </div>
 
-      <div className="mt-5 bg-card border border-border rounded-2xl p-5 card-soft">
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <div className="font-serif text-xl font-semibold">{tStr(t.name)}</div>
-            <div className="text-xs text-muted-foreground">{tStr("Live · updated every 30s")}</div>
-          </div>
-          <div className="flex gap-3 text-xs">
-            <span className="flex items-center gap-1.5"><span className="w-3.5 h-3.5 rounded bg-status-low"/> {tStr("Walk in")}</span>
-            <span className="flex items-center gap-1.5"><span className="w-3.5 h-3.5 rounded bg-status-mod"/> {tStr("Short wait")}</span>
-            <span className="flex items-center gap-1.5"><span className="w-3.5 h-3.5 rounded bg-status-high"/> {tStr("Avoid")}</span>
-          </div>
-        </div>
-        <div className="aspect-[16/9] bg-secondary rounded-xl overflow-hidden relative group">
-          {mapImage ? (
-            <>
-              <img src={mapImage} alt={`${t.name} Map`} className="absolute inset-0 w-full h-full object-cover" />
-              <button 
-                onClick={() => setFullView(true)}
-                className="absolute bottom-4 right-4 bg-black/70 hover:bg-black text-white px-3 py-2 rounded-lg flex items-center gap-2 text-xs font-medium backdrop-blur-sm transition-all shadow-lg"
-              >
-                <Maximize2 size={14} /> {tStr("Full View")}
-              </button>
-            </>
-          ) : (
-            <svg viewBox="0 0 400 280" className="w-full h-full">
-              <rect x="20" y="20" width="360" height="240" fill="#FFFBF5" stroke="#F5F0E8" />
-              {genericZones.map(z => (
-                <g key={z.name}>
-                  <rect x={z.x} y={z.y} width={z.w} height={z.h} rx="8" fill={zoneColor(z.pct)} stroke={zoneStroke(z.pct)} strokeWidth="1.5" />
-                  <text x={z.x + z.w/2} y={z.y + z.h/2 - 4} textAnchor="middle" fontSize="10" fill="#1C1917" fontWeight="600">{z.name}</text>
-                  <text x={z.x + z.w/2} y={z.y + z.h/2 + 10} textAnchor="middle" fontSize="9" fill="#78716C">~{waitFor(z.pct)} {tStr("min")}</text>
-                </g>
-              ))}
-              <text x="200" y="265" textAnchor="middle" fontSize="9" fill="#A8A29E">{tStr("Schematic floor plan")}</text>
-            </svg>
-          )}
-        </div>
-      </div>
+      <HeatmapDisplay 
+        t={t} 
+        mapImage={mapImage} 
+        genericZones={genericZones} 
+        fullView={fullView} 
+        setFullView={setFullView} 
+      />
 
-      <div className="mt-5 bg-card border border-border/70 rounded-2xl p-3.5 card-soft flex flex-wrap items-center gap-3 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-        <span className="text-sm font-bold text-foreground">{tStr("Timeline:")}</span>
-        <button className="text-sm font-bold rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-700 px-3.5 py-1.5 flex items-center gap-2 shadow-sm transform scale-[1.02] transition-all">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_6px_rgba(16,185,129,0.8)]"></span> {tStr("Live now")}
-        </button>
-        <button className="text-sm font-medium rounded-full bg-white border border-border/60 px-3.5 py-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors">{tStr("Past 6 hours")}</button>
-        <button className="text-sm font-medium rounded-full bg-white border border-border/60 px-3.5 py-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors">{tStr("Last weekend")}</button>
-      </div>
-
-      <div className="mt-4 grid sm:grid-cols-2 gap-3">
-        {displayZones.map(z => (
-          <div key={z.name} className="bg-card border border-border rounded-2xl p-4 card-soft">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full" style={{ background: zoneStroke(z.pct) }} />
-              <span className="font-medium">{tStr(z.name)}</span>
-              <span className="ml-auto text-xs text-muted-foreground">{z.pct}%</span>
-            </div>
-            <div className="text-sm text-muted-foreground mt-1">{tStr(z.advice)}</div>
-          </div>
-        ))}
-      </div>
-
-
-      {fullView && mapImage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md animate-in fade-in zoom-in duration-200">
-          <button 
-            onClick={() => setFullView(false)}
-            className="absolute top-4 right-4 text-white/70 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
-          >
-            <X size={32} />
-          </button>
-          <img src={mapImage} alt={`${t.name} Map Full View`} className="max-w-[95vw] max-h-[95vh] object-contain rounded-xl shadow-2xl" />
-        </div>
-      )}
+      <ZoneList displayZones={displayZones} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { temples } from "@/data/temples";
-import { CrowdBadge } from "@/components/app/CrowdBadge";
+import { CrowdBadge } from "@/components/shared/CrowdBadge";
 
 export const Route = createFileRoute("/_app/profile")({
   head: () => ({ meta: [{ title: "My profile — OMG Smart Temple" }] }),
