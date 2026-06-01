@@ -1,8 +1,8 @@
+import './i18n/config';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from '@tanstack/react-router';
 import { getRouter } from './router';
-import './i18n/config';
 
 const router = getRouter();
 
