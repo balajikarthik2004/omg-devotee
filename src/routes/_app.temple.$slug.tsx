@@ -8,6 +8,7 @@ import { AIInsights } from "@/features/temple-details/components/AIInsights";
 import { ForecastChart } from "@/features/temple-details/components/ForecastChart";
 import { TempleTimings } from "@/features/temple-details/components/TempleTimings";
 import { ParkingStatus } from "@/features/temple-details/components/ParkingStatus";
+import { AnnadhanamDetails } from "@/features/temple-details/components/AnnadhanamDetails";
 import { SmartAlerts } from "@/features/temple-details/components/SmartAlerts";
 import { TempleTabs } from "@/features/temple-details/components/TempleTabs";
 import { MobileActionBar, OtherTemples, BookingWidget } from "@/features/temple-details/components/SidebarWidgets";
@@ -62,6 +63,7 @@ function TempleDetail() {
             <AIInsights t={t} />
             <ForecastChart data={data} nowHour={nowHour} />
             <TempleTimings t={t} />
+            <AnnadhanamDetails t={t} />
             <ParkingStatus t={t} />
           </div>
 
