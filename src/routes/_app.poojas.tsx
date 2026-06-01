@@ -4,13 +4,22 @@ import { temples } from "@/data/temples";
 import { MapPin, ArrowLeft, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/_app/poojas")({
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      temple: (search.temple as string) || "palani-murugan",
+    };
+  },
   head: () => ({ meta: [{ title: "Pooja & Timings — OMG Smart Temple" }] }),
   component: PoojaPage,
 });
 
 function PoojaPage() {
   const router = useRouter();
-  const [sel, setSel] = useState(temples[0].id);
+  const search = Route.useSearch();
+  
+  // Find initial temple by slug from search params, default to first if invalid
+  const initialTemple = temples.find(t => t.slug === search.temple) || temples[0];
+  const [sel, setSel] = useState(initialTemple.id);
   const t = temples.find(x => x.id === sel)!;
   const now = new Date().getHours();
 

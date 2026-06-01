@@ -1,8 +1,9 @@
 import { MapPin, ChevronDown, Bell } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { districts, temples } from "@/data/temples";
+import { districts as allDistricts, temples, statesAndDistricts } from "@/data/temples";
 
 export function DashboardTopNav({
+  state, setState, stateOpen, setStateOpen,
   district, setDistrict, districtOpen, setDistrictOpen,
   activeTempleId, setActiveTempleId, templeOpen, setTempleOpen,
   bellOpen, setBellOpen, now, activeTemple
@@ -12,11 +13,53 @@ export function DashboardTopNav({
   return (
     <div className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-white/20 bg-white/80 px-4 lg:px-8 backdrop-blur-xl shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
       <div className="flex items-center gap-4">
-        {/* District Selector (First) */}
+        {/* State Selector */}
         <div className="relative hidden sm:block group">
           <div className="absolute -inset-0.5 bg-gradient-to-r from-saffron/20 to-rose-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
           <button
-            onClick={() => setDistrictOpen((o: boolean) => !o)}
+            onClick={() => { setStateOpen((o: boolean) => !o); setDistrictOpen(false); setTempleOpen(false); }}
+            className="relative flex items-center gap-2.5 rounded-full border border-border bg-white px-4 py-2.5 text-sm font-semibold shadow-sm transition-all hover:border-saffron/30"
+          >
+            <MapPin size={15} className="text-saffron transition-transform group-hover:scale-110" />
+            <span className="text-foreground tracking-wide">{state ? t(state) : t("All States")}</span>
+            <ChevronDown size={14} className="text-muted-foreground transition-transform group-hover:translate-y-0.5 ml-1" />
+          </button>
+          {stateOpen && (
+            <div className="absolute left-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-border bg-white/95 backdrop-blur-lg shadow-xl ring-1 ring-black/5 animate-in fade-in slide-in-from-top-2">
+              <div className="max-h-80 overflow-y-auto py-1">
+                <button
+                  onClick={() => { setState(""); setDistrict(""); setStateOpen(false); }}
+                  className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${!state
+                    ? "bg-saffron/10 font-bold text-saffron"
+                    : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
+                    }`}
+                >
+                  <span className="truncate">{t("All States")}</span>
+                  {!state && <span className="w-1.5 h-1.5 rounded-full bg-saffron" />}
+                </button>
+                {statesAndDistricts.map((s) => (
+                  <button
+                    key={s.state}
+                    onClick={() => { setState(s.state); setDistrict(""); setStateOpen(false); }}
+                    className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${s.state === state
+                      ? "bg-saffron/10 font-bold text-saffron"
+                      : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
+                      }`}
+                  >
+                    <span className="truncate">{t(s.state)}</span>
+                    {s.state === state && <span className="w-1.5 h-1.5 rounded-full bg-saffron" />}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* District Selector */}
+        <div className="relative hidden sm:block group">
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-saffron/20 to-rose-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+          <button
+            onClick={() => { setDistrictOpen((o: boolean) => !o); setStateOpen(false); setTempleOpen(false); }}
             className="relative flex items-center gap-2.5 rounded-full border border-border bg-white px-4 py-2.5 text-sm font-semibold shadow-sm transition-all hover:border-saffron/30"
           >
             <MapPin size={15} className="text-saffron transition-transform group-hover:scale-110" />
@@ -36,7 +79,7 @@ export function DashboardTopNav({
                   <span className="truncate">{t("All Districts")}</span>
                   {!district && <span className="w-1.5 h-1.5 rounded-full bg-saffron" />}
                 </button>
-                {districts.map((d) => (
+                {(state ? statesAndDistricts.find(s => s.state === state)?.districts || [] : allDistricts).map((d) => (
                   <button
                     key={d}
                     onClick={() => { setDistrict(d); setDistrictOpen(false); }}
@@ -58,7 +101,7 @@ export function DashboardTopNav({
         <div className="relative group">
           <div className="absolute -inset-0.5 bg-gradient-to-r from-saffron/20 to-amber-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
           <button
-            onClick={() => setTempleOpen((o: boolean) => !o)}
+            onClick={() => { setTempleOpen((o: boolean) => !o); setStateOpen(false); setDistrictOpen(false); }}
             className="relative flex items-center gap-2.5 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold shadow-sm transition-all hover:border-saffron/30"
           >
             <LandmarkIcon />
@@ -68,7 +111,11 @@ export function DashboardTopNav({
           {templeOpen && (
             <div className="absolute left-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-xl border border-border bg-white/95 backdrop-blur-lg shadow-xl ring-1 ring-black/5 animate-in fade-in slide-in-from-top-2">
               <div className="max-h-80 overflow-y-auto py-1">
-                {temples.map((templeItem) => (
+                {temples.filter(t => {
+                  if (state && t.state !== state) return false;
+                  if (district && t.district !== district) return false;
+                  return true;
+                }).map((templeItem) => (
                   <button
                     key={templeItem.id}
                     onClick={() => { setActiveTempleId(templeItem.id); setTempleOpen(false); }}

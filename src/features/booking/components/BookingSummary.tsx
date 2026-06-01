@@ -1,52 +1,88 @@
 import { useTranslation } from "react-i18next";
-import { CreditCard, CheckCircle2, ShieldCheck } from "lucide-react";
+import { CreditCard, CheckCircle2, ShieldCheck, Lock } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export function BookingSummary({ details, selectedDate, selectedTime, onPay, isProcessing }: any) {
   const { t: tStr } = useTranslation();
   const ticketPrice = 200;
   const total = details.persons * ticketPrice;
+  const [loadingText, setLoadingText] = useState(() => tStr("Initiating secure connection..."));
+
+  useEffect(() => {
+    if (isProcessing) {
+      const timers = [
+        setTimeout(() => setLoadingText(tStr("Authenticating payment...")), 800),
+        setTimeout(() => setLoadingText(tStr("Verifying with bank...")), 1800),
+        setTimeout(() => setLoadingText(tStr("Confirming transaction...")), 2800),
+      ];
+      return () => timers.forEach(clearTimeout);
+    }
+  }, [isProcessing, tStr]);
 
   if (isProcessing) {
     return (
       <div className="bg-white border border-slate-200/60 rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden flex flex-col items-center justify-center text-center min-h-[400px]">
-        <style>{`
-          @keyframes spin-slow {
-            to { transform: rotate(360deg); }
-          }
-          @keyframes spin-reverse {
-            to { transform: rotate(-360deg); }
-          }
-          @keyframes pulse-glow {
-            0%, 100% { opacity: 0.8; transform: scale(0.95); }
-            50% { opacity: 1; transform: scale(1.05); }
-          }
-        `}</style>
+        {/* Background ambient glow */}
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-transparent pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-500/5 rounded-full blur-[60px] pointer-events-none" />
         
-        <div className="absolute inset-0 bg-saffron/5 animate-pulse" />
-        
-        {/* CSS Realistic Spiritual Loader (Mandala Style) */}
-        <div className="relative w-28 h-28 mb-8 z-10 flex items-center justify-center">
-          <div className="absolute inset-0 bg-saffron rounded-full blur-[50px] opacity-30 animate-pulse" />
-          
-          {/* Outer Ring */}
-          <div className="absolute inset-0 border-4 border-dashed border-amber-500/40 rounded-full" style={{ animation: 'spin-slow 8s linear infinite' }} />
-          
-          {/* Middle Ring */}
-          <div className="absolute inset-3 border-[3px] border-dotted border-orange-500/60 rounded-full" style={{ animation: 'spin-reverse 6s linear infinite' }} />
-          
-          {/* Inner Lotus Petal Ring */}
-          <div className="absolute inset-6 border-[3px] border-saffron/80 rounded-[40%_40%_40%_40%] rotate-45" style={{ animation: 'spin-slow 4s linear infinite' }} />
-          <div className="absolute inset-6 border-[3px] border-saffron/80 rounded-[40%_40%_40%_40%] rotate-0" style={{ animation: 'spin-slow 4s linear infinite' }} />
-          
-          {/* Center Bindu (Glowing Point) */}
-          <div className="absolute w-4 h-4 bg-gradient-to-tr from-orange-500 to-amber-300 rounded-full shadow-[0_0_15px_rgba(245,158,11,1)]" style={{ animation: 'pulse-glow 1.5s ease-in-out infinite' }} />
+        {/* Modern Loader */}
+        <div className="relative z-10 mb-8">
+          <div className="w-20 h-20 relative">
+            <style>{`
+              @keyframes dash {
+                0% { stroke-dasharray: 1, 300; stroke-dashoffset: 0; }
+                50% { stroke-dasharray: 150, 300; stroke-dashoffset: -40; }
+                100% { stroke-dasharray: 150, 300; stroke-dashoffset: -280; }
+              }
+            `}</style>
+            <svg className="w-full h-full animate-[spin_2s_linear_infinite]" viewBox="0 0 100 100">
+              <circle
+                cx="50"
+                cy="50"
+                r="46"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="8"
+                className="text-slate-100"
+              />
+              <circle
+                cx="50"
+                cy="50"
+                r="46"
+                fill="none"
+                stroke="url(#gradient)"
+                strokeWidth="8"
+                strokeLinecap="round"
+                className="text-blue-600 animate-[dash_1.5s_ease-in-out_infinite]"
+              />
+              <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#3b82f6" />
+                  <stop offset="100%" stopColor="#2dd4bf" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Lock className="w-6 h-6 text-blue-500 animate-pulse" />
+            </div>
+          </div>
         </div>
         
-        <h3 className="font-serif text-xl font-bold text-slate-900 mb-2 relative z-10">{tStr("Processing Payment")}</h3>
-        <p className="text-sm text-slate-500 mb-6 relative z-10">{tStr("Please wait while we secure your tickets...")}</p>
+        <h3 className="font-serif text-xl font-bold text-slate-900 mb-2 relative z-10">
+          {tStr("Processing Payment")}
+        </h3>
+        
+        {/* Dynamic Loading Text */}
+        <div className="h-6 relative z-10 mb-6 overflow-hidden flex items-center justify-center">
+          <p key={loadingText} className="text-sm font-medium text-slate-500 animate-in slide-in-from-bottom-2 fade-in duration-300">
+            {loadingText}
+          </p>
+        </div>
 
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full relative z-10">
-          <ShieldCheck className="w-4 h-4" /> {tStr("100% Secure Transaction")}
+        <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-50 border border-slate-100 px-4 py-2 rounded-full relative z-10 shadow-sm">
+          <ShieldCheck className="w-4 h-4 text-emerald-500" /> 
+          {tStr("100% Secure & Encrypted")}
         </div>
       </div>
     );

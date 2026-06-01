@@ -41,7 +41,7 @@ export function TempleTimings({ t }: any) {
         </div>
       </div>
       <div className="mt-6 flex">
-        <Link to="/poojas" className="relative group inline-flex items-center justify-center gap-2.5 text-sm font-bold text-white px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_25px_rgba(249,115,22,0.4)] bg-gradient-to-r from-orange-500 to-rose-500 shadow-lg shadow-orange-200 overflow-hidden w-full sm:w-auto">
+        <Link to="/poojas" search={{ temple: t.slug }} className="relative group inline-flex items-center justify-center gap-2.5 text-sm font-bold text-white px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_25px_rgba(249,115,22,0.4)] bg-gradient-to-r from-orange-500 to-rose-500 shadow-lg shadow-orange-200 overflow-hidden w-full sm:w-auto">
           <span className="absolute inset-0 rounded-full border-2 border-orange-400 animate-[ping_2s_ease-in-out_infinite] opacity-40 pointer-events-none" />
           <div className="absolute inset-0 bg-white/20 group-hover:translate-x-[150%] -translate-x-[150%] skew-x-12 transition-transform duration-700 ease-out pointer-events-none" />
           <span className="relative z-10 tracking-wide">{tStr("View full pooja schedule")}</span>

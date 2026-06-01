@@ -21,11 +21,13 @@ export const Route = createFileRoute("/_app/")({
 function Dashboard() {
   const { t } = useTranslation();
   const [q, setQ] = useState("");
+  const [state, setState] = useState<string>("");
   const [district, setDistrict] = useState<string>("");
   const [activeFilter, setActiveFilter] = useState<string>("All");
   
-  const [templeOpen, setTempleOpen] = useState(false);
+  const [stateOpen, setStateOpen] = useState(false);
   const [districtOpen, setDistrictOpen] = useState(false);
+  const [templeOpen, setTempleOpen] = useState(false);
   const [bellOpen, setBellOpen] = useState(false);
   const [now, setNow] = useState(new Date());
   const [activeTempleId, setActiveTempleId] = useState(1);
@@ -40,17 +42,20 @@ function Dashboard() {
   const results = useMemo(() => {
     const v = q.toLowerCase().trim();
     return temples.filter(t => {
+      if (state && t.state !== state) return false;
       if (district && t.district !== district) return false;
       if (activeFilter === "Low Crowd" && t.crowdStatus !== "low") return false;
       else if (activeFilter !== "All" && activeFilter !== "Open Now" && !t.deity.includes(activeFilter)) return false;
       if (!v) return true;
       return t.name.toLowerCase().includes(v) || t.district.toLowerCase().includes(v) || t.deity.toLowerCase().includes(v);
     });
-  }, [q, district, activeFilter]);
+  }, [q, state, district, activeFilter]);
 
   return (
     <div className="flex flex-col min-h-screen bg-background pb-12">
       <DashboardTopNav 
+        state={state} setState={setState}
+        stateOpen={stateOpen} setStateOpen={setStateOpen}
         district={district} setDistrict={setDistrict}
         districtOpen={districtOpen} setDistrictOpen={setDistrictOpen}
         activeTempleId={activeTempleId} setActiveTempleId={setActiveTempleId}

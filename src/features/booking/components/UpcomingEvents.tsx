@@ -23,7 +23,7 @@ export function UpcomingEvents({ slug }: { slug: string }) {
             <div key={i} className={`p-4 rounded-2xl border ${event.isMajor ? "bg-amber-50/50 border-amber-100" : "bg-slate-50 border-slate-100"}`}>
               <div className="flex items-start justify-between gap-2 mb-1.5">
                 <div className="font-bold text-slate-800 text-sm flex items-center gap-1.5">
-                  {event.title}
+                  {tStr(event.title)}
                   {event.isMajor && <Sparkles className="w-3.5 h-3.5 text-amber-500" />}
                 </div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-saffron shrink-0 bg-white border border-amber-100 px-2 py-0.5 rounded-full shadow-sm">

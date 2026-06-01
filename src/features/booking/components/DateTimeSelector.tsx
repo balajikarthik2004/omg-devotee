@@ -46,7 +46,7 @@ export function DateTimeSelector({ t, selectedDate, setSelectedDate, selectedTim
       slotDate.setHours(h, 0, 0, 0);
 
       if (slotDate.getTime() >= minTimeMs) {
-        const ampm = h >= 12 ? "PM" : "AM";
+        const ampm = h >= 12 ? tStr("PM") : tStr("AM");
         const hr12 = h > 12 ? h - 12 : (h === 0 ? 12 : h);
         slots.push(`${hr12}:00 ${ampm}`);
       }

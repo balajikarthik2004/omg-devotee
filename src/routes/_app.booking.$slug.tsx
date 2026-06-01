@@ -36,7 +36,7 @@ function BookingPage() {
 
   const handleProceedToDetails = () => {
     if (!selectedDate || !selectedTime) {
-      setErrors({ date: "Please select a date and time." });
+      setErrors({ date: tStr("Please select a date and time.") });
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
@@ -47,9 +47,9 @@ function BookingPage() {
 
   const handleProceedToPayment = () => {
     const errs: any = {};
-    if (!details.name.trim()) errs.name = "Name is required";
-    if (details.phone.length < 10) errs.phone = "Valid 10-digit phone number required";
-    if (details.idNumber.length < 4) errs.idNumber = "Valid ID number required";
+    if (!details.name.trim()) errs.name = tStr("Name is required");
+    if (details.phone.length < 10) errs.phone = tStr("Valid 10-digit phone number required");
+    if (details.idNumber.length < 4) errs.idNumber = tStr("Valid ID number required");
 
     if (Object.keys(errs).length > 0) {
       setErrors(errs);

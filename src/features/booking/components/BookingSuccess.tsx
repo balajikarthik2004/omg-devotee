@@ -45,7 +45,7 @@ export function BookingSuccess({ t, details, selectedDate, selectedTime }: any) 
             </div>
             <div>
               <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest">{tStr("Primary ID")}</div>
-              <div className="font-bold text-slate-800 uppercase">{details.name} (ID: {details.idNumber.slice(-4).padStart(details.idNumber.length, '*')})</div>
+              <div className="font-bold text-slate-800 uppercase">{details.name} ({tStr("ID:")} {details.idNumber.slice(-4).padStart(details.idNumber.length, '*')})</div>
             </div>
           </div>
         </div>
