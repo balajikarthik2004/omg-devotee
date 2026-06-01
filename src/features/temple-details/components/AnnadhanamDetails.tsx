@@ -63,7 +63,7 @@ export function AnnadhanamDetails({ t }: { t: any }) {
           <Utensils className="w-5 h-5" />
         </div>
         <div>
-          <h3 className="font-bold text-slate-800 text-lg">{t.name} {tStr("Annadhanam")}</h3>
+          <h3 className="font-bold text-slate-800 text-lg md:text-xl leading-tight">{t.name} {tStr("Annadhanam")}</h3>
           <p className="text-sm text-slate-500">{data.complex}</p>
         </div>
       </div>

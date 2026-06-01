@@ -8,9 +8,9 @@ export function LiveTempleFeed({ results }: any) {
 
   return (
     <section>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="font-serif text-2xl font-bold flex items-center gap-2 text-slate-900 tracking-tight">{t("Live Darshan Feed")}</h2>
-        <div className="text-xs text-slate-500 font-bold tracking-widest uppercase bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full shadow-sm">{results.length} {t("Temples")}</div>
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <h2 className="font-serif text-xl md:text-2xl font-bold flex items-center gap-2 text-slate-900 tracking-tight">{t("Live Darshan Feed")}</h2>
+        <div className="text-xs text-slate-500 font-bold tracking-widest uppercase bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap">{results.length} {t("Temples")}</div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -21,7 +21,7 @@ export function LiveTempleFeed({ results }: any) {
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-serif text-3xl shrink-0 shadow-md group-hover:scale-105 transition-transform duration-300" style={{ background: temple.color }}>ॐ</div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between">
-                  <div className="font-serif font-bold text-slate-900 truncate text-xl group-hover:text-saffron transition-colors">{t(temple.name)}</div>
+                  <div className="font-serif font-bold text-slate-900 truncate text-lg md:text-xl group-hover:text-saffron transition-colors">{t(temple.name)}</div>
                 </div>
                 <div className="text-sm text-slate-500 font-medium flex items-center gap-1.5 mt-1"><MapPin className="w-3.5 h-3.5 text-slate-400" /> {t(temple.district)} · {t(temple.deity)}</div>
 

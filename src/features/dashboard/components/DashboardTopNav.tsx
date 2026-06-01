@@ -105,8 +105,8 @@ export function DashboardTopNav({
             className="relative flex items-center gap-2.5 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold shadow-sm transition-all hover:border-saffron/30"
           >
             <LandmarkIcon />
-            <span className="text-foreground tracking-wide">{t(activeTemple.name)}</span>
-            <ChevronDown size={14} className="text-muted-foreground transition-transform group-hover:translate-y-0.5 ml-1" />
+            <span className="text-foreground tracking-wide truncate max-w-[120px] sm:max-w-none">{t(activeTemple.name)}</span>
+            <ChevronDown size={14} className="text-muted-foreground transition-transform group-hover:translate-y-0.5 ml-1 shrink-0" />
           </button>
           {templeOpen && (
             <div className="absolute left-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-xl border border-border bg-white/95 backdrop-blur-lg shadow-xl ring-1 ring-black/5 animate-in fade-in slide-in-from-top-2">

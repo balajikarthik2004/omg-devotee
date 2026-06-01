@@ -14,7 +14,7 @@ export function DashboardHeader({ activeTemple, now }: any) {
 
           <div className="grid gap-8 md:grid-cols-3 md:items-center relative z-10">
             <div>
-              <div className="text-3xl font-bold font-serif text-slate-900 tracking-tight">{t(activeTemple.name)}</div>
+              <div className="text-2xl md:text-3xl font-bold font-serif text-slate-900 tracking-tight">{t(activeTemple.name)}</div>
               <div className="text-sm text-slate-500 mt-1 font-medium tracking-wide uppercase">{t("Crowd Intelligence Dashboard")}</div>
               <div className="flex flex-wrap items-center gap-3 mt-6">
                 <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 border border-emerald-200/60 px-3.5 py-1.5 text-xs font-bold tracking-wider text-emerald-700 shadow-sm">
