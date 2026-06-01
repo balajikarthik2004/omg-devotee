@@ -21,6 +21,7 @@ import { Route as AppHeatmapRouteImport } from './routes/_app.heatmap'
 import { Route as AppDonationsRouteImport } from './routes/_app.donations'
 import { Route as AppChatRouteImport } from './routes/_app.chat'
 import { Route as AppTempleSlugRouteImport } from './routes/_app.temple.$slug'
+import { Route as AppBookingSlugRouteImport } from './routes/_app.booking.$slug'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -81,6 +82,11 @@ const AppTempleSlugRoute = AppTempleSlugRouteImport.update({
   path: '/temple/$slug',
   getParentRoute: () => AppRoute,
 } as any)
+const AppBookingSlugRoute = AppBookingSlugRouteImport.update({
+  id: '/booking/$slug',
+  path: '/booking/$slug',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/plan': typeof AppPlanRoute
   '/poojas': typeof AppPoojasRoute
   '/profile': typeof AppProfileRoute
+  '/booking/$slug': typeof AppBookingSlugRoute
   '/temple/$slug': typeof AppTempleSlugRoute
 }
 export interface FileRoutesByTo {
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/poojas': typeof AppPoojasRoute
   '/profile': typeof AppProfileRoute
   '/': typeof AppIndexRoute
+  '/booking/$slug': typeof AppBookingSlugRoute
   '/temple/$slug': typeof AppTempleSlugRoute
 }
 export interface FileRoutesById {
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/_app/poojas': typeof AppPoojasRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/': typeof AppIndexRoute
+  '/_app/booking/$slug': typeof AppBookingSlugRoute
   '/_app/temple/$slug': typeof AppTempleSlugRoute
 }
 export interface FileRouteTypes {
@@ -136,6 +145,7 @@ export interface FileRouteTypes {
     | '/plan'
     | '/poojas'
     | '/profile'
+    | '/booking/$slug'
     | '/temple/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/poojas'
     | '/profile'
     | '/'
+    | '/booking/$slug'
     | '/temple/$slug'
   id:
     | '__root__'
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/_app/poojas'
     | '/_app/profile'
     | '/_app/'
+    | '/_app/booking/$slug'
     | '/_app/temple/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -257,6 +269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTempleSlugRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/booking/$slug': {
+      id: '/_app/booking/$slug'
+      path: '/booking/$slug'
+      fullPath: '/booking/$slug'
+      preLoaderRoute: typeof AppBookingSlugRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -270,6 +289,7 @@ interface AppRouteChildren {
   AppPoojasRoute: typeof AppPoojasRoute
   AppProfileRoute: typeof AppProfileRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppBookingSlugRoute: typeof AppBookingSlugRoute
   AppTempleSlugRoute: typeof AppTempleSlugRoute
 }
 
@@ -283,6 +303,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPoojasRoute: AppPoojasRoute,
   AppProfileRoute: AppProfileRoute,
   AppIndexRoute: AppIndexRoute,
+  AppBookingSlugRoute: AppBookingSlugRoute,
   AppTempleSlugRoute: AppTempleSlugRoute,
 }
 

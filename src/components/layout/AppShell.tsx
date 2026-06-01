@@ -1,5 +1,5 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { Home, Sparkles, Map, Bell, Calendar, Navigation, Settings, HeartHandshake, MessageCircle, ArrowLeft } from "lucide-react";
+import { Home, Sparkles, Map, Bell, Calendar, Navigation, Settings, HeartHandshake, MessageCircle, ArrowLeft, Ticket } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../layout/LanguageSwitcher";
 import { OmWatermark } from "./OmWatermark";
@@ -14,8 +14,7 @@ const navItems = [
 ];
 
 const sidebarExtras = [
-  // { to: "/poojas", label: "Pooja & Timings", icon: Calendar },
-  // { to: "/nearby", label: "Nearby & Navigate", icon: Navigation },
+  { to: "/booking/palani-murugan", label: "VIP Booking", icon: Ticket },
 ];
 
 export function AppShell() {

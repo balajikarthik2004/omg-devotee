@@ -10,7 +10,7 @@ import { TempleTimings } from "@/features/temple-details/components/TempleTiming
 import { ParkingStatus } from "@/features/temple-details/components/ParkingStatus";
 import { SmartAlerts } from "@/features/temple-details/components/SmartAlerts";
 import { TempleTabs } from "@/features/temple-details/components/TempleTabs";
-import { MobileActionBar, OtherTemples } from "@/features/temple-details/components/SidebarWidgets";
+import { MobileActionBar, OtherTemples, BookingWidget } from "@/features/temple-details/components/SidebarWidgets";
 
 export const Route = createFileRoute("/_app/temple/$slug")({
   loader: ({ params }) => {
@@ -66,6 +66,7 @@ function TempleDetail() {
           </div>
 
           <div className="space-y-6">
+            <BookingWidget t={t} />
             <SmartAlerts t={t} pct={pct} alertOn={alertOn} setAlertOn={setAlertOn} />
             <TempleTabs t={t} />
             <OtherTemples t={t} />
@@ -73,7 +74,7 @@ function TempleDetail() {
         </div>
       </div>
 
-      <MobileActionBar />
+      <MobileActionBar t={t} />
     </div>
   );
 }
