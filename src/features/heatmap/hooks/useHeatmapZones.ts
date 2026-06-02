@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import palaniImg from "@/assets/palani3.png";
+import palaniImg from "@/assets/palani4.png";
 import meenakshiImg  from "@/assets/Madurai.png";
 import srirangamImg from "@/assets/Srirangam.png";
 import arunachaleswararImg from "@/assets/Arunachaleswarar.png";
