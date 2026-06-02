@@ -11,18 +11,18 @@ export function DashboardTopNav({
   const { t } = useTranslation();
 
   return (
-    <div className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-white/20 bg-white/80 px-4 lg:px-8 backdrop-blur-xl shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
-      <div className="flex items-center gap-4">
+    <div className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-white/20 bg-white/80 px-4 lg:px-8 backdrop-blur-xl shadow-[0_2px_10px_rgba(0,0,0,0.05)] gap-2">
+      <div className="flex flex-1 items-center gap-2 lg:gap-4 min-w-0">
         {/* State Selector */}
         <div className="relative hidden sm:block group">
           <div className="absolute -inset-0.5 bg-gradient-to-r from-saffron/20 to-rose-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
           <button
             onClick={() => { setStateOpen((o: boolean) => !o); setDistrictOpen(false); setTempleOpen(false); }}
-            className="relative flex items-center gap-2.5 rounded-full border border-border bg-white px-4 py-2.5 text-sm font-semibold shadow-sm transition-all hover:border-saffron/30"
+            className="relative flex items-center gap-1.5 lg:gap-2.5 rounded-full border border-border bg-white px-3 lg:px-4 py-2 md:py-2.5 text-xs md:text-sm font-semibold shadow-sm transition-all hover:border-saffron/30 min-w-0 shrink"
           >
-            <MapPin size={15} className="text-saffron transition-transform group-hover:scale-110" />
-            <span className="text-foreground tracking-wide">{state ? t(state) : t("All States")}</span>
-            <ChevronDown size={14} className="text-muted-foreground transition-transform group-hover:translate-y-0.5 ml-1" />
+            <MapPin size={15} className="text-saffron transition-transform group-hover:scale-110 shrink-0 hidden md:block" />
+            <span className="text-foreground tracking-wide truncate max-w-[80px] md:max-w-[120px] lg:max-w-none">{state ? t(state) : t("All States")}</span>
+            <ChevronDown size={14} className="text-muted-foreground transition-transform group-hover:translate-y-0.5 ml-1 shrink-0" />
           </button>
           {stateOpen && (
             <div className="absolute left-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-border bg-white/95 backdrop-blur-lg shadow-xl ring-1 ring-black/5 animate-in fade-in slide-in-from-top-2">
@@ -60,11 +60,11 @@ export function DashboardTopNav({
           <div className="absolute -inset-0.5 bg-gradient-to-r from-saffron/20 to-rose-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
           <button
             onClick={() => { setDistrictOpen((o: boolean) => !o); setStateOpen(false); setTempleOpen(false); }}
-            className="relative flex items-center gap-2.5 rounded-full border border-border bg-white px-4 py-2.5 text-sm font-semibold shadow-sm transition-all hover:border-saffron/30"
+            className="relative flex items-center gap-1.5 lg:gap-2.5 rounded-full border border-border bg-white px-3 lg:px-4 py-2 md:py-2.5 text-xs md:text-sm font-semibold shadow-sm transition-all hover:border-saffron/30 min-w-0 shrink"
           >
-            <MapPin size={15} className="text-saffron transition-transform group-hover:scale-110" />
-            <span className="text-foreground tracking-wide">{district ? t(district) : t("All Districts")}</span>
-            <ChevronDown size={14} className="text-muted-foreground transition-transform group-hover:translate-y-0.5 ml-1" />
+            <MapPin size={15} className="text-saffron transition-transform group-hover:scale-110 shrink-0 hidden md:block" />
+            <span className="text-foreground tracking-wide truncate max-w-[80px] md:max-w-[120px] lg:max-w-none">{district ? t(district) : t("All Districts")}</span>
+            <ChevronDown size={14} className="text-muted-foreground transition-transform group-hover:translate-y-0.5 ml-1 shrink-0" />
           </button>
           {districtOpen && (
             <div className="absolute left-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-border bg-white/95 backdrop-blur-lg shadow-xl ring-1 ring-black/5 animate-in fade-in slide-in-from-top-2">
@@ -102,10 +102,10 @@ export function DashboardTopNav({
           <div className="absolute -inset-0.5 bg-gradient-to-r from-saffron/20 to-amber-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
           <button
             onClick={() => { setTempleOpen((o: boolean) => !o); setStateOpen(false); setDistrictOpen(false); }}
-            className="relative flex items-center gap-2.5 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold shadow-sm transition-all hover:border-saffron/30"
+            className="relative flex items-center gap-1.5 lg:gap-2.5 rounded-full border border-border bg-white px-3 lg:px-4 py-2 text-xs md:text-sm font-semibold shadow-sm transition-all hover:border-saffron/30 min-w-0 shrink"
           >
-            <LandmarkIcon />
-            <span className="text-foreground tracking-wide truncate max-w-[120px] sm:max-w-none">{t(activeTemple.name)}</span>
+            <span className="shrink-0 hidden md:block"><LandmarkIcon /></span>
+            <span className="text-foreground tracking-wide truncate max-w-[100px] md:max-w-[140px] lg:max-w-[200px] xl:max-w-none">{t(activeTemple.name)}</span>
             <ChevronDown size={14} className="text-muted-foreground transition-transform group-hover:translate-y-0.5 ml-1 shrink-0" />
           </button>
           {templeOpen && (
@@ -134,8 +134,8 @@ export function DashboardTopNav({
         </div>
       </div>
 
-      <div className="flex items-center gap-3 sm:gap-5 text-sm text-muted-foreground">
-        <div className="hidden sm:flex items-center gap-1.5">
+      <div className="flex shrink-0 items-center gap-3 sm:gap-5 text-sm text-muted-foreground">
+        <div className="hidden lg:flex items-center gap-1.5">
           <span className="font-mono font-medium text-foreground">
             {now.toLocaleTimeString("en-IN", { hour12: false, hour: "2-digit", minute: "2-digit" })}
           </span>
@@ -143,7 +143,7 @@ export function DashboardTopNav({
             · {now.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" })}
           </span>
         </div>
-        <div className="hidden sm:flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1.5 shadow-sm">
+        <div className="hidden lg:flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1.5 shadow-sm">
           <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{district ? t(district).split(" ")[0] : t(activeTemple.district).split(" ")[0]}</span>
           <span className="text-xs font-semibold text-foreground">34°C ☀</span>
         </div>

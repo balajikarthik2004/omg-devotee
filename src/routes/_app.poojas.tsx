@@ -2,6 +2,7 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { temples } from "@/data/temples";
 import { MapPin, ArrowLeft, Sparkles } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/_app/poojas")({
   validateSearch: (search: Record<string, unknown>) => {
@@ -16,11 +17,12 @@ export const Route = createFileRoute("/_app/poojas")({
 function PoojaPage() {
   const router = useRouter();
   const search = Route.useSearch();
+  const { t } = useTranslation();
   
   // Find initial temple by slug from search params, default to first if invalid
   const initialTemple = temples.find(t => t.slug === search.temple) || temples[0];
   const [sel, setSel] = useState(initialTemple.id);
-  const t = temples.find(x => x.id === sel)!;
+  const activeTempleData = temples.find(x => x.id === sel)!;
   const now = new Date().getHours();
 
   function status(p: string) {
@@ -43,13 +45,13 @@ function PoojaPage() {
         <div className="flex items-center justify-center w-8 h-8 rounded-full border border-border/60 bg-card shadow-sm group-hover:border-saffron/40 group-hover:text-saffron">
           <ArrowLeft className="w-4 h-4" />
         </div>
-        Go Back
+        {t("Go Back")}
       </button>
 
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-serif text-3xl lg:text-4xl font-bold tracking-tight">Pooja & Timings</h1>
-          <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest mt-2">Daily Divine Schedules</p>
+          <h1 className="font-serif text-3xl lg:text-4xl font-bold tracking-tight">{t("Pooja & Timings")}</h1>
+          <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest mt-2">{t("Daily Divine Schedules")}</p>
         </div>
       </div>
 
@@ -62,7 +64,7 @@ function PoojaPage() {
               sel===temple.id ? "bg-foreground text-background border-foreground shadow-[0_4px_12px_rgba(0,0,0,0.1)]" : "bg-card border-border/60 hover:bg-secondary text-foreground/70 hover:text-foreground"
             }`}
           >
-            {temple.name.split(" ").slice(0, 2).join(" ")}
+            {t(temple.name).split(" ").slice(0, 2).join(" ")}
           </button>
         ))}
       </div>
@@ -71,18 +73,18 @@ function PoojaPage() {
         <div className="pointer-events-none absolute top-0 right-0 h-48 w-48 rounded-full bg-saffron/5 blur-3xl" />
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/50 pb-5 relative z-10">
           <div>
-            <div className="font-serif text-2xl font-bold">{t.name}</div>
+            <div className="font-serif text-2xl font-bold">{t(activeTempleData.name)}</div>
             <div className="text-[11px] font-bold uppercase tracking-widest text-saffron mt-1">
-              ✨ {t.specialDay} is the special pooja day
+              ✨ {t(activeTempleData.specialDay)} {t("is the special pooja day")}
             </div>
           </div>
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 px-3 py-1.5 rounded-full text-xs font-bold tracking-wider">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" /> TEMPLE OPEN
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" /> {t("TEMPLE OPEN")}
           </div>
         </div>
 
         <div className="mt-5 relative border-l-2 border-border ml-2 space-y-4 pb-2">
-          {t.poojas.map(p => {
+          {activeTempleData.poojas.map(p => {
             const s = status(p);
             const time = p.split(" ").slice(0,2).join(" ");
             const name = p.split(" ").slice(2).join(" ");
@@ -108,18 +110,18 @@ function PoojaPage() {
                     <div>
                       <div className="flex items-center gap-2">
                         <span className={`text-[15px] font-bold ${isLive ? 'text-foreground' : isDone ? 'text-foreground/70' : 'text-foreground/90'}`}>
-                          {name}
+                          {t(name)}
                         </span>
                         {isLive && (
                           <span className="text-[9px] uppercase font-black tracking-widest bg-saffron text-white px-2 py-0.5 rounded-md shadow-sm">
-                            Live
+                            {t("Live")}
                           </span>
                         )}
                       </div>
                     </div>
                   </div>
                   <div className={`text-[10px] font-bold uppercase tracking-widest ${isLive ? 'text-saffron' : isDone ? 'text-emerald-600/70' : 'text-muted-foreground/50'}`}>
-                    {isDone ? "Completed" : isLive ? "In Progress" : "Upcoming"}
+                    {isDone ? t("Completed") : isLive ? t("In Progress") : t("Upcoming")}
                   </div>
                 </div>
               </div>
@@ -130,15 +132,15 @@ function PoojaPage() {
         <div className="mt-4 bg-secondary/40 border border-border/60 rounded-2xl px-4 py-3 text-xs font-medium text-foreground/80 flex items-center gap-3">
           <div className="bg-white rounded-full p-1.5 shadow-sm border border-border/50 text-base leading-none">⭐</div>
           <div className="flex-1">
-            <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Today's Special</div>
-            <div className="text-foreground mt-0.5">Abhishekam for registered devotees at 5:40 AM · Special Sashti Pooja at 7:00 AM</div>
+            <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{t("Today's Special")}</div>
+            <div className="text-foreground mt-0.5">{t("Abhishekam for registered devotees at 5:40 AM · Special Sashti Pooja at 7:00 AM")}</div>
           </div>
         </div>
       </div>
 
       <div className="mt-8 mb-4">
         <h2 className="font-serif text-xl font-bold tracking-tight mb-4 flex items-center gap-2">
-          Upcoming Festivals
+          {t("Upcoming Festivals")}
         </h2>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
@@ -153,16 +155,16 @@ function PoojaPage() {
                   <Sparkles className="w-5 h-5" />
                 </div>
                 <div className="flex-1 mt-0.5">
-                  <div className="font-bold text-[15px] text-foreground leading-tight group-hover:text-saffron transition-colors">{f.n}</div>
+                  <div className="font-bold text-[15px] text-foreground leading-tight group-hover:text-saffron transition-colors">{t(f.n)}</div>
                   <div className="text-[11px] text-muted-foreground font-bold uppercase tracking-wider mt-1.5 flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-saffron/70" /> {f.t}
+                    <MapPin className="w-3 h-3 text-saffron/70" /> {t(f.t)}
                   </div>
                 </div>
               </div>
               
               <div className="mt-auto flex items-center justify-between text-xs pt-4 border-t border-border/50 relative z-10">
-                <div className="font-bold text-white text-foreground bg-secondary/80 px-3 py-1.5 rounded-lg border border-border/50 shadow-sm">{f.d}</div>
-                <div className="text-saffron font-bold text-[10px] tracking-widest uppercase">{f.c} Expected</div>
+                <div className="font-bold text-white text-foreground bg-secondary/80 px-3 py-1.5 rounded-lg border border-border/50 shadow-sm">{t(f.d)}</div>
+                <div className="text-saffron font-bold text-[10px] tracking-widest uppercase">{t(f.c)} {t("Expected")}</div>
               </div>
             </div>
           ))}
