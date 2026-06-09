@@ -9,8 +9,9 @@ export function UpcomingEvents({ slug }: { slug: string }) {
   if (events.length === 0) return null;
 
   return (
-    <div className="bg-white border border-slate-200/60 rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-amber-50 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none" />
+    <div className="bg-white/70 backdrop-blur-2xl border border-white/80 rounded-[32px] p-6 shadow-[0_8px_40px_rgb(0,0,0,0.04)] relative overflow-hidden h-full">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent pointer-events-none" />
+      <div className="absolute top-0 right-0 w-48 h-48 bg-amber-400/10 rounded-full blur-[60px] -mr-10 -mt-10 pointer-events-none" />
       
       <div className="relative z-10">
         <h3 className="font-serif text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
@@ -20,7 +21,7 @@ export function UpcomingEvents({ slug }: { slug: string }) {
 
         <div className="space-y-4">
           {events.map((event, i) => (
-            <div key={i} className={`p-4 rounded-2xl border ${event.isMajor ? "bg-amber-50/50 border-amber-100" : "bg-slate-50 border-slate-100"}`}>
+            <div key={i} className={`p-5 rounded-[20px] border transition-all hover:shadow-md hover:-translate-y-1 ${event.isMajor ? "bg-gradient-to-br from-amber-50/80 to-orange-50/30 border-amber-200/60 shadow-sm" : "bg-white/60 backdrop-blur-md border-white/80"}`}>
               <div className="mb-2">
                 <div className="font-bold text-slate-800 text-sm flex items-center gap-1.5 mb-2">
                   {tStr(event.title)}

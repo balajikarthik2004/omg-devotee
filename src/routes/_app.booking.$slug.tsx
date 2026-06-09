@@ -82,7 +82,11 @@ function BookingPage() {
   let currentStep = typeof step === "number" ? step : 3;
 
   return (
-    <div className="pb-32 lg:pb-8 min-h-screen bg-slate-50/50">
+    <div className="pb-32 lg:pb-8 min-h-screen bg-[#fafafc] relative overflow-hidden">
+      {/* Background ambient glows */}
+      <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-saffron/10 via-amber-500/5 to-transparent pointer-events-none z-0" />
+      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-saffron/20 blur-[100px] pointer-events-none z-0" />
+      <div className="absolute top-[20%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-orange-500/10 blur-[120px] pointer-events-none z-0" />
       <BookingHeader t={t} />
 
       {/* Stepper UI */}
@@ -92,11 +96,11 @@ function BookingPage() {
           <div className="absolute left-0 top-5 -translate-y-1/2 h-1 bg-gradient-to-r from-saffron to-amber-500 transition-all duration-700 ease-in-out rounded-full z-0" style={{ width: currentStep === 1 ? '0%' : currentStep === 2 ? '50%' : '100%' }} />
           
           {[1, 2, 3].map(num => (
-            <div key={num} className="relative z-10 flex flex-col items-center gap-3 bg-slate-50/50 px-4">
+            <div key={num} className="relative z-10 flex flex-col items-center gap-3">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 ease-out 
                 ${currentStep > num ? "bg-gradient-to-br from-saffron to-amber-500 text-white shadow-lg shadow-amber-500/40 ring-4 ring-amber-50 scale-100" 
                 : currentStep === num ? "bg-white text-saffron border-2 border-saffron shadow-lg shadow-saffron/20 ring-4 ring-saffron/10 scale-110" 
-                : "bg-white border-2 border-slate-200 text-slate-400 scale-100"}`}>
+                : "bg-white/80 backdrop-blur-sm border-2 border-slate-200/60 text-slate-400 scale-100 shadow-sm"}`}>
                 {currentStep > num ? <Check className="w-5 h-5" /> : num}
               </div>
               <span className={`text-xs uppercase tracking-widest font-bold transition-colors duration-300 ${currentStep === num ? "text-saffron" : currentStep > num ? "text-slate-800" : "text-slate-400"}`}>
@@ -107,7 +111,7 @@ function BookingPage() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 lg:px-8 pt-4 relative z-20">
+      <div className="max-w-[1600px] w-full mx-auto px-4 xl:px-10 pt-4 relative z-20">
         {step === "success" ? (
           <BookingSuccess t={t} details={details} selectedDate={selectedDate} selectedTime={selectedTime} />
         ) : (

@@ -12,7 +12,7 @@ export function DateTimeSelector({ t, selectedDate, setSelectedDate, selectedTim
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const maxDate = new Date(today);
-  maxDate.setDate(today.getDate() + 14);
+  maxDate.setDate(today.getDate() + 90); // Allow booking up to 90 days in advance
 
   // Generate time slots based on EXACT temple timings
   const availableTimes = useMemo(() => {
@@ -65,19 +65,19 @@ export function DateTimeSelector({ t, selectedDate, setSelectedDate, selectedTim
   const renderHeader = () => {
     return (
       <div className="flex justify-between items-center mb-6 px-2">
-        <h3 className="font-bold text-[28px] text-[#2a2c5a] font-serif tracking-tight">
+        <h3 className="font-bold text-[28px] text-slate-800 font-serif tracking-tight drop-shadow-sm">
           {format(currentMonth, "MMMM yyyy")}
         </h3>
         <div className="flex gap-2">
           <button 
             onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} 
-            className="w-10 h-10 flex items-center justify-center rounded-full border border-[#e2e8f0] bg-[#f8fafc] hover:bg-[#e2e8f0] text-slate-600 transition-colors shadow-sm"
+            className="w-10 h-10 flex items-center justify-center rounded-full border border-white/80 bg-white/50 backdrop-blur-md hover:bg-white text-slate-700 transition-all shadow-sm hover:shadow-md hover:-translate-x-0.5"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button 
             onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} 
-            className="w-10 h-10 flex items-center justify-center rounded-full border border-[#e2e8f0] bg-[#f8fafc] hover:bg-[#e2e8f0] text-slate-600 transition-colors shadow-sm"
+            className="w-10 h-10 flex items-center justify-center rounded-full border border-white/80 bg-white/50 backdrop-blur-md hover:bg-white text-slate-700 transition-all shadow-sm hover:shadow-md hover:translate-x-0.5"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -91,7 +91,7 @@ export function DateTimeSelector({ t, selectedDate, setSelectedDate, selectedTim
     const startDate = startOfWeek(startOfMonth(currentMonth));
     for (let i = 0; i < 7; i++) {
       days.push(
-        <div key={i} className="text-center font-bold text-[#5c688c] text-sm uppercase pb-2 tracking-wider">
+        <div key={i} className="text-center font-extrabold text-slate-400 text-[11px] uppercase pb-3 tracking-[0.2em]">
           {format(addDays(startDate, i), "EE").charAt(0)}
         </div>
       );
@@ -119,7 +119,7 @@ export function DateTimeSelector({ t, selectedDate, setSelectedDate, selectedTim
         const isDisabled = isBefore(day, addDays(today, 1)) || isAfter(day, maxDate);
 
         days.push(
-          <div key={day.toString()} className="p-0.5 h-12 sm:h-14">
+          <div key={day.toString()} className="p-1 h-16 sm:h-20 lg:h-24">
             {isCurrentMonth ? (
               <button
                 disabled={isDisabled}
@@ -127,16 +127,16 @@ export function DateTimeSelector({ t, selectedDate, setSelectedDate, selectedTim
                   setSelectedDate(cloneDay);
                   setSelectedTime("");
                 }}
-                className={`w-full h-full relative rounded-xl transition-all ${
+                className={`w-full h-full relative rounded-[14px] transition-all duration-300 ${
                   isSelected
-                    ? "border-2 border-[#e63946] bg-[#fdf8f8] shadow-sm z-10 scale-105"
+                    ? "border-saffron/50 bg-saffron/10 shadow-sm z-10 scale-[1.08] ring-1 ring-saffron/30"
                     : isDisabled
-                    ? "bg-[#f8fafc] opacity-50 cursor-not-allowed border border-transparent"
-                    : "bg-[#f8fafc] hover:bg-[#f1f5f9] border border-transparent hover:border-slate-200"
+                    ? "bg-white/40 opacity-40 cursor-not-allowed border border-transparent"
+                    : "bg-white/60 backdrop-blur-md hover:bg-white border border-white/60 hover:border-saffron/40 hover:shadow-md hover:-translate-y-0.5"
                 }`}
               >
-                <div className={`absolute top-1 right-1 sm:top-1.5 sm:right-1.5 w-6 h-6 flex items-center justify-center rounded-full text-[12px] font-bold ${
-                  isSelected ? "bg-[#e63946] text-white shadow-sm" : "text-[#1e293b]"
+                <div className={`absolute top-1 right-1 w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full text-[13px] font-bold transition-colors ${
+                  isSelected ? "text-saffron bg-white shadow-sm" : "text-slate-700 group-hover:text-saffron"
                 }`}>
                   {formattedDate}
                 </div>
@@ -161,8 +161,10 @@ export function DateTimeSelector({ t, selectedDate, setSelectedDate, selectedTim
   };
 
   return (
-    <div className="bg-white border border-slate-200/60 rounded-[28px] p-5 shadow-sm mb-6">
-      <div className="bg-amber-50 border border-amber-200/60 rounded-xl p-3 flex items-start gap-3 mb-4 text-amber-800 text-sm">
+    <div className="bg-white/70 backdrop-blur-2xl border border-white/80 rounded-[32px] p-6 shadow-[0_8px_40px_rgb(0,0,0,0.04)] mb-6 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent pointer-events-none" />
+      
+      <div className="relative z-10 bg-gradient-to-r from-amber-50 to-orange-50/50 border border-amber-200/60 rounded-2xl p-4 flex items-start gap-3 mb-6 text-amber-900 text-sm shadow-sm">
         <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
         <div>
           <span className="font-bold">{tStr("Advance Booking Required:")}</span>{" "}
@@ -170,14 +172,14 @@ export function DateTimeSelector({ t, selectedDate, setSelectedDate, selectedTim
         </div>
       </div>
 
-      <div className="mb-4 max-w-xl mx-auto">
+      <div className="mb-4 w-full mx-auto">
         {renderHeader()}
         {renderDays()}
         {renderCells()}
       </div>
 
       {selectedDate && (
-        <div className="animate-in fade-in slide-in-from-top-4 duration-300 max-w-2xl mx-auto border-t border-slate-100 pt-6">
+        <div className="animate-in fade-in slide-in-from-top-4 duration-300 w-full mx-auto border-t border-slate-100 pt-6">
           <label className="block text-sm font-bold text-[#2a2c5a] mb-4 flex items-center gap-2">
             <Clock className="w-4 h-4" /> {tStr("Select Time Slot")}
           </label>
@@ -191,10 +193,10 @@ export function DateTimeSelector({ t, selectedDate, setSelectedDate, selectedTim
                 <button
                   key={i}
                   onClick={() => setSelectedTime(time)}
-                  className={`py-3 px-2 rounded-2xl text-sm font-bold border transition-all text-center ${
+                  className={`py-3.5 px-2 rounded-[16px] text-sm font-bold border transition-all duration-300 text-center ${
                     selectedTime === time
-                      ? "bg-[#e63946] text-white border-[#e63946] shadow-md shadow-red-500/20"
-                      : "bg-[#f8fafc] border-slate-200 text-slate-700 hover:border-[#e63946]/50 hover:bg-white"
+                      ? "bg-saffron/10 text-saffron border-saffron/40 shadow-sm scale-105"
+                      : "bg-white/80 backdrop-blur-md border-white/80 text-slate-700 hover:border-saffron/40 hover:bg-white hover:shadow-md hover:-translate-y-0.5"
                   }`}
                 >
                   {time}
