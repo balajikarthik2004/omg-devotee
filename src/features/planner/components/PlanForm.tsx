@@ -22,14 +22,15 @@ export function PlanForm({
             <input type="text" value={fromLocation} onChange={e => { setFromLocation(e.target.value); }} placeholder={tStr("e.g. Chennai, Bangalore, Madurai...")} className="w-full bg-white border border-border rounded-xl px-4 py-3 text-base outline-none focus:border-saffron focus:ring-1 focus:ring-saffron" />
           </Step>
           <Step n={2} title={tStr("Which temple?")}>
-            <select value={temple} onChange={e => { setTemple(e.target.value); }} className="w-full bg-white border border-border rounded-xl px-4 py-3 text-base outline-none focus:border-saffron focus:ring-1 focus:ring-saffron">
+            <select value={temple} onChange={e => { setTemple(e.target.value); }} className={`w-full bg-white border rounded-xl px-4 py-3 text-base outline-none focus:border-saffron focus:ring-1 focus:ring-saffron ${!temple ? "text-slate-400 border-border" : "text-slate-900 border-saffron"}`}>
+              <option value="" disabled>{tStr("Select temple name")}</option>
               {temples.map(x => <option key={x.id} value={x.slug}>{tStr(x.name)}</option>)}
             </select>
           </Step>
         </div>
 
         <div className="h-full">
-          {fromLocation.trim().length >= 3 ? (
+          {fromLocation.trim().length >= 3 && t ? (
             <div className="animate-in fade-in zoom-in-95 duration-300 w-full h-full min-h-[260px] rounded-3xl overflow-hidden border border-border/60 bg-card shadow-[0_18px_45px_rgba(0,0,0,0.08)] flex flex-col">
               <div className="bg-saffron/10 px-4 py-3 border-b border-border/60 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-2 text-saffron font-semibold text-sm">
@@ -54,7 +55,7 @@ export function PlanForm({
           ) : (
             <div className="w-full h-full min-h-[260px] rounded-3xl border border-dashed border-border/70 bg-secondary/40 flex flex-col items-center justify-center text-muted-foreground p-6 text-center">
               <MapPin className="w-8 h-8 mb-3 opacity-50" />
-              <div className="text-sm font-medium">{tStr("Enter your origin location to see the live route map")}</div>
+              <div className="text-sm font-medium">{tStr("Enter origin and select a temple to see the route")}</div>
               <div className="text-xs text-muted-foreground/80 mt-1">{tStr("We will tailor the ETA and route quality score.")}</div>
             </div>
           )}
@@ -74,7 +75,7 @@ export function PlanForm({
         <PillRow value={purpose} setValue={setPurpose} options={[["darshan", tStr("Regular darshan")], ["pooja", tStr("Special pooja")], ["festival", tStr("Festival attendance")], ["first", tStr("First visit")]]} />
       </Step>
 
-      <button onClick={handleGenerate} disabled={loading} className="w-full rounded-full gradient-saffron text-white py-3.5 text-sm font-semibold shadow-[0_12px_30px_rgba(234,179,8,0.35)] hover:opacity-95 disabled:opacity-70 flex justify-center items-center gap-2 transition-all mt-4">
+      <button onClick={handleGenerate} disabled={loading || !temple || !fromLocation || !date} className="w-full rounded-full gradient-saffron text-white py-3.5 text-sm font-semibold shadow-[0_12px_30px_rgba(234,179,8,0.35)] hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2 transition-all mt-4">
         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
         {loading ? tStr("AI is planning...") : tStr("Generate AI Itinerary")}
       </button>

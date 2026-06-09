@@ -1,6 +1,7 @@
 import { MapPin, ChevronDown, Bell } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { districts as allDistricts, temples, statesAndDistricts } from "@/data/temples";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 
 export function DashboardTopNav({
   state, setState, stateOpen, setStateOpen,
@@ -105,12 +106,24 @@ export function DashboardTopNav({
             className="relative flex items-center gap-1.5 lg:gap-2.5 rounded-full border border-border bg-white px-3 lg:px-4 py-2 text-xs md:text-sm font-semibold shadow-sm transition-all hover:border-saffron/30 min-w-0 shrink"
           >
             <span className="shrink-0 hidden md:block"><LandmarkIcon /></span>
-            <span className="text-foreground tracking-wide truncate max-w-[100px] md:max-w-[140px] lg:max-w-[200px] xl:max-w-none">{t(activeTemple.name)}</span>
+            <span className="text-foreground tracking-wide truncate max-w-[100px] md:max-w-[140px] lg:max-w-[200px] xl:max-w-none">
+              {activeTempleId === 0 ? t("Select Temple") : t(activeTemple.name)}
+            </span>
             <ChevronDown size={14} className="text-muted-foreground transition-transform group-hover:translate-y-0.5 ml-1 shrink-0" />
           </button>
           {templeOpen && (
             <div className="absolute left-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-xl border border-border bg-white/95 backdrop-blur-lg shadow-xl ring-1 ring-black/5 animate-in fade-in slide-in-from-top-2">
               <div className="max-h-80 overflow-y-auto py-1">
+                <button
+                  onClick={() => { setActiveTempleId(0); setTempleOpen(false); }}
+                  className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${activeTempleId === 0
+                    ? "bg-saffron/10 font-bold text-saffron"
+                    : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
+                    }`}
+                >
+                  <span className="truncate">{t("Select Temple")}</span>
+                  {activeTempleId === 0 && <span className="w-1.5 h-1.5 rounded-full bg-saffron" />}
+                </button>
                 {temples.filter(t => {
                   if (state && t.state !== state) return false;
                   if (district && t.district !== district) return false;
@@ -147,12 +160,13 @@ export function DashboardTopNav({
           <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{district ? t(district).split(" ")[0] : t(activeTemple.district).split(" ")[0]}</span>
           <span className="text-xs font-semibold text-foreground">34°C ☀</span>
         </div>
+        <LanguageSwitcher className="w-8 h-8 text-muted-foreground hover:text-foreground cursor-pointer" />
         <div className="relative">
           <button
             onClick={() => setBellOpen((o: boolean) => !o)}
             className="relative rounded-full p-2 transition-colors hover:bg-secondary"
           >
-            <Bell size={18} className="text-muted-foreground transition-colors hover:text-foreground" />
+            <Bell size={18} className="text-muted-foreground transition-colors hover:text-foreground cursor-pointer" />
             <span className="absolute right-1 top-1 grid h-3.5 w-3.5 place-items-center rounded-full bg-danger text-[8px] font-bold text-white">
               3
             </span>
@@ -164,9 +178,9 @@ export function DashboardTopNav({
               </div>
               <div className="divide-y divide-border">
                 {[
-                  { t: t("Peak alert"), b: t("Inner sanctum approaching capacity"), c: "text-danger" },
-                  { t: t("Queue update"), b: t("Lane B wait time +6 min"), c: "text-saffron" },
-                  { t: t("Staff"), b: t("8 volunteers Added to Lane C"), c: "text-info" },
+                  { t: t("Aarti Reminder"), b: t("Evening Aarti starts in 30 mins at the main sanctum."), c: "text-saffron" },
+                  { t: t("Queue Update"), b: t("Darshan queue is moving faster. Est. wait: 45 mins."), c: "text-emerald-600" },
+                  { t: t("Annadanam"), b: t("Free meals are now being served at Hall B."), c: "text-blue-500" },
                 ].map((n, i) => (
                   <div key={i} className="px-3 py-2 text-xs hover:bg-saffron hover:text-white group transition-colors">
                     <div className={`font-semibold group-hover:text-white transition-colors ${n.c}`}>{n.t}</div>

@@ -53,7 +53,7 @@ export function PaymentProcessor({
         </div>
 
         <div className="flex gap-3">
-          <button onClick={onCancel} className="px-6 py-4 rounded-full bg-secondary text-foreground text-base font-medium transition-colors hover:bg-secondary/80">
+          <button onClick={onCancel} className="px-6 py-4 rounded-full bg-secondary text-white text-base font-medium transition-colors hover:bg-secondary/80">
             {tStr("Cancel")}
           </button>
           <button onClick={onPay} disabled={isProcessing} className="flex-1 rounded-full gradient-saffron text-white py-4 text-base font-medium flex items-center justify-center gap-2 transition-transform hover:-translate-y-0.5 shadow-md disabled:opacity-70 disabled:pointer-events-none">

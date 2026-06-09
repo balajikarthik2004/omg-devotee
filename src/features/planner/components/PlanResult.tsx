@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
-import { Sparkles, Navigation2, MapPin, ArrowRight, BedDouble, Ticket, Users, ThermometerSun, Bell, Heart, Car, Train, Bus } from "lucide-react";
+import { Sparkles, Navigation2, MapPin, ArrowRight, BedDouble, Ticket, Users, ThermometerSun, Bell, Heart, Car, Train, Bus, Plane } from "lucide-react";
 
 export function PlanResult({
   t, date, fromLocation, travelHours, travelMins, trans, hotels, setFullMap
@@ -10,32 +10,41 @@ export function PlanResult({
   return (
     <div className="mt-6 fade-in rounded-2xl p-[1px] gradient-saffron mb-10">
       <div className="bg-card rounded-2xl p-4 lg:p-6">
-        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-2">
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
           <div>
-            <div className="flex items-center gap-1.5 text-saffron font-semibold text-sm"><Sparkles className="w-4 h-4" /> {tStr("Your AI-Optimized Itinerary")}</div>
+            <div className="flex items-center gap-1.5 text-saffron font-semibold text-sm"><Sparkles className="w-4 h-4" /> {tStr("Your Temple Visit Plan")}</div>
             <h2 className="font-serif text-2xl font-bold mt-1.5">{tStr(t.name)}</h2>
           </div>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
-            <div className="flex items-center gap-2.5 bg-gradient-to-b from-white to-slate-50/80 px-3.5 py-2 rounded-xl border border-slate-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow">
-              <div className="bg-indigo-50 border border-indigo-100/50 w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
-                <span className="text-sm leading-none drop-shadow-sm">📅</span>
-              </div>
-              <div>
-                <div className="text-[9px] uppercase tracking-widest text-slate-400 font-bold leading-tight mb-0.5">{tStr("Travel Date")}</div>
-                <div className="text-xs font-extrabold text-slate-800 leading-tight tracking-tight">{date || tStr("Upcoming")}</div>
-              </div>
+          <div className="flex items-center gap-2.5 bg-gradient-to-b from-white to-slate-50/80 px-3.5 py-2 rounded-xl border border-slate-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] shrink-0">
+            <div className="bg-indigo-50 border border-indigo-100/50 w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
+              <span className="text-sm leading-none drop-shadow-sm">📅</span>
             </div>
-            
-            <div className="flex items-center gap-2.5 bg-gradient-to-b from-emerald-50/80 to-emerald-100/30 px-3.5 py-2 rounded-xl border border-emerald-200/60 shadow-[0_2px_12px_rgba(16,185,129,0.08)] relative overflow-hidden group hover:border-emerald-300/80 transition-colors">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:translate-x-full duration-1000 ease-in-out transition-transform"></div>
-              <div className="bg-emerald-100/80 border border-emerald-200/50 w-8 h-8 rounded-lg flex items-center justify-center shrink-0 relative z-10">
-                <span className="text-sm leading-none drop-shadow-sm">✨</span>
-              </div>
-              <div className="relative z-10">
-                <div className="text-[9px] uppercase tracking-widest text-emerald-600 font-bold leading-tight mb-0.5">{tStr("Best Darshan")}</div>
-                <div className="text-xs font-extrabold text-emerald-900 leading-tight tracking-tight">3:30 PM – 5:00 PM</div>
-              </div>
+            <div>
+              <div className="text-[9px] uppercase tracking-widest text-slate-400 font-bold leading-tight mb-0.5">{tStr("Travel Date")}</div>
+              <div className="text-xs font-extrabold text-slate-800 leading-tight tracking-tight">{date || tStr("Upcoming")}</div>
             </div>
+          </div>
+        </div>
+
+        {/* HERO BANNER FOR BEST DARSHAN */}
+        <div className="mb-6 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 rounded-2xl p-4 lg:p-5 text-white shadow-xl shadow-emerald-500/20 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-3 group">
+          <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full duration-1000 ease-in-out transition-transform"></div>
+          <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 blur-3xl rounded-full -translate-y-1/2 translate-x-1/4 pointer-events-none"></div>
+          
+          <div className="relative z-10 flex items-center gap-3.5">
+            <div className="bg-white/20 backdrop-blur-md border border-white/30 w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 shadow-inner">
+              <Sparkles className="w-5 h-5 text-emerald-50 drop-shadow-md" />
+            </div>
+            <div>
+              <div className="text-emerald-100 text-[10px] uppercase tracking-widest font-bold mb-0.5">{tStr("Best Time for Darshan")}</div>
+              <div className="text-xl lg:text-2xl font-black tracking-tight drop-shadow-md">3:30 PM – 5:00 PM</div>
+            </div>
+          </div>
+          <div className="relative z-10 flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-1.5 border-t sm:border-t-0 border-white/10 pt-2 sm:pt-0">
+             <div className="text-emerald-100 text-[11px] font-medium">{tStr("Less Rush Expected")}</div>
+             <div className="text-white font-bold text-xs bg-white/20 px-3 py-1 rounded-full backdrop-blur-md border border-white/30 inline-block shadow-sm">
+               ~18 {tStr("mins wait")}
+             </div>
           </div>
         </div>
 
@@ -57,7 +66,7 @@ export function PlanResult({
               <div className="w-full h-px bg-border relative">
                 <ArrowRight className="w-3.5 h-3.5 text-saffron absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-0.5" />
               </div>
-              <div className="text-[10px] font-medium text-muted-foreground mt-1 uppercase tracking-wider">{tStr("by Road")}</div>
+              <div className="text-[10px] font-medium text-muted-foreground mt-1 uppercase tracking-wider">{trans.isInternational ? tStr("by Air") : tStr("by Road")}</div>
             </div>
             <div className="flex-1 text-right min-w-0">
               <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-0.5">{tStr("Destination")}</div>
@@ -67,8 +76,40 @@ export function PlanResult({
 
           <div className="mt-4 space-y-3 relative z-10 mb-5">
             <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">{tStr("Recommended Transport Modes")}</div>
+            {/* Flight Option */}
+            {trans.isInternational && trans.flights && trans.flights.length > 0 && (
+              <div className="bg-background border border-border/60 rounded-2xl p-4 shadow-sm hover:border-saffron/40 transition-colors border-l-4 border-l-blue-500">
+                <div className="flex justify-between items-start mb-2">
+                  <div className="text-sm font-semibold text-foreground flex items-center gap-2"><Plane className="w-4 h-4 text-blue-500" /> {tStr("By Air (International)")}</div>
+                  <div className="text-xs font-bold text-blue-500">{trans.roadTime}</div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  {trans.flights.map((f: any, i: number) => (
+                    <div key={i} className="bg-secondary/50 rounded-xl p-2.5 flex justify-between items-center border border-border/20">
+                      <div>
+                        <div className="font-bold text-[13px] mb-0.5 text-foreground leading-tight">{f.name}</div>
+                        <div className="flex flex-wrap gap-1.5 mt-1">
+                          <div className="font-bold text-[10px] text-black bg-white/40 border border-white/20 px-2 py-0.5 rounded-md uppercase tracking-widest inline-block shadow-sm">{f.time}</div>
+                        </div>
+                      </div>
+                      <div className="font-bold text-[11px] text-foreground bg-background border border-border/50 px-2.5 py-1 rounded-lg shadow-sm whitespace-nowrap">{f.price.replace("Duration:", tStr("Duration:"))}</div>
+                    </div>
+                  ))}
+                </div>
+                {trans.airportCab && (
+                  <div className="mt-2 text-xs text-muted-foreground flex flex-col gap-1.5 border-t border-border/50 pt-2">
+                    <div className="flex items-center gap-1.5"><Car className="w-3.5 h-3.5 shrink-0 text-blue-500" /> <span className="font-medium text-foreground">{tStr("Airport Transfer:")}</span> {trans.airportCab.route}</div>
+                    <div className="ml-5 flex gap-3 text-[11px]">
+                      <span><strong className="text-foreground/90 font-semibold">{tStr("Time:")}</strong> {trans.airportCab.time}</span>
+                      <span><strong className="text-foreground/90 font-semibold">{tStr("Distance:")}</strong> {trans.airportCab.distance}</span>
+                      <span><strong className="text-foreground/90 font-semibold">{tStr("Fare:")}</strong> <span className="text-emerald-600 font-bold">{trans.airportCab.price}</span></span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
             {/* Train Option */}
-            {trans.trains.length > 0 && (
+            {!trans.isInternational && trans.trains && trans.trains.length > 0 && (
               <div className="bg-background border border-border/60 rounded-2xl p-4 shadow-sm hover:border-saffron/40 transition-colors">
                 <div className="flex justify-between items-start mb-2">
                   <div className="text-sm font-semibold text-foreground flex items-center gap-2"><Train className="w-4 h-4 text-saffron" /> {tStr("By Train")}</div>
@@ -95,7 +136,7 @@ export function PlanResult({
               </div>
             )}
             {/* Bus Option */}
-            {trans.buses.length > 0 && (
+            {!trans.isInternational && trans.buses && trans.buses.length > 0 && (
               <div className="bg-background border border-border/60 rounded-2xl p-4 shadow-sm hover:border-saffron/40 transition-colors">
                 <div className="flex justify-between items-start mb-2">
                   <div className="text-sm font-semibold text-foreground flex items-center gap-2"><Bus className="w-4 h-4 text-saffron" /> {tStr("By Bus")}</div>
@@ -123,16 +164,18 @@ export function PlanResult({
               </div>
             )}
             {/* Car Option */}
-            <div className="bg-background border border-border/60 rounded-2xl p-4 shadow-sm hover:border-saffron/40 transition-colors">
-              <div className="flex justify-between items-start mb-2">
-                <div className="text-sm font-semibold text-foreground flex items-center gap-2"><Car className="w-4 h-4 text-saffron" /> {tStr("Personal Car / Outstation Cab")}</div>
-                <div className="text-xs font-bold text-muted-foreground">~ {travelHours}{tStr("h")} {travelMins}{tStr("m")}</div>
+            {!trans.isInternational && (
+              <div className="bg-background border border-border/60 rounded-2xl p-4 shadow-sm hover:border-saffron/40 transition-colors">
+                <div className="flex justify-between items-start mb-2">
+                  <div className="text-sm font-semibold text-foreground flex items-center gap-2"><Car className="w-4 h-4 text-saffron" /> {tStr("Personal Car / Outstation Cab")}</div>
+                  <div className="text-xs font-bold text-muted-foreground">~ {travelHours}{tStr("h")} {travelMins}{tStr("m")}</div>
+                </div>
+                <div className="text-xs text-muted-foreground mb-2">{tStr("Fastest and most flexible. Safe highway conditions. Ola, Uber, and local travel agencies offer outstation drops to")} {tStr(t.city)}.</div>
+                <div className="text-xs text-muted-foreground flex items-center gap-1.5 border-t border-border/50 pt-2">
+                  <MapPin className="w-3.5 h-3.5 shrink-0 text-saffron" /> <div><strong>{tStr("Suggested Route:")}</strong> {trans.route}</div>
+                </div>
               </div>
-              <div className="text-xs text-muted-foreground mb-2">{tStr("Fastest and most flexible. Safe highway conditions. Ola, Uber, and local travel agencies offer outstation drops to")} {tStr(t.city)}.</div>
-              <div className="text-xs text-muted-foreground flex items-center gap-1.5 border-t border-border/50 pt-2">
-                <MapPin className="w-3.5 h-3.5 shrink-0 text-saffron" /> <div><strong>{tStr("Suggested Route:")}</strong> {trans.route}</div>
-              </div>
-            </div>
+            )}
           </div>
 
           <div className="mt-4 border-t border-border/50 pt-4 relative z-10">
@@ -155,6 +198,57 @@ export function PlanResult({
               ))}
             </div>
           </div>
+
+          {/* En-Route Temples for Specific Routes */}
+          {(() => {
+            const origin = (fromLocation || "").toLowerCase();
+            const dest = t.slug;
+            let enRoute = null;
+            if ((origin.includes("chennai") || origin.includes("madras")) && dest === "madurai-meenakshi") {
+              enRoute = [
+                { name: "Srirangam Ranganathaswamy", city: "Trichy", timeAdded: "+2h", desc: "Massive 108-divya desam temple complex, perfect midway halt." },
+                { name: "Rockfort Ucchi Pillayar", city: "Trichy", timeAdded: "+1.5h", desc: "Iconic hilltop temple offering panoramic city views." }
+              ];
+            } else if ((origin.includes("chennai") || origin.includes("madras")) && dest === "palani-murugan") {
+              enRoute = [
+                { name: "Srirangam Ranganathaswamy", city: "Trichy", timeAdded: "+2h", desc: "Highly recommended midway halt before turning towards Dindigul." },
+                { name: "Samayapuram Mariamman", city: "Trichy", timeAdded: "+1h", desc: "Powerful Goddess temple easily accessible from the NH38 highway." }
+              ];
+            } else if ((origin.includes("bangalore") || origin.includes("bengaluru")) && dest === "madurai-meenakshi") {
+              enRoute = [
+                { name: "Anjaneyar Temple", city: "Namakkal", timeAdded: "+45m", desc: "Famous for its 18-feet tall Hanuman statue right on the highway route." },
+                { name: "Tharamangalam Kailasanathar", city: "Salem", timeAdded: "+1h", desc: "Known for exquisite ancient stone carvings and unique architecture." }
+              ];
+            } else if ((origin.includes("bangalore") || origin.includes("bengaluru")) && dest === "palani-murugan") {
+              enRoute = [
+                { name: "Bhavani Sangameswarar", city: "Erode", timeAdded: "+1h", desc: "Sacred confluence of rivers, a highly auspicious stop." },
+                { name: "Chennimalai Murugan", city: "Erode", timeAdded: "+1.5h", desc: "Beautiful hilltop Murugan temple on the way to Palani." }
+              ];
+            }
+
+            if (!enRoute) return null;
+
+            return (
+              <div className="mt-4 border-t border-border/50 pt-4 relative z-10">
+                <div className="flex items-center gap-2 mb-3">
+                  <MapPin className="w-4 h-4 text-emerald-600" />
+                  <div className="text-xs font-bold uppercase tracking-wider text-emerald-700">{tStr("AI Suggested: En-Route Spiritual Stops")}</div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {enRoute.map((rt: any) => (
+                    <div key={rt.name} className="bg-emerald-50/50 rounded-2xl p-3 border border-emerald-100 shadow-sm hover:border-emerald-300 transition-colors">
+                      <div className="flex justify-between items-start mb-1">
+                        <div className="text-xs font-bold text-slate-800">{tStr(rt.name)}</div>
+                        <div className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded uppercase tracking-wider">{rt.timeAdded} {tStr("detour")}</div>
+                      </div>
+                      <div className="text-[10px] text-emerald-700 font-medium mb-1 flex items-center gap-1"><Navigation2 className="w-3 h-3" /> {tStr(rt.city)}</div>
+                      <div className="text-[10px] text-slate-500 leading-snug">{tStr(rt.desc)}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
         </div>
 
         <div className="mt-6">
@@ -211,13 +305,15 @@ export function PlanResult({
           ⚠ {t.specialDay} {tStr("is a special puja day — carry valid ID for VIP darshan.")}
         </div>
 
-        <div className="mt-5 flex flex-wrap gap-3">
-          <button className="rounded-full bg-foreground text-background px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5">{tStr("🗺 Get Directions")}</button>
+        <div className="mt-5 flex flex-wrap gap-3 print:hidden">
+          <button onClick={() => window.print()} className="rounded-full bg-saffron text-white shadow-md shadow-saffron/20 px-5 py-2.5 text-sm font-bold transition-transform hover:-translate-y-0.5">
+            {tStr("Export as PDF")}
+          </button>
           <button className="rounded-full bg-white border border-border px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5">{tStr("🔔 Set crowd alert")}</button>
           <Link to="/temple/$slug" params={{ slug: t.slug }} className="rounded-full bg-white border border-border px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5">{tStr("View temple map →")}</Link>
         </div>
 
-        <div className="mt-6 border-t border-border pt-4">
+        <div className="mt-6 border-t border-border pt-4 print:hidden">
           <div className="text-sm font-semibold mb-2">{tStr("Compare time slots for selected date")}</div>
           <div className="space-y-1.5">
             {[

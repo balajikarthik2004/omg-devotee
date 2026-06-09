@@ -2,15 +2,25 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Temple } from "@/data/temples";
+import muruganImg from "@/assets/murugan.png";
+import meenakshiImg from "@/assets/meenakshi.png";
+
+const bgImages: Record<string, string> = {
+  "palani-murugan": muruganImg,
+  "madurai-meenakshi": meenakshiImg,
+};
 
 export function BookingHeader({ t }: { t: Temple }) {
   const { t: tStr } = useTranslation();
+  const hasBgImg = !!bgImages[t.slug];
 
   return (
     <div className="relative h-[160px] overflow-hidden" style={{
-      background: t.image
-        ? `url(${t.image}) center 20% / cover no-repeat`
-        : `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})`
+      background: hasBgImg
+        ? `url(${bgImages[t.slug]}) center 30% / cover no-repeat`
+        : t.image 
+          ? `url(${t.image}) center 20% / cover no-repeat`
+          : `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})`
     }}>
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
       

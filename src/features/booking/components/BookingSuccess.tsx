@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
-import { CheckCircle2, Download, ArrowLeft, QrCode } from "lucide-react";
+import { CheckCircle2, Download, ArrowLeft } from "lucide-react";
+import QRCode from "react-qr-code";
 
 export function BookingSuccess({ t, details, selectedDate, selectedTime }: any) {
   const { t: tStr } = useTranslation();
@@ -24,7 +25,9 @@ export function BookingSuccess({ t, details, selectedDate, selectedTime }: any) 
           <div className="absolute -right-3 top-1/2 w-6 h-6 bg-white rounded-full border-l border-slate-200" />
           
           <div className="flex flex-col items-center justify-center mb-4 pb-4 border-b border-slate-200 border-dashed">
-            <QrCode className="w-24 h-24 text-slate-800 mb-2" />
+            <div className="bg-white p-2.5 rounded-xl mb-3 shadow-sm border border-slate-100">
+              <QRCode value={ticketId} size={100} fgColor="#1e293b" />
+            </div>
             <div className="font-mono text-xs font-bold tracking-widest text-slate-500">{ticketId}</div>
           </div>
           

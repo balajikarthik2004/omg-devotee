@@ -30,7 +30,7 @@ function Dashboard() {
   const [templeOpen, setTempleOpen] = useState(false);
   const [bellOpen, setBellOpen] = useState(false);
   const [now, setNow] = useState(new Date());
-  const [activeTempleId, setActiveTempleId] = useState(1);
+  const [activeTempleId, setActiveTempleId] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 1000);

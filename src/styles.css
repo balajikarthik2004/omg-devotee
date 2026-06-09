@@ -62,15 +62,19 @@
   --radius: 0.5rem;
 
   /* OMG Official exact color values */
-  --background: 0 0% 99%;         /* #fcfcfc */
-  --foreground: 234 75% 7%;       /* #0f172a deep navy */
+  --background: 0 0% 99%;
+  /* #fcfcfc */
+  --foreground: 234 75% 7%;
+  /* #0f172a deep navy */
   --card: 0 0% 100%;
   --card-foreground: 234 75% 7%;
   --popover: 0 0% 100%;
   --popover-foreground: 234 75% 7%;
-  --primary: 2 76% 52%;           /* #e32c26 OMG Red */
+  --primary: 2 76% 52%;
+  /* #e32c26 OMG Red */
   --primary-foreground: 0 0% 100%;
-  --secondary: 232 55% 35%;       /* #283088 OMG Blue */
+  --secondary: 232 55% 35%;
+  /* #283088 OMG Blue */
   --secondary-foreground: 0 0% 100%;
   --muted: 232 30% 95%;
   --muted-foreground: 220 12% 46%;
@@ -133,7 +137,11 @@
     scroll-behavior: smooth;
     font-size: 14px;
   }
-  * { border-color: var(--color-border); }
+
+  * {
+    border-color: var(--color-border);
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -143,17 +151,33 @@
     background-image: none;
     -webkit-font-smoothing: antialiased;
   }
-  .dark body { background-image: none; }
 
-  h1, h2, h3, h4, h5, h6 { font-family: var(--font-serif); }
+  .dark body {
+    background-image: none;
+  }
 
-  .font-serif { font-family: var(--font-serif); }
-  .font-display { font-family: var(--font-display); }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+  }
+
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
 
   .gradient-hero {
     background: linear-gradient(135deg, var(--color-background) 0%, var(--color-muted) 100%);
     border-bottom: 1px solid var(--color-border);
   }
+
   /* OMG Red-to-Navy brand gradient */
   .gradient-saffron {
     background: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-navy) 100%);
@@ -167,10 +191,12 @@
     border: 1px solid rgba(0, 0, 0, 0.06);
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
   }
+
   .dark .glass-card {
     border: 1px solid rgba(255, 255, 255, 0.06);
     box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
   }
+
   .glass-panel {
     background: rgba(252, 252, 252, 0.96);
     backdrop-filter: blur(24px);
@@ -178,12 +204,15 @@
     border-bottom: 1px solid var(--color-border);
   }
 
-  .card-soft { box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .card-soft {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
 
   /* Hover lift */
   .hover-lift {
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   }
+
   .hover-lift:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px -6px rgba(227, 44, 38, 0.18);
@@ -191,17 +220,88 @@
   }
 
   /* Animations */
-  @keyframes om-spin { to { transform: rotate(360deg); } }
-  .om-spin { animation: om-spin 2s linear infinite; }
-  @keyframes pulse-soft { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.04); } }
-  .pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
-  @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .ticker { animation: ticker-scroll 50s linear infinite; }
-  @keyframes typing { 0%,60%,100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-2px); } }
-  .typing-dot { animation: typing 1.2s infinite; }
-  @keyframes fade-in { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-  .fade-in { animation: fade-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  @keyframes om-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 
-  .scrollbar-hide::-webkit-scrollbar { display: none; }
-  .scrollbar-hide { scrollbar-width: none; }
+  .om-spin {
+    animation: om-spin 2s linear infinite;
+  }
+
+  @keyframes pulse-soft {
+
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0.7;
+      transform: scale(1.04);
+    }
+  }
+
+  .pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  @keyframes ticker-scroll {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .ticker {
+    animation: ticker-scroll 50s linear infinite;
+  }
+
+  @keyframes typing {
+
+    0%,
+    60%,
+    100% {
+      opacity: 0.3;
+      transform: translateY(0);
+    }
+
+    30% {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+  }
+
+  .typing-dot {
+    animation: typing 1.2s infinite;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .fade-in {
+    animation: fade-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    scrollbar-width: none;
+  }
 }

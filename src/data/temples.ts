@@ -83,7 +83,7 @@ const gujaratPoojas = [
 
 export const temples: Temple[] = [
   // Tamil Nadu
-  { id:1, slug:"palani-murugan", name:"Palani Murugan Temple", image: "https://commons.wikimedia.org/wiki/Special:FilePath/Palani_Murugan_Temple.jpg?width=800", deityImage: "/deities/murugan_palani_1779692676216.png", deity:"Lord Murugan (Dhandayuthapani Swamy)", state: "Tamil Nadu", district:"Dindigul", city:"Palani", established:"2000+ years", tier:"Tier 1 Major Kshetram", openTime:"06:00", closeTime:"21:00", afternoonClose:"12:30", afternoonOpen:"15:00", crowd:12450, capacity:20000, crowdPct:62, waitMin:45, parking:{lotA:80,lotB:68,overflow:0}, color:"#F97316", gradientFrom:"#FFF7ED", gradientTo:"#FFEDD5", specialDay:"Tuesday", crowdStatus:"MODERATE", poojas: palaniPoojas },
+  { id:1, slug:"palani-murugan", name:"Palani Murugan Temple", image: "https://commons.wikimedia.org/wiki/Special:FilePath/Palani_Murugan_Temple.jpg?width=800", deityImage: "/deities/murugan_palani_1779692676216.png", deity:"Lord Murugan (Dhandayuthapani Swamy)", state: "Tamil Nadu", district:"Dindigul", city:"Palani", established:"2000+ years", tier:"Arupadaiveedu", openTime:"05:45", closeTime:"21:30", afternoonClose:"13:00", afternoonOpen:"13:30", crowd:12450, capacity:20000, crowdPct:62, waitMin:45, parking:{lotA:80,lotB:68,overflow:0}, color:"#F97316", gradientFrom:"#FFF7ED", gradientTo:"#FFEDD5", specialDay:"Tuesday", crowdStatus:"MODERATE", poojas: palaniPoojas },
   { id:2, slug:"madurai-meenakshi", name:"Madurai Meenakshi Temple", image: "https://commons.wikimedia.org/wiki/Special:FilePath/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg?width=800", deityImage: "/deities/meenakshi_madurai_1779692694024.png", deity:"Goddess Meenakshi & Lord Sundareswarar", state: "Tamil Nadu", district:"Madurai", city:"Madurai", openTime:"05:00", closeTime:"22:00", afternoonClose:"12:30", afternoonOpen:"16:00", crowd:18320, capacity:25000, crowdPct:73, waitMin:62, parking:{lotA:91,lotB:78,overflow:45}, color:"#7C3AED", gradientFrom:"#F5F3FF", gradientTo:"#EDE9FE", specialDay:"Friday", crowdStatus:"HIGH", poojas: meenakshiPoojas },
   { id:3, slug:"srirangam", name:"Srirangam Temple", image: "https://commons.wikimedia.org/wiki/Special:FilePath/Ranganathaswamy_temple_tiruchirappalli.jpg?width=800", deityImage: "/deities/ranganatha_srirangam_1779692710953.png", deity:"Lord Ranganatha (Vishnu)", state: "Tamil Nadu", district:"Tiruchirappalli", city:"Srirangam", openTime:"06:00", closeTime:"21:00", crowd:9840, capacity:22000, crowdPct:45, waitMin:28, parking:{lotA:54,lotB:38,overflow:0}, color:"#059669", gradientFrom:"#F0FDF4", gradientTo:"#DCFCE7", specialDay:"Saturday", crowdStatus:"LOW", poojas: basePoojas },
   { id:4, slug:"tiruvannamalai", name:"Tiruvannamalai Arunachaleswarar Temple", image: "https://commons.wikimedia.org/wiki/Special:FilePath/Arunachalam_temple_from_a_nearby_hill.jpg?width=800", deityImage: "/deities/shiva_lingam_1779692728170.png", deity:"Lord Shiva (Arunachaleswarar)", state: "Tamil Nadu", district:"Tiruvannamalai", city:"Tiruvannamalai", openTime:"05:30", closeTime:"21:30", crowd:22100, capacity:25000, crowdPct:88, waitMin:85, parking:{lotA:96,lotB:94,overflow:82}, color:"#DC2626", gradientFrom:"#FFF1F2", gradientTo:"#FFE4E6", specialDay:"Full Moon", crowdStatus:"CRITICAL", poojas: basePoojas },
@@ -159,17 +159,46 @@ export function statusLabel(s: CrowdStatus) {
 }
 
 export function forecastFor(t: Temple) {
-  const hours = Array.from({length: 16}, (_, i) => 6 + i);
-  return hours.map(h => {
-    let base = 20;
-    if (h >= 7 && h <= 10) base = 70 - (h-7)*4;
-    if (h >= 10 && h <= 12) base = 80;
-    if (h >= 12 && h <= 15) base = 0; 
-    if (h >= 15 && h <= 17) base = 35;
-    if (h >= 17 && h <= 19) base = 55;
-    if (h >= 19 && h <= 21) base = 40;
-    const variance = (t.crowdPct - 50) * 0.4;
-    const val = h >= 12 && h <= 15 ? 0 : Math.max(5, Math.min(98, base + variance + (Math.sin(h*t.id)*8)));
-    return { hour: h, label: `${h>12?h-12:h}${h>=12?'PM':'AM'}`, pct: Math.round(val), wait: Math.round(val*0.8) };
+  const start = 5.5; // Force start at 5:30 AM
+  const [closeH, closeM] = t.closeTime.split(':').map(Number);
+  let end = closeH + (closeM / 60);
+  if (end < start) end += 24; 
+  
+  const times: number[] = [];
+  for (let h = start; h <= end; h += 0.5) {
+    times.push(h);
+  }
+  
+  return times.map(h => {
+    // Use Gaussian curves for an incredibly smooth and natural flow
+    const morningPeak = Math.exp(-Math.pow(h - 10.5, 2) / 8); 
+    const eveningPeak = Math.exp(-Math.pow(h - 18.5, 2) / 8); 
+    
+    let base = 25 + (morningPeak * 60) + (eveningPeak * 50);
+    
+    if (t.afternoonClose && t.afternoonOpen) {
+      const [acH, acM] = t.afternoonClose.split(':').map(Number);
+      const [aoH, aoM] = t.afternoonOpen.split(':').map(Number);
+      const ac = acH + (acM / 60);
+      const ao = aoH + (aoM / 60);
+      
+      if (h >= ac && h <= ao) {
+         // Smooth dip down to a minimum of 15 (instead of 0) during afternoon closure
+         const mid = (ac + ao) / 2;
+         const dip = 1 - Math.abs(h - mid) / ((ao - ac) / 2);
+         base = base - (base - 15) * dip;
+      }
+    }
+    
+    const variance = (t.crowdPct - 50) * 0.3;
+    const val = Math.max(12, Math.min(98, base + variance + (Math.sin(h*t.id)*4)));
+    
+    const hour = Math.floor(h);
+    const mins = h % 1 !== 0 ? "30" : "00";
+    const actualHour = hour % 24;
+    const ampm = actualHour >= 12 ? "PM" : "AM";
+    const displayHour = actualHour > 12 ? actualHour - 12 : actualHour === 0 ? 12 : actualHour;
+    
+    return { hour: h, label: `${displayHour}:${mins} ${ampm}`, pct: Math.round(val), wait: Math.round(val*0.8) };
   });
 }

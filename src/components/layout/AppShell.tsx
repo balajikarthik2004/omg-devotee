@@ -9,12 +9,12 @@ const navItems = [
   { to: "/", label: "Dashboard", icon: Home, exact: true },
   { to: "/plan", label: "AI Trip Plan", icon: Sparkles },
   { to: "/heatmap", label: "Temple map", icon: Map },
-  { to: "/chat", label: "Ask AI", icon: MessageCircle },
-  { to: "/donations", label: "Donations", icon: HeartHandshake },
+  { to: "/donations", label: "Donations", icon: HeartHandshake }
 ];
 
 const sidebarExtras = [
-  { to: "/booking/palani-murugan", label: "VIP Booking", icon: Ticket },
+  { to: "/booking/palani-murugan", label: "Ticket Booking", icon: Ticket },
+  { to: "/chat", label: "Ask AI", icon: MessageCircle }
 ];
 
 export function AppShell() {
@@ -27,7 +27,7 @@ export function AppShell() {
     <div className="min-h-screen flex w-full bg-background">
       {/* Sidebar (Desktop) — OMG official premium gradient */}
       <aside
-        className="hidden lg:flex flex-col w-[260px] sticky top-0 h-screen text-white shrink-0"
+        className="hidden lg:flex print:hidden flex-col w-[260px] sticky top-0 h-screen text-white shrink-0"
         style={{ background: "linear-gradient(180deg, #131a72 0%, #1e2680 60%, #e32c26 100%)" }}
       >
         {/* Ambient glow effect */}
@@ -76,20 +76,19 @@ export function AppShell() {
 
         {/* Footer */}
         <div className="px-3 py-3 border-t border-white/10 flex flex-col gap-1">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-center">
             <Link to="/profile" className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/10 transition-colors">
               <Settings className="w-4 h-4" /> {t("Settings")}
             </Link>
-            <LanguageSwitcher className="w-8 h-8 text-white/60 hover:text-white" />
           </div>
-          <div className="px-4 mt-1 text-xs text-white/30 font-serif">வாழ்க வளமுடன்</div>
+          <div className="px-4 mt-1 text-xs text-white/30 font-serif text-center">வாழ்க வளமுடன்</div>
         </div>
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 min-w-0 pb-16 lg:pb-0 relative flex flex-col min-h-screen">
         {/* Top Header (mobile only) */}
-        <header className="lg:hidden sticky top-0 z-40 border-b border-white/10 shadow-md h-14 flex items-center justify-between px-4 shrink-0 overflow-hidden relative" style={{ background: "linear-gradient(90deg, #0f163b, #1a2366)" }}>
+        <header className="lg:hidden sticky top-0 z-40 border-b border-white/10 shadow-md h-14 flex items-center justify-between px-4 shrink-0 overflow-hidden relative print:hidden" style={{ background: "linear-gradient(90deg, #0f163b, #1a2366)" }}>
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl pointer-events-none" />
           <div className="flex items-center gap-3 relative z-10">
             {pathname !== "/" && (
@@ -119,7 +118,7 @@ export function AppShell() {
       </main>
 
       {/* Bottom Nav (mobile) */}
-      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-border h-14 grid grid-cols-5 shadow-lg">
+      <nav className="lg:hidden print:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-border h-14 grid grid-cols-5 shadow-lg">
         {navItems.map(item => {
           const Icon = item.icon;
           const active = isActive(item.to, (item as any).exact);

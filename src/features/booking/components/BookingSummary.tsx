@@ -1,10 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { CreditCard, CheckCircle2, ShieldCheck, Lock } from "lucide-react";
 import { useState, useEffect } from "react";
+import { DARSHAN_CATEGORIES } from "@/routes/_app.booking.$slug";
 
 export function BookingSummary({ details, selectedDate, selectedTime, onPay, isProcessing }: any) {
   const { t: tStr } = useTranslation();
-  const ticketPrice = 200;
+  
+  const category = DARSHAN_CATEGORIES.find(c => c.id === details.categoryId) || DARSHAN_CATEGORIES[1];
+  const ticketPrice = category.price;
   const total = details.persons * ticketPrice;
   const [loadingText, setLoadingText] = useState(() => tStr("Initiating secure connection..."));
 
@@ -106,7 +109,7 @@ export function BookingSummary({ details, selectedDate, selectedTime, onPay, isP
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-slate-500 font-medium">{tStr("Ticket Type")}</span>
-            <span className="font-bold text-saffron">{tStr("Special Darshan")} (₹{ticketPrice})</span>
+            <span className="font-bold text-saffron">{tStr(category.name)} (₹{ticketPrice})</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-slate-500 font-medium">{tStr("Devotees")}</span>

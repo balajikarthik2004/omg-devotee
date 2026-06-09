@@ -18,30 +18,42 @@ export function DateTimeSelector({ t, selectedDate, setSelectedDate, selectedTim
     return dates;
   }, []);
 
-  // Generate time slots for the selected date
+  // Generate time slots based on EXACT temple timings
   const availableTimes = useMemo(() => {
     if (!selectedDate) return [];
     
-    const slots = [];
-    const [openH, openM] = t.openTime.split(":").map(Number);
-    const [closeH, closeM] = t.closeTime.split(":").map(Number);
-    
-    let afternoonCloseH = -1, afternoonOpenH = -1;
-    if (t.afternoonClose && t.afternoonOpen) {
-      afternoonCloseH = Number(t.afternoonClose.split(":")[0]);
-      afternoonOpenH = Number(t.afternoonOpen.split(":")[0]);
-    }
+    const timeToMins = (tStr: string | undefined) => {
+      if (!tStr) return -1;
+      const [h, m] = tStr.split(":").map(Number);
+      return h * 60 + m;
+    };
 
+    const openMins = timeToMins(t.openTime);
+    const closeMins = timeToMins(t.closeTime);
+    const acMins = timeToMins(t.afternoonClose);
+    const aoMins = timeToMins(t.afternoonOpen);
+    
+    const slots = [];
     const now = new Date();
     const minTimeMs = now.getTime() + 24 * 60 * 60 * 1000; // 24 hours from now
 
-    for (let h = openH; h < closeH; h++) {
-      // Skip afternoon break
-      if (afternoonCloseH !== -1 && h >= afternoonCloseH && h < afternoonOpenH) {
-        continue;
+    // Start from the first full hour after opening
+    const startHour = Math.ceil(openMins / 60);
+    // End before closing
+    const endHour = Math.ceil(closeMins / 60); 
+
+    for (let h = startHour; h < endHour; h++) {
+      const slotMins = h * 60;
+      
+      // Stop if slot is at or past closing time
+      if (slotMins >= closeMins) continue;
+
+      // Skip slots that fall inside the afternoon break
+      if (acMins !== -1 && aoMins !== -1) {
+        if (slotMins >= acMins && slotMins < aoMins) continue;
       }
 
-      // Create a Date object for this slot to check the 24h rule
+      // Check the 24-hour advance booking rule
       const slotDate = new Date(selectedDate);
       slotDate.setHours(h, 0, 0, 0);
 
@@ -52,7 +64,7 @@ export function DateTimeSelector({ t, selectedDate, setSelectedDate, selectedTim
       }
     }
     return slots;
-  }, [selectedDate, t]);
+  }, [selectedDate, t, tStr]);
 
   return (
     <div className="bg-white border border-slate-200/60 rounded-3xl p-6 shadow-sm mb-6">

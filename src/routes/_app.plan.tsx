@@ -16,7 +16,7 @@ export const Route = createFileRoute("/_app/plan")({
 function PlanPage() {
   const { t: tStr } = useTranslation();
   const [fromLocation, setFromLocation] = useState("");
-  const [temple, setTemple] = useState(temples[0].slug);
+  const [temple, setTemple] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("afternoon");
   const [who, setWho] = useState("family");
@@ -24,8 +24,9 @@ function PlanPage() {
   const [result, setResult] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fullMap, setFullMap] = useState(false);
-  const t = temples.find(x => x.slug === temple)!;
-  const trans = getTransportInfo(fromLocation, t.slug, tStr);
+  
+  const t = temples.find(x => x.slug === temple);
+  const trans = t ? getTransportInfo(fromLocation, t.slug, tStr) : { isInternational: false, roadTime: "0h", flights: [], trains: [], buses: [], route: "" };
 
   const handleGenerate = () => {
     setLoading(true);
@@ -36,50 +37,54 @@ function PlanPage() {
     }, 1500);
   };
 
-  const travelHours = fromLocation ? (fromLocation.length % 5) + 2 : 4;
-  const travelMins = fromLocation ? (fromLocation.charCodeAt(0) % 60) : 30;
-  const hotels = t.slug === "palani-murugan" ? [
-    { name: "Ganpat Grand", rating: "4.5", dist: "0.5" },
+  const isIntl = trans.isInternational;
+  const travelHours = isIntl ? 20 : (fromLocation ? (fromLocation.length % 5) + 2 : 4);
+  const travelMins = isIntl ? 30 : (fromLocation ? (fromLocation.charCodeAt(0) % 60) : 30);
+  
+  const hotels = t?.slug === "palani-murugan" ? [
     { name: "Hotel Tamil Nadu", rating: "4.2", dist: "1.2" },
+    { name: "Ganpat Grand", rating: "4.5", dist: "0.5" },
     { name: "Hotel SR Palani", rating: "4.4", dist: "0.8" },
     { name: "Hotel Subam", rating: "4.3", dist: "0.9" }
-  ] : [
+  ] : t ? [
     { name: `Hotel ${t.city} Grand`, rating: "4.5", dist: "0.5" },
     { name: "Hotel Tamil Nadu", rating: "4.2", dist: "1.2" },
     { name: `${t.name.split(' ')[0]} Residency`, rating: "4.1", dist: "0.9" },
     { name: "Sree Kumaran Inn", rating: "4.0", dist: "1.5" }
-  ];
+  ] : [];
 
   return (
     <div className="relative overflow-hidden">
       <div className="pointer-events-none absolute -top-24 right-0 h-72 w-72 rounded-full bg-saffron/10 blur-3xl" />
       <div className="pointer-events-none absolute top-24 -left-16 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
       <div className="max-w-5xl mx-auto px-4 lg:px-8 py-6 lg:py-10 relative">
-        <div className="flex flex-wrap items-center gap-3 text-saffron">
-          <div className="flex items-center gap-2 rounded-full bg-saffron/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest border border-saffron/20">
-            <Sparkles className="w-4 h-4" /> {tStr("AI Smart Planner")}
+        <div className="print:hidden">
+          <div className="flex flex-wrap items-center gap-3 text-saffron">
+            <div className="flex items-center gap-2 rounded-full bg-saffron/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest border border-saffron/20">
+              <Sparkles className="w-4 h-4" /> {tStr("AI Smart Planner")}
+            </div>
+            <div className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">{tStr("Premium itinerary design")}</div>
           </div>
-          <div className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">{tStr("Premium itinerary design")}</div>
-        </div>
-        <div className="mt-3">
-          <div>
-            <h1 className="font-serif text-3xl lg:text-4xl font-bold leading-tight">{tStr("Plan my perfect visit")}</h1>
-            <p className="text-muted-foreground text-sm mt-2 max-w-xl">
-              {tStr("Tell us your preferences — AI will craft the ideal time, route, and on-site flow with a premium comfort focus.")}
-            </p>
+          <div className="mt-3">
+            <div>
+              <h1 className="font-serif text-3xl lg:text-4xl font-bold leading-tight">{tStr("Plan my perfect visit")}</h1>
+              <p className="text-muted-foreground text-sm mt-2 max-w-xl">
+                {tStr("Tell us your preferences — AI will craft the ideal time, route, and on-site flow with a premium comfort focus.")}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <PlanForm 
-          fromLocation={fromLocation} setFromLocation={setFromLocation}
-          temple={temple} setTemple={setTemple}
-          date={date} setDate={setDate}
-          time={time} setTime={setTime}
-          who={who} setWho={setWho}
-          purpose={purpose} setPurpose={setPurpose}
-          handleGenerate={handleGenerate} loading={loading}
-          travelHours={travelHours} travelMins={travelMins} setFullMap={setFullMap} t={t}
-        />
+          <PlanForm 
+            fromLocation={fromLocation} setFromLocation={setFromLocation}
+            temple={temple} setTemple={setTemple}
+            date={date} setDate={setDate}
+            time={time} setTime={setTime}
+            who={who} setWho={setWho}
+            purpose={purpose} setPurpose={setPurpose}
+            handleGenerate={handleGenerate} loading={loading}
+            travelHours={travelHours} travelMins={travelMins} setFullMap={setFullMap} t={t}
+          />
+        </div>
 
         {result && (
           <PlanResult 

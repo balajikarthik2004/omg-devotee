@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Users, User, Phone, FileDigit } from "lucide-react";
+import { Users, User, Phone, FileDigit, Star, Crown } from "lucide-react";
 
 export function BookingForm({ details, setDetails, errors }: any) {
   const { t: tStr } = useTranslation();
@@ -14,6 +14,40 @@ export function BookingForm({ details, setDetails, errors }: any) {
       </h2>
 
       <div className="space-y-4">
+        {/* Darshan Category */}
+        <div className="mb-6">
+          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Darshan Category")}</label>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {[
+              { id: "special", name: "Special Darshan", price: 50, desc: "Standard special queue", icon: Users },
+              { id: "vip", name: "VIP Darshan", price: 200, desc: "Fast-track entry", icon: Star },
+              { id: "vvip", name: "VVIP Darshan", price: 500, desc: "Direct sanctum access", icon: Crown }
+            ].map(cat => {
+              const Icon = cat.icon;
+              const isSelected = details.categoryId === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => update("categoryId", cat.id)}
+                  className={`relative p-4 rounded-2xl border-2 text-left transition-all duration-300 overflow-hidden group ${
+                    isSelected
+                      ? "border-saffron bg-amber-50/30 shadow-md shadow-saffron/10"
+                      : "border-slate-100 bg-white hover:border-saffron/30"
+                  }`}
+                >
+                  <div className={`absolute top-0 right-0 w-16 h-16 rounded-bl-full transition-colors ${isSelected ? "bg-saffron/10" : "bg-slate-50 group-hover:bg-amber-50"}`} />
+                  <Icon className={`w-6 h-6 mb-3 relative z-10 ${isSelected ? "text-saffron" : "text-slate-400"}`} />
+                  <div className="font-bold text-slate-800 relative z-10">{tStr(cat.name)}</div>
+                  <div className="text-xs text-slate-500 mb-2 relative z-10">{tStr(cat.desc)}</div>
+                  <div className={`font-black text-lg relative z-10 ${isSelected ? "text-saffron" : "text-slate-900"}`}>
+                    ₹{cat.price}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Number of persons */}
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Number of Persons")}</label>

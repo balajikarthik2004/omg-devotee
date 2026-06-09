@@ -23,13 +23,21 @@ export const Route = createFileRoute("/_app/booking/$slug")({
   component: BookingPage,
 });
 
+import { Star, Sparkles, Crown } from "lucide-react";
+
+export const DARSHAN_CATEGORIES = [
+  { id: "special", name: "Special Darshan", price: 50, desc: "Standard special queue", icon: Sparkles },
+  { id: "vip", name: "VIP Darshan", price: 200, desc: "Fast-track entry", icon: Star },
+  { id: "vvip", name: "VVIP Darshan", price: 500, desc: "Direct sanctum access", icon: Crown },
+];
+
 function BookingPage() {
   const { temple: t } = Route.useLoaderData();
   const { t: tStr } = useTranslation();
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string>("");
-  const [details, setDetails] = useState({ persons: 1, name: "", phone: "", idNumber: "" });
+  const [details, setDetails] = useState({ persons: 1, name: "", phone: "", idNumber: "", categoryId: "vip" });
   const [errors, setErrors] = useState<any>({});
   
   const [step, setStep] = useState<1 | 2 | 3 | "processing" | "success">(1);
@@ -78,17 +86,20 @@ function BookingPage() {
       <BookingHeader t={t} />
 
       {/* Stepper UI */}
-      <div className="max-w-3xl mx-auto px-4 mt-8 mb-6">
+      <div className="max-w-2xl mx-auto px-4 mt-10 mb-10">
         <div className="flex items-center justify-between relative">
-          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-slate-200 z-0" />
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 h-0.5 bg-saffron transition-all duration-500 z-0" style={{ width: currentStep === 1 ? '0%' : currentStep === 2 ? '50%' : '100%' }} />
+          <div className="absolute left-0 right-0 top-5 -translate-y-1/2 h-1 bg-slate-200 rounded-full z-0" />
+          <div className="absolute left-0 top-5 -translate-y-1/2 h-1 bg-gradient-to-r from-saffron to-amber-500 transition-all duration-700 ease-in-out rounded-full z-0" style={{ width: currentStep === 1 ? '0%' : currentStep === 2 ? '50%' : '100%' }} />
           
           {[1, 2, 3].map(num => (
-            <div key={num} className="relative z-10 flex flex-col items-center gap-2 bg-slate-50/50 px-2">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${currentStep >= num ? "bg-saffron text-white shadow-md shadow-saffron/30" : "bg-white border-2 border-slate-200 text-slate-400"}`}>
-                {currentStep > num ? <Check className="w-4 h-4" /> : num}
+            <div key={num} className="relative z-10 flex flex-col items-center gap-3 bg-slate-50/50 px-4">
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 ease-out 
+                ${currentStep > num ? "bg-gradient-to-br from-saffron to-amber-500 text-white shadow-lg shadow-amber-500/40 ring-4 ring-amber-50 scale-100" 
+                : currentStep === num ? "bg-white text-saffron border-2 border-saffron shadow-lg shadow-saffron/20 ring-4 ring-saffron/10 scale-110" 
+                : "bg-white border-2 border-slate-200 text-slate-400 scale-100"}`}>
+                {currentStep > num ? <Check className="w-5 h-5" /> : num}
               </div>
-              <span className={`text-[10px] uppercase tracking-widest font-bold ${currentStep >= num ? "text-slate-800" : "text-slate-400"}`}>
+              <span className={`text-xs uppercase tracking-widest font-bold transition-colors duration-300 ${currentStep === num ? "text-saffron" : currentStep > num ? "text-slate-800" : "text-slate-400"}`}>
                 {num === 1 ? tStr("Schedule") : num === 2 ? tStr("Details") : tStr("Payment")}
               </span>
             </div>

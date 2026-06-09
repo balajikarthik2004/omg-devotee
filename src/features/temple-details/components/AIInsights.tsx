@@ -34,7 +34,7 @@ export function AIInsights({ t }: any) {
           <SlotCard ok time="5:30 – 7:00 AM" period={tStr("Morning")} label={tStr("Highly Recommended")} />
           <SlotCard warn time="10:00 – 11:00 AM" period={tStr("Mid-morning")} label={tStr("Moderate Crowd")} />
           <SlotCard ok time="3:00 – 5:30 PM" period={tStr("Afternoon")} label={tStr("Recommended")} />
-          <SlotCard bad time="8:30 – 10:00 AM" period={tStr("Avoid")} label={tStr("School Groups Rush")} />
+          <SlotCard bad time="8:30 – 10:00 AM" period={tStr("Avoid")} label={tStr("Morning Pooja Rush")} />
         </div>
 
         <div className="bg-white/80 backdrop-blur-md border border-indigo-100/50 rounded-xl p-4 shadow-sm flex gap-3">
@@ -43,7 +43,7 @@ export function AIInsights({ t }: any) {
           </div>
           <div className="text-sm text-slate-700 leading-relaxed">
             <span className="font-semibold text-indigo-900 block mb-1">{tStr("Insight for Today")}</span>
-            {tStr("Today is")} <strong>{t.specialDay}</strong> — {tStr("a highly auspicious day. Our models predict a")} <strong>40% {tStr("surge")}</strong> {tStr("in devotees. For a peaceful darshan, arrive before 7:00 AM or after 3:00 PM.")}
+            {tStr("Today is")} <strong>{tStr(new Date().toLocaleDateString('en-US', { weekday: 'long' }))}</strong> — {tStr("a highly auspicious day. Our models predict a")} <strong>40% {tStr("surge")}</strong> {tStr("in devotees. For a peaceful darshan, arrive before 7:00 AM or after 3:00 PM.")}
           </div>
         </div>
 

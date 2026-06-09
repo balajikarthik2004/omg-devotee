@@ -60,17 +60,17 @@ function TempleDetail() {
 
         <div className="mt-8 grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
+            <TempleTabs t={t} />
             <AIInsights t={t} />
             <ForecastChart data={data} nowHour={nowHour} />
             <TempleTimings t={t} />
             <AnnadhanamDetails t={t} />
-            <ParkingStatus t={t} />
           </div>
 
           <div className="space-y-6">
             <BookingWidget t={t} />
             <SmartAlerts t={t} pct={pct} alertOn={alertOn} setAlertOn={setAlertOn} />
-            <TempleTabs t={t} />
+            <ParkingStatus t={t} />
             <OtherTemples t={t} />
           </div>
         </div>

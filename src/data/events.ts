@@ -8,9 +8,9 @@ export interface TempleEvent {
 
 export const templeEvents: Record<string, TempleEvent[]> = {
   "palani-murugan": [
-    { title: "Vaikasi Visakam", date: "May 30, 2026", description: "Divine birthday of Lord Murugan. Massive crowds expected for Padayatra.", isMajor: true },
-    { title: "Kanda Sashti", date: "Oct 25 - Oct 30, 2026", description: "6-day festival celebrating Lord Murugan's victory over Surapadman.", isMajor: true },
-    { title: "Thirukarthigai", date: "Nov 23, 2026", description: "Festival of Lights with special Deepam lit across the temple hill.", isMajor: false }
+    { title: "Aadi Krithigai", date: "August 7, 2026", description: "Highly auspicious day dedicated to Lord Murugan. Devotees carry special Kavadis.", isMajor: true },
+    { title: "Kanda Sashti", date: "Nov 10 - Nov 15, 2026", description: "6-day festival celebrating Lord Murugan's victory over Surapadman.", isMajor: true },
+    { title: "Thirukarthigai", date: "November 24, 2026", description: "Festival of Lights with special Deepam lit across the temple hill.", isMajor: false }
   ],
   "madurai-meenakshi": [
     { title: "Aani Unjal Festival", date: "June 15 - June 24, 2026", description: "The deities are placed on a beautifully decorated swing.", isMajor: false },
