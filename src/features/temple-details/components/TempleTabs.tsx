@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { Info, MapPin, Star, Sparkles, Accessibility } from "lucide-react";
+import { Info, MapPin, Star, Sparkles, Accessibility, ChevronRight } from "lucide-react";
 
 export function TempleTabs({ t }: any) {
   const { t: tStr } = useTranslation();
@@ -62,8 +62,9 @@ export function TempleTabs({ t }: any) {
               </div>
             </div>
             
-            <div className="text-sm text-slate-700 leading-relaxed font-medium whitespace-pre-wrap">
+            <div className="text-sm text-slate-700 leading-relaxed font-medium whitespace-pre-wrap inline">
               {description}
+              <span className="text-blue-600 font-bold cursor-pointer ml-1 hover:underline">{tStr("See more")}</span>
             </div>
             
             {t.slug === 'palani-murugan' && (
@@ -82,30 +83,12 @@ export function TempleTabs({ t }: any) {
                 </div>
               </>
             )}
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex flex-col items-center text-center">
-                 <span className="text-sm font-black text-slate-800 mb-0.5">{t.established || "2000+ years"}</span>
-                 <span className="text-[9px] uppercase tracking-widest text-slate-500 font-bold">{tStr("Established")}</span>
-               </div>
-               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex flex-col items-center text-center">
-                 <span className="text-sm font-black text-slate-800 mb-0.5">{tStr(t.tier || "Maha Kshetram")}</span>
-                 <span className="text-[9px] uppercase tracking-widest text-slate-500 font-bold">{tStr("Sacred Status")}</span>
-               </div>
-               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex flex-col items-center text-center">
-                 <span className="text-sm font-black text-slate-800 mb-0.5">{t.city}</span>
-                 <span className="text-[9px] uppercase tracking-widest text-slate-500 font-bold">{tStr("Location")}</span>
-               </div>
-               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex flex-col items-center text-center">
-                 <span className="text-sm font-black text-slate-800 mb-0.5">{t.district}</span>
-                 <span className="text-[9px] uppercase tracking-widest text-slate-500 font-bold">{tStr("District")}</span>
-               </div>
-            </div>
+            
           </div>
         )}
         
         {tab === 1 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             {[
               { n: "Wheelchair", i: "♿" }, { n: "Restrooms", i: "🚻" }, 
               { n: "Prasad", i: "🥛" }, { n: "Footwear", i: "👟" }, 

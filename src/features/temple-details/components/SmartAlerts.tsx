@@ -26,13 +26,14 @@ export function SmartAlerts({ t, pct, alertOn, setAlertOn }: any) {
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm border border-amber-100/50 rounded-xl p-4 mb-4 shadow-sm">
-          <div className="flex items-center justify-between gap-4 mb-4 pb-4 border-b border-amber-100/50">
-            <div className="flex items-center gap-3">
-              <div className="relative grid h-12 w-12 place-items-center shrink-0">
+          <div className="flex flex-col md:flex-row items-center gap-6 mb-5">
+            {/* Left: Progress Circle & Status */}
+            <div className="flex flex-col items-center justify-center shrink-0">
+              <div className="relative grid h-24 w-24 place-items-center mb-3">
                 <svg viewBox="0 0 100 100" className="absolute inset-0 -rotate-90">
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="#fffbeb" strokeWidth="8" />
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="url(#alertGradient)" strokeWidth="8" strokeLinecap="round"
-                    strokeDasharray={`${(pct / 100) * 264} 264`} className="transition-all duration-1000 ease-out drop-shadow-sm" />
+                  <circle cx="50" cy="50" r="44" fill="none" stroke="#fffbeb" strokeWidth="8" />
+                  <circle cx="50" cy="50" r="44" fill="none" stroke="url(#alertGradient)" strokeWidth="8" strokeLinecap="round"
+                    strokeDasharray={`${(pct / 100) * 276} 276`} className="transition-all duration-1000 ease-out drop-shadow-md" />
                   <defs>
                     <linearGradient id="alertGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#f59e0b" />
@@ -40,37 +41,45 @@ export function SmartAlerts({ t, pct, alertOn, setAlertOn }: any) {
                     </linearGradient>
                   </defs>
                 </svg>
-                <div className="text-center flex flex-col items-center">
-                  <div className="text-[11px] font-extrabold text-slate-800">{Math.round(pct)}%</div>
+                <div className="text-center flex flex-col items-center bg-white/60 w-16 h-16 rounded-full justify-center shadow-[inset_0_2px_10px_rgb(0,0,0,0.05)] backdrop-blur-sm border border-amber-50">
+                  <div className="text-2xl font-black text-slate-800 tracking-tighter">{Math.round(pct)}%</div>
                 </div>
               </div>
-              <div>
-                <div className="text-[9px] uppercase text-slate-500 font-bold tracking-widest">{tStr("Current Rush")}</div>
-                <div className="text-xs font-bold text-slate-800 mt-0.5">{pct > 80 ? tStr("Heavy Rush") : pct > 50 ? tStr("Moderate") : tStr("Peaceful")}</div>
+              <div className="text-center">
+                <div className="text-[9px] uppercase text-slate-500 font-bold tracking-[0.2em] mb-1">{tStr("Current Rush")}</div>
+                <div className="text-lg font-serif font-bold text-amber-700 bg-gradient-to-r from-amber-50 to-orange-50 px-5 py-1 rounded-full border border-amber-200/60 shadow-sm">
+                  {pct > 80 ? tStr("Heavy Rush") : pct > 50 ? tStr("Moderate") : tStr("Peaceful")}
+                </div>
               </div>
             </div>
 
-            <div className="text-right pl-4 border-l border-amber-100/30">
-              <div className="text-lg font-black tabular-nums text-slate-900">{t.crowd.toLocaleString()}</div>
-              <div className="text-[9px] uppercase text-slate-500 font-bold tracking-widest mt-0.5">{tStr("Inside Temple")}</div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-2 mb-4 pb-4 border-b border-amber-100/50 text-center">
-            <div className="bg-slate-50/80 rounded-lg py-1.5 border border-slate-100">
-              <div className="flex items-center justify-center gap-1 mb-0.5 text-slate-400"><Users className="w-3 h-3" /></div>
-              <div className="text-sm font-black tabular-nums text-slate-800">4,320</div>
-              <div className="text-[9px] uppercase text-slate-500 font-bold tracking-wider mt-0.5">{tStr("Waiting")}</div>
-            </div>
-            <div className="bg-slate-50/80 rounded-lg py-1.5 border border-slate-100">
-              <div className="flex items-center justify-center gap-1 mb-0.5 text-slate-400"><Clock className="w-3 h-3" /></div>
-              <div className="text-sm font-black tabular-nums text-slate-800">45m</div>
-              <div className="text-[9px] uppercase text-slate-500 font-bold tracking-wider mt-0.5">{tStr("Wait Time")}</div>
-            </div>
-            <div className="bg-amber-50/50 rounded-lg py-1.5 border border-amber-100/50">
-              <div className="flex items-center justify-center gap-1 mb-0.5 text-amber-500"><TrendingDown className="w-3 h-3" /></div>
-              <div className="text-sm font-black tabular-nums text-amber-600">8m</div>
-              <div className="text-[9px] uppercase text-amber-600/80 font-bold tracking-wider mt-0.5">{tStr("Darshan")}</div>
+            {/* Right: Stats Grid */}
+            <div className="flex-1 grid grid-cols-2 lg:grid-cols-4 gap-3 w-full">
+              <div className="bg-slate-50/80 rounded-xl py-3 px-2 border border-slate-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col items-center justify-center">
+                <div className="text-[9px] uppercase text-slate-500 font-extrabold tracking-wider mb-1">{tStr("Inside Temple")}</div>
+                <div className="text-lg font-black tabular-nums text-slate-800">{t.crowd.toLocaleString()}</div>
+              </div>
+              <div className="bg-slate-50/80 rounded-xl py-3 px-2 border border-slate-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col items-center justify-center">
+                <div className="flex items-center justify-center gap-1.5 mb-1 text-slate-400">
+                  <Users className="w-3 h-3" />
+                  <span className="text-[9px] uppercase text-slate-500 font-extrabold tracking-wider">{tStr("Waiting")}</span>
+                </div>
+                <div className="text-lg font-black tabular-nums text-slate-800">4,320</div>
+              </div>
+              <div className="bg-slate-50/80 rounded-xl py-3 px-2 border border-slate-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col items-center justify-center">
+                <div className="flex items-center justify-center gap-1.5 mb-1 text-slate-400">
+                  <Clock className="w-3 h-3" />
+                  <span className="text-[9px] uppercase text-slate-500 font-extrabold tracking-wider">{tStr("Wait Time")}</span>
+                </div>
+                <div className="text-lg font-black tabular-nums text-slate-800">45m</div>
+              </div>
+              <div className="bg-amber-50/80 rounded-xl py-3 px-2 border border-amber-200/50 shadow-[0_2px_10px_rgb(245,158,11,0.05)] flex flex-col items-center justify-center">
+                <div className="flex items-center justify-center gap-1.5 mb-1 text-amber-500">
+                  <TrendingDown className="w-3 h-3" />
+                  <span className="text-[9px] uppercase text-amber-700/80 font-extrabold tracking-wider">{tStr("Darshan")}</span>
+                </div>
+                <div className="text-lg font-black tabular-nums text-amber-600">8m</div>
+              </div>
             </div>
           </div>
 

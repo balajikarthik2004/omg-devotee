@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Users, User, Phone, FileDigit, Star, Crown } from "lucide-react";
+import { Users, User, Phone, FileDigit, Star, Accessibility, MonitorPlay, Crown } from "lucide-react";
 
 export function BookingForm({ details, setDetails, errors }: any) {
   const { t: tStr } = useTranslation();
@@ -17,30 +17,49 @@ export function BookingForm({ details, setDetails, errors }: any) {
         {/* Darshan Category */}
         <div className="mb-6">
           <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Darshan Category")}</label>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             {[
-              { id: "special", name: "Special Darshan", price: 50, desc: "Standard special queue", icon: Users },
-              { id: "vip", name: "VIP Darshan", price: 200, desc: "Fast-track entry", icon: Star },
-              { id: "vvip", name: "VVIP Darshan", price: 500, desc: "Direct sanctum access", icon: Crown }
+              { id: "general", name: "General Darshan", price: 50, desc: "Standard public queue", icon: Users },
+              { id: "special", name: "Special Entry", price: 200, desc: "Fast-track entry queue", icon: Star },
+              { id: "vip", name: "VIP Darshan", price: 500, desc: "Direct sanctum access", icon: Crown },
+              { id: "senior", name: "Senior Citizen / Differently Abled", price: 100, desc: "Priority entry with assistance", icon: Accessibility, isPremium: true }
             ].map(cat => {
               const Icon = cat.icon;
               const isSelected = details.categoryId === cat.id;
+              const isPremium = cat.isPremium;
+
               return (
                 <button
                   key={cat.id}
                   onClick={() => update("categoryId", cat.id)}
-                  className={`relative p-4 rounded-2xl border-2 text-left transition-all duration-300 overflow-hidden group ${
+                  className={`relative p-3 rounded-xl border-2 text-left transition-all duration-300 overflow-hidden group ${
                     isSelected
-                      ? "border-saffron bg-amber-50/30 shadow-md shadow-saffron/10"
-                      : "border-slate-100 bg-white hover:border-saffron/30"
+                      ? isPremium ? "border-amber-500 bg-gradient-to-br from-amber-50 to-orange-50 shadow-sm shadow-amber-500/20" : "border-saffron bg-amber-50/30 shadow-sm shadow-saffron/10"
+                      : isPremium ? "border-amber-200 bg-gradient-to-br from-amber-50/30 to-white hover:border-amber-400" : "border-slate-100 bg-white hover:border-saffron/30"
                   }`}
                 >
-                  <div className={`absolute top-0 right-0 w-16 h-16 rounded-bl-full transition-colors ${isSelected ? "bg-saffron/10" : "bg-slate-50 group-hover:bg-amber-50"}`} />
-                  <Icon className={`w-6 h-6 mb-3 relative z-10 ${isSelected ? "text-saffron" : "text-slate-400"}`} />
-                  <div className="font-bold text-slate-800 relative z-10">{tStr(cat.name)}</div>
-                  <div className="text-xs text-slate-500 mb-2 relative z-10">{tStr(cat.desc)}</div>
-                  <div className={`font-black text-lg relative z-10 ${isSelected ? "text-saffron" : "text-slate-900"}`}>
-                    ₹{cat.price}
+                  <div className={`absolute top-0 right-0 w-12 h-12 rounded-bl-full transition-colors ${
+                    isSelected 
+                      ? isPremium ? "bg-gradient-to-bl from-amber-400/20 to-transparent" : "bg-saffron/10" 
+                      : isPremium ? "bg-amber-100/50 group-hover:bg-amber-200/50" : "bg-slate-50 group-hover:bg-amber-50"
+                  }`} />
+                  
+                  <div className="flex justify-between items-start mb-2 relative z-10">
+                    <Icon className={`w-5 h-5 ${
+                      isSelected ? (isPremium ? "text-amber-600" : "text-saffron") : (isPremium ? "text-amber-500" : "text-slate-400")
+                    }`} />
+                    <div className={`font-black text-[15px] ${
+                      isSelected ? (isPremium ? "text-amber-600" : "text-saffron") : (isPremium ? "text-amber-800" : "text-slate-900")
+                    }`}>
+                      ₹{cat.price}
+                    </div>
+                  </div>
+
+                  <div className={`font-bold text-[13px] relative z-10 leading-tight mb-0.5 ${isPremium ? "text-amber-900" : "text-slate-800"}`}>
+                    {tStr(cat.name)}
+                  </div>
+                  <div className={`text-[11px] relative z-10 leading-snug ${isPremium ? "text-amber-700/90 font-medium" : "text-slate-500"}`}>
+                    {tStr(cat.desc)}
                   </div>
                 </button>
               );
@@ -50,7 +69,7 @@ export function BookingForm({ details, setDetails, errors }: any) {
 
         {/* Number of persons */}
         <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Number of Persons")}</label>
+          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("How many devotees are visiting?")}</label>
           <div className="flex items-center gap-3">
             {[1, 2, 3, 4, 5, 6].map(num => (
               <button
