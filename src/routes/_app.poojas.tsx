@@ -140,13 +140,13 @@ function PoojaPage() {
 
       <div className="mt-8 mb-4">
         <h2 className="font-serif text-xl font-bold tracking-tight mb-4 flex items-center gap-2">
-          {t("Upcoming Festivals")}
+          {t("Famous Temple Festivals")}
         </h2>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
-            { n: "Thai Poosam", t: "Palani", d: "Jan 25", c: "12 lakh" },
-            { n: "Karthigai Deepam", t: "Tiruvannamalai", d: "Dec 15", c: "8.5 lakh" },
-            { n: "Chithirai Festival", t: "Meenakshi", d: "Apr 14", c: "15 lakh" },
+            { n: "Karthigai Deepam", t: "Tiruvannamalai", d: "Nov 23", c: "10 lakh" },
+            { n: "Thai Poosam", t: "Palani", d: "Jan 21", c: "15 lakh" },
+            { n: "Chithirai Festival", t: "Meenakshi", d: "Apr 20", c: "15 lakh" },
           ].map((f) => (
             <div key={f.n} className="border border-border/70 rounded-3xl p-5 bg-card hover:border-saffron/40 hover:shadow-[0_12px_28px_rgba(0,0,0,0.06)] transition-all group flex flex-col h-full cursor-pointer relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-saffron/10 opacity-0 group-hover:opacity-10 transition-opacity" />

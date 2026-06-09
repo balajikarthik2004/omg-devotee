@@ -66,6 +66,42 @@ export function TempleTabs({ t }: any) {
               {description}
             </div>
             
+            {t.slug === 'palani-murugan' && (
+              <>
+                <div className="mt-6 bg-orange-50/50 p-4 rounded-xl border border-orange-100/50">
+                  <h3 className="font-bold text-slate-800 mb-2">{tStr("Pooja Details & Timings")}</h3>
+                  <p className="text-sm text-slate-700 mb-3 leading-relaxed">
+                    {tStr("The Arulmigu Dhandayuthapani Swamy Temple (Palani Murugan Temple) provides daily free meals from 8:00 AM to 9:00 PM. The hill temple is open for darshan from 6:00 AM to 8:00 PM on regular days and 4:00 AM on festival days, with six to seven Kala Poojas performed daily.")}
+                  </p>
+                  <div className="bg-white rounded-lg p-3 border border-orange-100 shadow-sm">
+                    <div className="text-xs font-bold text-orange-600 uppercase tracking-widest mb-2 border-b border-orange-50 pb-2">{tStr("Daily Pooja Schedule")}</div>
+                    <ul className="text-sm text-slate-700 space-y-1.5 font-medium">
+                      <li><span className="font-bold text-slate-900 inline-block w-[72px]">5:40 AM:</span> {tStr("Viswaroopa Darisanam (Opening Pooja)")}</li>
+                      <li><span className="font-bold text-slate-900 inline-block w-[72px]">6:50 AM:</span> {tStr("Vilaa Pooja")}</li>
+                      <li><span className="font-bold text-slate-900 inline-block w-[72px]">8:00 AM:</span> {tStr("Siru Kaala Shanthi")}</li>
+                      <li><span className="font-bold text-slate-900 inline-block w-[72px]">9:00 AM:</span> {tStr("Kala Shanthi")}</li>
+                      <li><span className="font-bold text-slate-900 inline-block w-[72px]">12:00 PM:</span> {tStr("Uchikala Pooja")}</li>
+                      <li><span className="font-bold text-slate-900 inline-block w-[72px]">5:30 PM:</span> {tStr("Sayaraksha (Evening) Pooja")}</li>
+                      <li><span className="font-bold text-slate-900 inline-block w-[72px]">8:00 PM:</span> {tStr("Rakaala Pooja (Night Pooja)")}</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="mt-4 bg-rose-50/50 p-4 rounded-xl border border-rose-100/50">
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5"><Sparkles className="w-4 h-4 text-rose-500" /> {tStr("Upcoming Festivals")}</h3>
+                  <div className="bg-white rounded-lg p-3 border border-rose-100 shadow-sm flex items-center justify-between">
+                    <div>
+                      <div className="font-bold text-rose-700 text-sm">{tStr("Skanda Sashti & Soora Samharam")}</div>
+                      <div className="text-xs text-slate-500 mt-0.5">{tStr("The most significant annual observance of Lord Murugan's victory.")}</div>
+                    </div>
+                    <div className="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1.5 rounded-lg text-center shrink-0 shadow-inner">
+                      {tStr("Nov 10")}<br />2026
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
                <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex flex-col items-center text-center">
                  <span className="text-sm font-black text-slate-800 mb-0.5">{t.established || "2000+ years"}</span>
