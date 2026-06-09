@@ -90,21 +90,21 @@ export function PlanResult({
                          <div className="w-10 h-10 rounded-full bg-blue-500/10 text-blue-600 flex items-center justify-center font-bold text-xs shrink-0 border border-blue-500/20">{f.code}</div>
                          <div className="flex-1">
                             <div className="flex items-center justify-between gap-2">
-                              <div className="font-bold text-[14px] text-foreground truncate">{f.airline}</div>
-                              <div className="text-[10px] bg-blue-50 text-blue-600 border border-blue-100 px-2 py-0.5 rounded-full font-bold whitespace-nowrap shrink-0">{tStr("Layover:")} {f.layover}</div>
+                              <div className="font-bold text-[14px] text-foreground truncate">{tStr(f.airline)}</div>
+                              <div className="text-[10px] bg-blue-50 text-blue-600 border border-blue-100 px-2 py-0.5 rounded-full font-bold whitespace-nowrap shrink-0">{tStr("Layover:")} {tStr(f.layover)}</div>
                             </div>
                             <div className="flex flex-wrap items-center gap-1.5 mt-2 bg-white/50 border border-slate-200/60 px-2.5 py-1.5 rounded-lg w-fit shadow-sm">
-                               <span className="text-[11px] font-bold text-slate-700">{f.route[0]}</span>
+                               <span className="text-[11px] font-bold text-slate-700">{tStr(f.route[0])}</span>
                                <ArrowRight className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-                               <span className="text-[11px] font-bold text-slate-700">{f.route[1]}</span>
+                               <span className="text-[11px] font-bold text-slate-700">{tStr(f.route[1])}</span>
                                <ArrowRight className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-                               <span className="text-[11px] font-bold text-slate-700">{f.route[2]}</span>
+                               <span className="text-[11px] font-bold text-slate-700">{tStr(f.route[2])}</span>
                             </div>
                          </div>
                       </div>
                       <div className="flex sm:flex-col items-center sm:items-end justify-between border-t sm:border-t-0 border-border/50 pt-2 sm:pt-0">
                          <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-0.5">{tStr("Total Duration")}</div>
-                         <div className="font-bold text-[13px] text-foreground bg-background border border-border/50 px-2.5 py-1 rounded-lg shadow-sm whitespace-nowrap">~ {f.duration}</div>
+                         <div className="font-bold text-[13px] text-foreground bg-background border border-border/50 px-2.5 py-1 rounded-lg shadow-sm whitespace-nowrap">{tStr("~ " + f.duration)}</div>
                       </div>
                     </div>
                   ))}
@@ -118,21 +118,21 @@ export function PlanResult({
                          </div>
                          <div>
                             <div className="font-bold text-foreground text-[14px] leading-tight">{tStr("Last Mile: Airport Transfer")}</div>
-                            <div className="text-muted-foreground text-[11px] font-medium mt-0.5">{trans.airportCab.route}</div>
+                            <div className="text-muted-foreground text-[11px] font-medium mt-0.5">{tStr(trans.airportCab.route)}</div>
                          </div>
                       </div>
                       <div className="flex flex-wrap gap-1.5 ml-12 sm:ml-0">
-                        <span className="bg-black text-white px-2 py-1 rounded-md text-[9px] font-bold tracking-widest uppercase shadow-sm">Uber</span>
-                        <span className="bg-[#c2e434] text-black px-2 py-1 rounded-md text-[9px] font-bold tracking-widest uppercase shadow-sm">Ola</span>
+                        <span className="bg-black text-white px-2 py-1 rounded-md text-[9px] font-bold tracking-widest uppercase shadow-sm">{tStr("Uber")}</span>
+                        <span className="bg-[#c2e434] text-black px-2 py-1 rounded-md text-[9px] font-bold tracking-widest uppercase shadow-sm">{tStr("Ola")}</span>
                         <span className="bg-white text-slate-700 border border-slate-200 px-2 py-1 rounded-md text-[9px] font-bold tracking-widest uppercase shadow-sm">{tStr("Pre-paid Taxi")}</span>
                       </div>
                     </div>
                     <div className="flex justify-between items-center pl-1 sm:pl-12">
                       <div className="flex gap-6">
-                        <div className="flex flex-col gap-0.5"><span className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">{tStr("Est. Time")}</span><span className="font-bold text-foreground text-xs">{trans.airportCab.time}</span></div>
-                        <div className="flex flex-col gap-0.5"><span className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">{tStr("Distance")}</span><span className="font-bold text-foreground text-xs">{trans.airportCab.distance}</span></div>
+                        <div className="flex flex-col gap-0.5"><span className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">{tStr("Est. Time")}</span><span className="font-bold text-foreground text-xs">{tStr(trans.airportCab.time)}</span></div>
+                        <div className="flex flex-col gap-0.5"><span className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">{tStr("Distance")}</span><span className="font-bold text-foreground text-xs">{tStr(trans.airportCab.distance)}</span></div>
                       </div>
-                      <div className="flex flex-col items-end gap-0.5"><span className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">{tStr("Est. Fare")}</span><span className="text-emerald-600 font-bold text-[13px] bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">{trans.airportCab.price}</span></div>
+                      <div className="flex flex-col items-end gap-0.5"><span className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">{tStr("Est. Fare")}</span><span className="text-emerald-600 font-bold text-[13px] bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">{tStr(trans.airportCab.price)}</span></div>
                     </div>
                   </div>
                 )}

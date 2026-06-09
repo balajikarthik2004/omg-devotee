@@ -155,16 +155,16 @@ function PoojaPage() {
                   <Sparkles className="w-5 h-5" />
                 </div>
                 <div className="flex-1 mt-0.5">
-                  <div className="font-bold text-[15px] text-foreground leading-tight group-hover:text-saffron transition-colors">{t(f.n)}</div>
-                  <div className="text-[11px] text-muted-foreground font-bold uppercase tracking-wider mt-1.5 flex items-center gap-1">
+                  <div className="font-bold text-sm text-foreground leading-tight group-hover:text-saffron transition-colors">{t(f.n)}</div>
+                  <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-normal mt-1 flex items-center gap-1">
                     <MapPin className="w-3 h-3 text-saffron/70" /> {t(f.t)}
                   </div>
                 </div>
               </div>
               
-              <div className="mt-auto flex items-center justify-between text-xs pt-4 border-t border-border/50 relative z-10">
-                <div className="font-bold text-white text-foreground bg-secondary/80 px-3 py-1.5 rounded-lg border border-border/50 shadow-sm">{t(f.d)}</div>
-                <div className="text-saffron font-bold text-[10px] tracking-widest uppercase">{t(f.c)} {t("Expected")}</div>
+              <div className="mt-auto flex items-center justify-between pt-3 border-t border-border/50 relative z-10 gap-2">
+                <div className="font-bold text-foreground bg-secondary/80 px-2 py-1 rounded border border-border/50 shadow-sm whitespace-nowrap text-[10px]">{t(f.d)}</div>
+                <div className="text-saffron font-bold text-[9px] tracking-normal uppercase text-right leading-tight">{t(f.c)}<br className="sm:hidden" /> {t("Expected")}</div>
               </div>
             </div>
           ))}
