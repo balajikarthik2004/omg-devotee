@@ -7,7 +7,9 @@ export function BookingForm({ details, setDetails, errors }: any) {
   const update = (field: string, val: any) => setDetails((prev: any) => ({ ...prev, [field]: val }));
 
   return (
-    <div className="bg-white border border-slate-200/60 rounded-3xl p-6 shadow-sm mb-6">
+    <div className="bg-white/70 backdrop-blur-2xl border border-white/80 rounded-[32px] p-8 shadow-[0_8px_40px_rgb(0,0,0,0.04)] mb-6 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent pointer-events-none" />
+      <div className="relative z-10">
       <h2 className="font-serif text-xl font-bold text-slate-900 flex items-center gap-2 mb-6">
         <Users className="w-5 h-5 text-saffron" />
         {tStr("Devotee Details")}
@@ -38,10 +40,10 @@ export function BookingForm({ details, setDetails, errors }: any) {
                       : isPremium ? "border-amber-200 bg-gradient-to-br from-amber-50/30 to-white hover:border-amber-400" : "border-slate-100 bg-white hover:border-saffron/30"
                   }`}
                 >
-                  <div className={`absolute top-0 right-0 w-12 h-12 rounded-bl-full transition-colors ${
+                  <div className={`absolute top-0 right-0 w-16 h-16 rounded-bl-full transition-all duration-500 ${
                     isSelected 
-                      ? isPremium ? "bg-gradient-to-bl from-amber-400/20 to-transparent" : "bg-saffron/10" 
-                      : isPremium ? "bg-amber-100/50 group-hover:bg-amber-200/50" : "bg-slate-50 group-hover:bg-amber-50"
+                      ? isPremium ? "bg-gradient-to-bl from-amber-400/40 to-transparent scale-110" : "bg-gradient-to-bl from-saffron/20 to-transparent scale-110" 
+                      : isPremium ? "bg-amber-100/50 group-hover:bg-amber-300/40 group-hover:scale-125" : "bg-slate-50 group-hover:bg-saffron/10 group-hover:scale-125"
                   }`} />
                   
                   <div className="flex justify-between items-start mb-2 relative z-10">
@@ -142,6 +144,7 @@ export function BookingForm({ details, setDetails, errors }: any) {
           {errors?.idNumber && <p className="text-xs text-rose-600 mt-1 font-medium">{errors.idNumber}</p>}
           <p className="text-xs text-slate-500 mt-1.5">{tStr("Must carry original ID during temple visit.")}</p>
         </div>
+      </div>
       </div>
     </div>
   );
