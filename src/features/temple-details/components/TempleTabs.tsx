@@ -16,11 +16,11 @@ export function TempleTabs({ t }: any) {
   const getRealDescription = (slug: string) => {
     switch(slug) {
       case 'palani-murugan':
-        return "Palani Murugan Temple is one of the Six Abodes of Lord Murugan (Arupadaiveedu), situated majestically on the Palani Hills. The idol of the presiding deity, Lord Dhandayuthapani Swamy, is uniquely made out of an amalgam of nine poisonous herbs (Navapashanam) by the ancient Siddhar Bogar. Known for its spiritually charged atmosphere, the temple attracts millions of devotees seeking blessings and profound peace.";
+        return tStr("Palani Murugan Temple is one of the Six Abodes of Lord Murugan (Arupadaiveedu), situated majestically on the Palani Hills. The idol of the presiding deity, Lord Dhandayuthapani Swamy, is uniquely made out of an amalgam of nine poisonous herbs (Navapashanam) by the ancient Siddhar Bogar. Known for its spiritually charged atmosphere, the temple attracts millions of devotees seeking blessings and profound peace.");
       case 'madurai-meenakshi':
-        return "Meenakshi Amman Temple is a historic Hindu temple located on the southern bank of the Vaigai River in Madurai. It is dedicated to Goddess Meenakshi, a form of Parvati, and her consort, Sundareshwarar. The temple is famed for its stunning Dravidian architecture, towering gopurams adorned with thousands of colorful figures, and the legendary Hall of Thousand Pillars.";
+        return tStr("Meenakshi Amman Temple is a historic Hindu temple located on the southern bank of the Vaigai River in Madurai. It is dedicated to Goddess Meenakshi, a form of Parvati, and her consort, Sundareshwarar. The temple is famed for its stunning Dravidian architecture, towering gopurams adorned with thousands of colorful figures, and the legendary Hall of Thousand Pillars.");
       default:
-        return t.description || `${t.name} is a renowned spiritual destination located in the heart of ${t.city}, ${t.state}. Dedicated to ${t.deity}, it is an architectural marvel that attracts thousands of devotees daily. The temple's sanctum resonates with divine energy, offering profound peace to all who visit. Known for its rich history dating back centuries, it continues to be a major center for pilgrimage, daily rituals, and cultural heritage.`;
+        return t.description ? tStr(t.description) : `${tStr(t.name)} ${tStr("is a renowned spiritual destination located in the heart of")} ${tStr(t.city)}, ${tStr(t.state)}. ${tStr("Dedicated to")} ${tStr(t.deity)}, ${tStr("it is an architectural marvel that attracts thousands of devotees daily.")}`;
     }
   };
 

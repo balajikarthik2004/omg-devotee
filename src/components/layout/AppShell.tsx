@@ -44,7 +44,7 @@ export function AppShell() {
             </div>
             <div>
               <div className="font-serif font-bold text-lg text-white leading-tight tracking-wide group-hover:text-white/90 transition-colors">OMG</div>
-              <div className="text-xs text-white/60 leading-tight font-medium uppercase tracking-widest mt-0.5">AI Devotee</div>
+              <div className="text-xs text-white/60 leading-tight font-medium uppercase tracking-widest mt-0.5">DEVI</div>
             </div>
           </div>
         </Link>

@@ -16,7 +16,7 @@ export function SmartAlerts({ t, pct, alertOn, setAlertOn }: any) {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
         </span>
-        <span className="text-[9px] font-bold uppercase tracking-wider text-rose-600">Live Status</span>
+        <span className="text-[9px] font-bold uppercase tracking-wider text-rose-600">{tStr("Live Status")}</span>
       </div>
 
       <div className="relative z-10">

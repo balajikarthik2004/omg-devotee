@@ -53,23 +53,29 @@ export function DashboardHeader({ activeTemple, now }: any) {
                 </div>
               </div>
             </div>
-            <div className="space-y-3.5 text-sm">
-              <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium"> {t("Today's total Devotees")}</span><span className="font-bold tabular-nums text-slate-800">38,240</span></div>
-              <div className="flex justify-between border-b border-slate-200/60 pb-2.5">
-                <span className="text-slate-500 font-medium">{t("Peak (10:30 AM)")}</span>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between items-center bg-slate-50/80 rounded-xl px-3.5 py-2.5 border border-slate-100 shadow-sm transition-all hover:bg-slate-50">
+                <span className="text-slate-600 font-medium">{t("Today's total Devotees")}</span>
+                <span className="font-black tabular-nums text-slate-800">38,240</span>
+              </div>
+              <div className="flex justify-between items-center bg-rose-50/60 rounded-xl px-3.5 py-2.5 border border-rose-100/50 shadow-sm transition-all hover:bg-rose-50/80">
+                <span className="text-slate-600 font-medium">{t("Peak (10:30 AM)")}</span>
                 <span className="text-right">
-                  <div className="font-bold tabular-nums text-slate-800">15,820</div>
-                  <div className="text-[11px] font-bold text-rose-500 mt-0.5">{t("Maximum Wait:")} ~{activeTemple.waitMin + 45} {t("mins")}</div>
+                  <div className="font-black tabular-nums text-slate-800">15,820</div>
+                  <div className="text-[10px] font-bold text-rose-500 mt-0.5 uppercase tracking-wider">{t("Maximum Wait:")} ~{activeTemple.waitMin + 45} {t("mins")}</div>
                 </span>
               </div>
-              <div className="flex justify-between border-b border-slate-200/60 pb-2.5"><span className="text-slate-500 font-medium">{t("Darshan Flow")}</span><span className="font-bold text-emerald-600">1,250 / hr</span></div>
-              <div className="flex justify-between">
-                <span className="text-slate-500 font-medium">
-                  {t("Next Peak")} <br /> (5:00 PM - 6:30 PM)
+              <div className="flex justify-between items-center bg-emerald-50/60 rounded-xl px-3.5 py-2.5 border border-emerald-100/50 shadow-sm transition-all hover:bg-emerald-50/80">
+                <span className="text-slate-600 font-medium">{t("Darshan Flow")}</span>
+                <span className="font-black text-emerald-600 bg-emerald-100/50 px-2 py-0.5 rounded-md">1,250 / {t("hr")}</span>
+              </div>
+              <div className="flex justify-between items-center bg-amber-50/60 rounded-xl px-3.5 py-2.5 border border-amber-100/50 shadow-sm transition-all hover:bg-amber-50/80">
+                <span className="text-slate-600 font-medium">
+                  {t("Next Peak")} <br /> <span className="text-[10px] text-amber-700/60 font-semibold">(5:00 PM - 6:30 PM)</span>
                 </span>
                 <span className="text-right">
-                  <div className="font-bold ">18,500 {t("Expected")}</div>
-                  <div className="text-[11px] font-bold text-rose-500 mt-0.5">{t("Expected Wait:")} ~{activeTemple.waitMin + 60} {t("mins")}</div>
+                  <div className="font-black text-slate-800">18,500 <span className="text-[9px] font-bold text-amber-600 uppercase bg-amber-100/50 px-1.5 py-0.5 rounded flex-inline ml-1">{t("Expected")}</span></div>
+                  <div className="text-[10px] font-bold text-amber-600 mt-1 uppercase tracking-wider">{t("Expected Wait:")} ~{activeTemple.waitMin + 60} {t("mins")}</div>
                 </span>
               </div>
             </div>
