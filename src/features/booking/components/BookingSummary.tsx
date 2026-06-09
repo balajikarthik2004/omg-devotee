@@ -109,7 +109,7 @@ export function BookingSummary({ details, selectedDate, selectedTime, onPay, isP
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-slate-500 font-medium">{tStr("Ticket Type")}</span>
-            <span className="font-bold text-saffron">{tStr(category.name)} (₹{ticketPrice})</span>
+            <span className="font-bold text-saffron">{tStr(category.name)} ({ticketPrice === 0 ? tStr("Free") : `₹${ticketPrice}`})</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-slate-500 font-medium">{tStr("Devotees")}</span>
@@ -119,7 +119,7 @@ export function BookingSummary({ details, selectedDate, selectedTime, onPay, isP
 
         <div className="flex items-center justify-between py-3 border-t border-slate-200 border-dashed mb-6">
           <span className="text-base font-bold text-slate-900">{tStr("Total Payable")}</span>
-          <span className="text-2xl font-black text-slate-900">₹{total}</span>
+          <span className="text-2xl font-black text-slate-900">{total === 0 ? tStr("Free") : `₹${total}`}</span>
         </div>
 
         <button

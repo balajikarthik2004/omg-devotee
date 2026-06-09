@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Users, User, Phone, FileDigit, Star, Accessibility, MonitorPlay, Crown } from "lucide-react";
+import { Users, User, Phone, FileDigit, Star, Heart, MonitorPlay, Crown } from "lucide-react";
 
 export function BookingForm({ details, setDetails, errors }: any) {
   const { t: tStr } = useTranslation();
@@ -19,12 +19,12 @@ export function BookingForm({ details, setDetails, errors }: any) {
         {/* Darshan Category */}
         <div className="mb-6">
           <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Darshan Category")}</label>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
             {[
-              { id: "general", name: "General Darshan", price: 50, desc: "Standard public queue", icon: Users },
+              { id: "general", name: "General Darshan", price: 0, desc: "Standard public queue", icon: Users },
               { id: "special", name: "Special Entry", price: 200, desc: "Fast-track entry queue", icon: Star },
               { id: "vip", name: "VIP Darshan", price: 500, desc: "Direct sanctum access", icon: Crown },
-              { id: "senior", name: "Senior Citizen / Differently Abled", price: 100, desc: "Priority entry with assistance", icon: Accessibility, isPremium: true }
+              { id: "senior", name: "Senior Citizen / Differently Abled / Pregnant Women", price: 100, desc: "Priority entry with assistance", icon: Heart, isPremium: true }
             ].map(cat => {
               const Icon = cat.icon;
               const isSelected = details.categoryId === cat.id;
@@ -53,7 +53,7 @@ export function BookingForm({ details, setDetails, errors }: any) {
                     <div className={`font-black text-[15px] ${
                       isSelected ? (isPremium ? "text-amber-600" : "text-saffron") : (isPremium ? "text-amber-800" : "text-slate-900")
                     }`}>
-                      ₹{cat.price}
+                      {cat.price === 0 ? tStr("Free") : `₹${cat.price}`}
                     </div>
                   </div>
 
