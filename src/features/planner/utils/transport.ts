@@ -5,23 +5,55 @@ export function getTransportInfo(origin: string, dest: string, tStr: any) {
   const isIntl = internationalKeywords.some(k => o === k || o.includes(` ${k}`) || o.includes(`${k} `) || o.includes(`,${k}`) || o.includes(`, ${k}`));
 
   if (isIntl) {
-    const destAirport = dest === "palani-murugan" ? "Coimbatore (CJB) or Madurai (IXM)" : "Madurai (IXM)";
+    const getDestAirport = (d: string) => {
+      switch (d) {
+        case "palani-murugan": return "Coimbatore (CJB)";
+        case "madurai-meenakshi": return "Madurai (IXM)";
+        case "srirangam": return "Tiruchirappalli (TRZ)";
+        case "chidambaram-natarajar": return "Chennai (MAA)";
+        case "tiruchendur-murugan": return "Tuticorin (TCR)";
+        case "rameswaram": return "Madurai (IXM)";
+        case "kapaleeshwarar": return "Chennai (MAA)";
+        case "brihadeeswarar": return "Tiruchirappalli (TRZ)";
+        case "tiruvannamalai": return "Chennai (MAA)";
+        default: return "Chennai (MAA)";
+      }
+    };
+    
+    const destAirport = getDestAirport(dest);
+
+    const getAirportCab = (d: string) => {
+      switch (d) {
+        case "palani-murugan": return { route: "Coimbatore (CJB) to Palani", time: "2h 30m", price: "Rs. 2,500 - 3,000", distance: "110 km" };
+        case "madurai-meenakshi": return { route: "Madurai (IXM) to Temple", time: "45m", price: "Rs. 800 - 1,000", distance: "15 km" };
+        case "srirangam": return { route: "Trichy (TRZ) to Srirangam", time: "30m", price: "Rs. 600 - 800", distance: "12 km" };
+        case "chidambaram-natarajar": return { route: "Chennai (MAA) to Chidambaram", time: "4h 30m", price: "Rs. 4,500 - 5,000", distance: "210 km" };
+        case "tiruchendur-murugan": return { route: "Tuticorin (TCR) to Tiruchendur", time: "1h 00m", price: "Rs. 1,000 - 1,200", distance: "40 km" };
+        case "rameswaram": return { route: "Madurai (IXM) to Rameswaram", time: "3h 30m", price: "Rs. 3,500 - 4,000", distance: "180 km" };
+        case "kapaleeshwarar": return { route: "Chennai (MAA) to Mylapore", time: "40m", price: "Rs. 400 - 600", distance: "16 km" };
+        case "brihadeeswarar": return { route: "Trichy (TRZ) to Thanjavur", time: "1h 15m", price: "Rs. 1,500 - 1,800", distance: "60 km" };
+        case "tiruvannamalai": return { route: "Chennai (MAA) to Tiruvannamalai", time: "3h 45m", price: "Rs. 3,500 - 4,500", distance: "170 km" };
+        default: return { route: "Nearest Airport to Temple", time: "1h 30m", price: "Rs. 1,500", distance: "60 km" };
+      }
+    };
+
+    const originName = o.split(',')[0].trim();
+    const formattedOrigin = originName.charAt(0).toUpperCase() + originName.slice(1);
+    const destCity = destAirport.split(' ')[0];
+
     return {
       isInternational: true,
       roadTime: "18h+",
-      route: `Flight to ${destAirport}`,
+      route: `International flight to ${destAirport}`,
       flights: [
-        { name: `Emirates / Qatar Airways to ${destAirport}`, time: "18h - 24h (1 or 2 stops)", price: "Duration: 18h+" },
-        { name: "Air India via DEL/BOM", time: "20h+", price: "Duration: 20h+" }
+        { airline: "Emirates", code: "EK", route: [formattedOrigin, "Dubai", destCity], layover: "2h - 4h", duration: "21h 30m" },
+        { airline: "Qatar Airways", code: "QR", route: [formattedOrigin, "Doha", destCity], layover: "1h 45m", duration: "20h 45m" },
+        { airline: "Air India", code: "AI", route: [formattedOrigin, "New Delhi", destCity], layover: "3h - 5h", duration: "24h 00m" },
+        { airline: "Etihad Airways", code: "EY", route: [formattedOrigin, "Abu Dhabi", destCity], layover: "2h 30m", duration: "22h 15m" }
       ],
       buses: [],
       trains: [],
-      airportCab: {
-        route: dest === "palani-murugan" ? "Coimbatore Airport to Palani" : "Madurai Airport to Temple",
-        time: dest === "palani-murugan" ? "2h 30m" : "45m",
-        price: dest === "palani-murugan" ? "Rs. 2500 - 3000" : "Rs. 800 - 1000",
-        distance: dest === "palani-murugan" ? "110 km" : "15 km"
-      }
+      airportCab: getAirportCab(dest)
     };
   }
 
