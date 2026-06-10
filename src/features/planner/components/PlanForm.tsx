@@ -69,7 +69,7 @@ export function PlanForm({
         <PillRow value={time} setValue={setTime} options={[["morning", tStr("🌅 Early Morning")], ["lateMorning", tStr("☀️ Morning")], ["afternoon", tStr("🌤 Afternoon")], ["evening", tStr("🌇 Evening")], ["any", tStr("✨ AI decides")]]} />
       </Step>
       <Step n={5} title={tStr("Who is visiting?")}>
-        <PillRow value={who} setValue={setWho} options={[["solo", tStr("👤 Just me")], ["couple", tStr("👫 Couple")], ["family", tStr("👨‍👩‍👧 Family")], ["senior", tStr("👴 With seniors")], ["dis", tStr("♿ Differently-abled")]]} />
+        <PillRow value={who} setValue={setWho} options={[["solo", tStr("👤 Just me")], ["couple", tStr("👫 Couple")], ["family", tStr("👨‍👩‍👧 Family")], ["friends", tStr("👥 Friends")], ["senior", tStr("👴 With seniors")], ["dis", tStr("♿ Differently-abled")]]} />
       </Step>
       <Step n={6} title={tStr("Visit purpose?")}>
         <PillRow value={purpose} setValue={setPurpose} options={[["darshan", tStr("Regular darshan")], ["pooja", tStr("Special pooja")], ["festival", tStr("Festival attendance")], ["first", tStr("First visit")]]} />
@@ -99,7 +99,7 @@ function PillRow({ value, setValue, options }: any) {
   return (
     <div className="flex flex-wrap gap-2">
       {options.map(([v, l]: any) => (
-        <button key={v} onClick={() => setValue(v)} className={`text-sm rounded-full px-4 py-2 border font-semibold transition-all ${value === v ? "bg-foreground text-background border-foreground shadow-sm scale-[1.02]" : "bg-white border-border hover:border-saffron/40 hover:bg-secondary text-muted-foreground hover:text-foreground"}`}>{l}</button>
+        <button key={v} onClick={() => setValue(v)} className={`text-sm rounded-full px-4 py-2 border font-semibold transition-all ${value === v ? "bg-foreground text-background border-foreground shadow-sm scale-[1.02]" : "bg-white border-border hover:border-saffron hover:bg-saffron text-muted-foreground hover:text-white"}`}>{l}</button>
       ))}
     </div>
   );

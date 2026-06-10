@@ -61,9 +61,9 @@ function TempleDetail() {
         <div className="mt-8 grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             <AIInsights t={t} />
+            <TempleTimings t={t} />
             <ForecastChart data={data} nowHour={nowHour} />
             <SmartAlerts t={t} pct={pct} alertOn={alertOn} setAlertOn={setAlertOn} />
-            <TempleTimings t={t} />
             <AnnadhanamDetails t={t} />
           </div>
 
