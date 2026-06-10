@@ -37,7 +37,7 @@ export function PlanResult({
             </div>
             <div>
               <div className="text-emerald-100 text-[10px] uppercase tracking-widest font-bold mb-0.5">{tStr("Best Time for Darshan")}</div>
-              <div className="text-xl lg:text-2xl font-black tracking-tight drop-shadow-md">3:30 PM – 5:00 PM</div>
+              <div className="text-xl lg:text-2xl font-black tracking-tight drop-shadow-md">{tStr("3:30 PM – 5:00 PM")}</div>
             </div>
           </div>
           <div className="relative z-10 flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-1.5 border-t sm:border-t-0 border-white/10 pt-2 sm:pt-0">
