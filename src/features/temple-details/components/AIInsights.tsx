@@ -1,10 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { Sparkles, ArrowRight, CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
+import { Sparkles, ArrowRight, CheckCircle2, AlertTriangle, XCircle, Info } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-function SlotCard({ time, period, label, ok, warn, bad }: any) {
-  const c = ok ? "bg-emerald-50 border-emerald-100 text-emerald-700" : warn ? "bg-amber-50 border-amber-100 text-amber-700" : "bg-rose-50 border-rose-100 text-rose-700";
-  const Icon = ok ? CheckCircle2 : warn ? AlertTriangle : XCircle;
+function SlotCard({ time, period, label, ok, warn, bad, info }: any) {
+  const c = ok ? "bg-emerald-50 border-emerald-100 text-emerald-700" : warn ? "bg-amber-50 border-amber-100 text-amber-700" : info ? "bg-blue-50 border-blue-100 text-blue-700" : "bg-rose-50 border-rose-100 text-rose-700";
+  const Icon = ok ? CheckCircle2 : warn ? AlertTriangle : info ? Info : XCircle;
   return (
     <div className={`p-3 rounded-2xl border ${c} flex items-start gap-3`}>
       <Icon className="w-5 h-5 mt-0.5 shrink-0" />
@@ -34,7 +34,7 @@ export function AIInsights({ t }: any) {
           <SlotCard ok time="5:30 – 7:00 AM" period={tStr("Morning")} label={tStr("Highly Recommended")} />
           <SlotCard warn time="10:00 – 11:00 AM" period={tStr("Mid-morning")} label={tStr("Moderate Crowd")} />
           <SlotCard ok time="3:00 – 5:30 PM" period={tStr("Afternoon")} label={tStr("Recommended")} />
-          <SlotCard bad time="8:30 – 10:00 AM" period={tStr("Avoid")} label={tStr("Morning Pooja Rush")} />
+          <SlotCard info time="8:30 – 10:00 AM" period={tStr("Peak Time")} label={tStr("Morning Pooja")} />
         </div>
 
         <div className="bg-white/80 backdrop-blur-md border border-indigo-100/50 rounded-xl p-4 shadow-sm flex gap-3">
