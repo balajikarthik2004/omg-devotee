@@ -20,8 +20,12 @@ import { Route as AppNearbyRouteImport } from './routes/_app.nearby'
 import { Route as AppHeatmapRouteImport } from './routes/_app.heatmap'
 import { Route as AppDonationsRouteImport } from './routes/_app.donations'
 import { Route as AppChatRouteImport } from './routes/_app.chat'
+import { Route as AppStoreIndexRouteImport } from './routes/_app.store.index'
 import { Route as AppTempleSlugRouteImport } from './routes/_app.temple.$slug'
+import { Route as AppStoreCartRouteImport } from './routes/_app.store.cart'
 import { Route as AppBookingSlugRouteImport } from './routes/_app.booking.$slug'
+import { Route as AppStoreStoreIdIndexRouteImport } from './routes/_app.store.$storeId.index'
+import { Route as AppStoreStoreIdItemItemIdRouteImport } from './routes/_app.store.$storeId.item.$itemId'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -77,9 +81,19 @@ const AppChatRoute = AppChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => AppRoute,
 } as any)
+const AppStoreIndexRoute = AppStoreIndexRouteImport.update({
+  id: '/store/',
+  path: '/store/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppTempleSlugRoute = AppTempleSlugRouteImport.update({
   id: '/temple/$slug',
   path: '/temple/$slug',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStoreCartRoute = AppStoreCartRouteImport.update({
+  id: '/store/cart',
+  path: '/store/cart',
   getParentRoute: () => AppRoute,
 } as any)
 const AppBookingSlugRoute = AppBookingSlugRouteImport.update({
@@ -87,6 +101,17 @@ const AppBookingSlugRoute = AppBookingSlugRouteImport.update({
   path: '/booking/$slug',
   getParentRoute: () => AppRoute,
 } as any)
+const AppStoreStoreIdIndexRoute = AppStoreStoreIdIndexRouteImport.update({
+  id: '/store/$storeId/',
+  path: '/store/$storeId/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStoreStoreIdItemItemIdRoute =
+  AppStoreStoreIdItemItemIdRouteImport.update({
+    id: '/store/$storeId/item/$itemId',
+    path: '/store/$storeId/item/$itemId',
+    getParentRoute: () => AppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
@@ -100,7 +125,11 @@ export interface FileRoutesByFullPath {
   '/poojas': typeof AppPoojasRoute
   '/profile': typeof AppProfileRoute
   '/booking/$slug': typeof AppBookingSlugRoute
+  '/store/cart': typeof AppStoreCartRoute
   '/temple/$slug': typeof AppTempleSlugRoute
+  '/store/': typeof AppStoreIndexRoute
+  '/store/$storeId/': typeof AppStoreStoreIdIndexRoute
+  '/store/$storeId/item/$itemId': typeof AppStoreStoreIdItemItemIdRoute
 }
 export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -114,7 +143,11 @@ export interface FileRoutesByTo {
   '/profile': typeof AppProfileRoute
   '/': typeof AppIndexRoute
   '/booking/$slug': typeof AppBookingSlugRoute
+  '/store/cart': typeof AppStoreCartRoute
   '/temple/$slug': typeof AppTempleSlugRoute
+  '/store': typeof AppStoreIndexRoute
+  '/store/$storeId': typeof AppStoreStoreIdIndexRoute
+  '/store/$storeId/item/$itemId': typeof AppStoreStoreIdItemItemIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -130,7 +163,11 @@ export interface FileRoutesById {
   '/_app/profile': typeof AppProfileRoute
   '/_app/': typeof AppIndexRoute
   '/_app/booking/$slug': typeof AppBookingSlugRoute
+  '/_app/store/cart': typeof AppStoreCartRoute
   '/_app/temple/$slug': typeof AppTempleSlugRoute
+  '/_app/store/': typeof AppStoreIndexRoute
+  '/_app/store/$storeId/': typeof AppStoreStoreIdIndexRoute
+  '/_app/store/$storeId/item/$itemId': typeof AppStoreStoreIdItemItemIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -146,7 +183,11 @@ export interface FileRouteTypes {
     | '/poojas'
     | '/profile'
     | '/booking/$slug'
+    | '/store/cart'
     | '/temple/$slug'
+    | '/store/'
+    | '/store/$storeId/'
+    | '/store/$storeId/item/$itemId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/sitemap.xml'
@@ -160,7 +201,11 @@ export interface FileRouteTypes {
     | '/profile'
     | '/'
     | '/booking/$slug'
+    | '/store/cart'
     | '/temple/$slug'
+    | '/store'
+    | '/store/$storeId'
+    | '/store/$storeId/item/$itemId'
   id:
     | '__root__'
     | '/_app'
@@ -175,7 +220,11 @@ export interface FileRouteTypes {
     | '/_app/profile'
     | '/_app/'
     | '/_app/booking/$slug'
+    | '/_app/store/cart'
     | '/_app/temple/$slug'
+    | '/_app/store/'
+    | '/_app/store/$storeId/'
+    | '/_app/store/$storeId/item/$itemId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -262,6 +311,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppChatRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/store/': {
+      id: '/_app/store/'
+      path: '/store'
+      fullPath: '/store/'
+      preLoaderRoute: typeof AppStoreIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/temple/$slug': {
       id: '/_app/temple/$slug'
       path: '/temple/$slug'
@@ -269,11 +325,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTempleSlugRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/store/cart': {
+      id: '/_app/store/cart'
+      path: '/store/cart'
+      fullPath: '/store/cart'
+      preLoaderRoute: typeof AppStoreCartRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/booking/$slug': {
       id: '/_app/booking/$slug'
       path: '/booking/$slug'
       fullPath: '/booking/$slug'
       preLoaderRoute: typeof AppBookingSlugRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/store/$storeId/': {
+      id: '/_app/store/$storeId/'
+      path: '/store/$storeId'
+      fullPath: '/store/$storeId/'
+      preLoaderRoute: typeof AppStoreStoreIdIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/store/$storeId/item/$itemId': {
+      id: '/_app/store/$storeId/item/$itemId'
+      path: '/store/$storeId/item/$itemId'
+      fullPath: '/store/$storeId/item/$itemId'
+      preLoaderRoute: typeof AppStoreStoreIdItemItemIdRouteImport
       parentRoute: typeof AppRoute
     }
   }
@@ -290,7 +367,11 @@ interface AppRouteChildren {
   AppProfileRoute: typeof AppProfileRoute
   AppIndexRoute: typeof AppIndexRoute
   AppBookingSlugRoute: typeof AppBookingSlugRoute
+  AppStoreCartRoute: typeof AppStoreCartRoute
   AppTempleSlugRoute: typeof AppTempleSlugRoute
+  AppStoreIndexRoute: typeof AppStoreIndexRoute
+  AppStoreStoreIdIndexRoute: typeof AppStoreStoreIdIndexRoute
+  AppStoreStoreIdItemItemIdRoute: typeof AppStoreStoreIdItemItemIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -304,7 +385,11 @@ const AppRouteChildren: AppRouteChildren = {
   AppProfileRoute: AppProfileRoute,
   AppIndexRoute: AppIndexRoute,
   AppBookingSlugRoute: AppBookingSlugRoute,
+  AppStoreCartRoute: AppStoreCartRoute,
   AppTempleSlugRoute: AppTempleSlugRoute,
+  AppStoreIndexRoute: AppStoreIndexRoute,
+  AppStoreStoreIdIndexRoute: AppStoreStoreIdIndexRoute,
+  AppStoreStoreIdItemItemIdRoute: AppStoreStoreIdItemItemIdRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

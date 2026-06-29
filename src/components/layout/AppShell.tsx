@@ -4,12 +4,15 @@ import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../layout/LanguageSwitcher";
 import { OmWatermark } from "./OmWatermark";
 import logoPng from "../../assets/logo.png";
+import { ShoppingBag } from "lucide-react";
+import { CartWidget } from "@/features/store/components/CartWidget";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: Home, exact: true },
   { to: "/plan", label: "AI Trip Plan", icon: Sparkles },
   { to: "/heatmap", label: "Temple map", icon: Map },
-  { to: "/donations", label: "Donations", icon: HeartHandshake }
+  { to: "/donations", label: "Donations", icon: HeartHandshake },
+  { to: "/store", label: "Temple Store", icon: ShoppingBag }
 ];
 
 const sidebarExtras = [
@@ -114,6 +117,7 @@ export function AppShell() {
         <div className="flex-1 relative">
           <Outlet />
         </div>
+        <CartWidget />
         <OmWatermark className="hidden lg:block fixed bottom-4 right-4 w-28 h-28 text-foreground opacity-[0.03] pointer-events-none" />
       </main>
 

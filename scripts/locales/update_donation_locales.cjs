@@ -35,7 +35,7 @@ const newTranslations = {
     "Cause:": "Cause:",
     "Method:": "Method:",
     "Transaction ID:": "Transaction ID:",
-    "Download 80G Receipt": "Download 80G Receipt",
+    "Download Receipt": "Download Receipt",
     "Make Another Donation": "Make Another Donation"
   },
   ta: {
@@ -71,7 +71,7 @@ const newTranslations = {
     "Cause:": "காரணம்:",
     "Method:": "முறை:",
     "Transaction ID:": "பரிவர்த்தனை ஐடி:",
-    "Download 80G Receipt": "80G ரசீதைப் பதிவிறக்கவும்",
+    "Download Receipt": "ரசீதைப் பதிவிறக்கவும்",
     "Make Another Donation": "மீண்டும் ஒரு நன்கொடை அளியுங்கள்"
   },
   hi: {
@@ -107,7 +107,7 @@ const newTranslations = {
     "Cause:": "कारण:",
     "Method:": "विधि:",
     "Transaction ID:": "लेनदेन आईडी:",
-    "Download 80G Receipt": "80G रसीद डाउनलोड करें",
+    "Download Receipt": "80G रसीद डाउनलोड करें",
     "Make Another Donation": "एक और दान करें"
   },
   kn: {
@@ -143,7 +143,7 @@ const newTranslations = {
     "Cause:": "ಕಾರಣ:",
     "Method:": "ವಿಧಾನ:",
     "Transaction ID:": "ವಹಿವಾಟು ಐಡಿ:",
-    "Download 80G Receipt": "80G ರಶೀದಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
+    "Download Receipt": "ರಶೀದಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
     "Make Another Donation": "ಮತ್ತೊಂದು ದೇಣಿಗೆ ನೀಡಿ"
   },
   gu: {
@@ -179,7 +179,7 @@ const newTranslations = {
     "Cause:": "કારણ:",
     "Method:": "પદ્ધતિ:",
     "Transaction ID:": "ટ્રાન્ઝેક્શન આઈડી:",
-    "Download 80G Receipt": "80G રસીદ ડાઉનલોડ કરો",
+    "Download Receipt": "રસીદ ડાઉનલોડ કરો",
     "Make Another Donation": "અન્ય એક દાન કરો"
   },
   mr: {
@@ -215,7 +215,7 @@ const newTranslations = {
     "Cause:": "कारण:",
     "Method:": "पद्धत:",
     "Transaction ID:": "व्यवहार आयडी:",
-    "Download 80G Receipt": "80G पावती डाउनलोड करा",
+    "Download Receipt": " पावती डाउनलोड करा",
     "Make Another Donation": "आणखी एक देणगी द्या"
   }
 };
