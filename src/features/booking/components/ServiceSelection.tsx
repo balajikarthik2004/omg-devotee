@@ -104,6 +104,7 @@ export function ServiceSelection({ cart, setCart, errors, setErrors, t }: any) {
     { id: "prasadam", label: tStr("Prasadam") },
     { id: "accommodations", label: tStr("Rooms") },
     { id: "venues", label: tStr("Venues") },
+    { id: "donations", label: tStr("Donations Pledge") },
   ] as const;
 
   return (
@@ -338,6 +339,112 @@ export function ServiceSelection({ cart, setCart, errors, setErrors, t }: any) {
                 </div>
               )
             })}
+          </div>
+        </div>
+      )}
+
+      {/* DONATIONS SECTION */}
+      {activeTab === "donations" && (
+        <div className="animate-in fade-in slide-in-from-left-4 duration-300">
+          <h3 className="font-serif text-xl font-bold text-slate-800 mb-4">{tStr("Donations Pledge")}</h3>
+          <p className="text-sm text-slate-500 mb-6">{tStr("Make a sacred offering to support the temple.")}</p>
+          
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6">
+            <label className="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">{tStr("Amount (₹)")}</label>
+            <div className="grid grid-cols-4 gap-2 mb-4">
+              {[101, 501, 1001, 5001].map(amt => (
+                <div 
+                  key={amt} 
+                  onClick={() => setCart({...cart, donations: {...cart.donations, amount: amt}})}
+                  className={`py-2 rounded-xl border-2 text-center cursor-pointer transition-all font-bold text-sm flex items-center justify-center ${cart.donations?.amount === amt ? 'border-saffron bg-saffron text-white shadow-sm scale-105' : 'border-slate-200 bg-white text-slate-700 hover:border-saffron/40'}`}
+                >
+                  ₹{amt}
+                </div>
+              ))}
+            </div>
+            <div className="relative mb-5">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
+              <input 
+                type="number" 
+                value={cart.donations?.amount || ""} 
+                onChange={e => setCart({...cart, donations: {...cart.donations, amount: parseInt(e.target.value) || 0}})} 
+                placeholder={tStr("Custom Amount")} 
+                className="w-full bg-white border-2 border-slate-200 rounded-xl pl-9 pr-3 py-2.5 font-bold outline-none focus:border-saffron focus:ring-4 focus:ring-saffron/10 transition-all hover:border-slate-300" 
+              />
+            </div>
+            
+            <label className="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">{tStr("Donation Frequency")}</label>
+            <div className="flex gap-4 mb-4">
+               <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" checked={cart.donations?.frequency === 'one-time' || !cart.donations?.frequency} onChange={() => setCart({...cart, donations: {...cart.donations, frequency: 'one-time'}})} className="w-4 h-4 text-saffron focus:ring-saffron accent-saffron" />
+                  <span className="text-sm font-bold text-slate-700">{tStr("One-time")}</span>
+               </label>
+               <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" checked={cart.donations?.frequency !== 'one-time' && cart.donations?.frequency !== 'pledge' && cart.donations?.frequency !== undefined} onChange={() => setCart({...cart, donations: {...cart.donations, frequency: '30days'}})} className="w-4 h-4 text-saffron focus:ring-saffron accent-saffron" />
+                  <span className="text-sm font-bold text-slate-700">{tStr("Recurring")}</span>
+               </label>
+               <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" checked={cart.donations?.frequency === 'pledge'} onChange={() => setCart({...cart, donations: {...cart.donations, frequency: 'pledge'}})} className="w-4 h-4 text-saffron focus:ring-saffron accent-saffron" />
+                  <span className="text-sm font-bold text-slate-700">{tStr("Pledge")}</span>
+               </label>
+            </div>
+            
+            {cart.donations?.frequency && cart.donations.frequency !== 'one-time' && cart.donations.frequency !== 'pledge' && (
+              <div className="animate-in fade-in slide-in-from-top-2 mb-4 bg-saffron/5 p-4 rounded-xl border border-saffron/20">
+                 <label className="block text-xs font-bold uppercase tracking-widest text-saffron mb-2">{tStr("Recurring Period")}</label>
+                 <select 
+                   value={cart.donations.frequency.startsWith('custom') ? 'custom' : cart.donations.frequency} 
+                   onChange={e => setCart({...cart, donations: {...cart.donations, frequency: e.target.value === 'custom' ? 'custom-7' : e.target.value}})} 
+                   className="w-full bg-white border-2 border-saffron/20 rounded-xl px-3 py-2.5 text-sm font-bold outline-none focus:border-saffron focus:ring-4 focus:ring-saffron/10 transition-all cursor-pointer shadow-sm mb-3 hover:border-saffron/40"
+                 >
+                   <option value="15days">{tStr("Every 15 Days")}</option>
+                   <option value="30days">{tStr("Every 30 Days")}</option>
+                   <option value="custom">{tStr("Custom")}</option>
+                 </select>
+                 
+                 {cart.donations.frequency.startsWith('custom') && (
+                   <div className="flex items-center gap-3 mb-3 animate-in fade-in slide-in-from-top-1 bg-white p-2 rounded-xl border border-saffron/20">
+                     <input 
+                       type="number" 
+                       min="1"
+                       value={cart.donations.frequency.replace('custom-', '').replace('custom', '')} 
+                       onChange={e => setCart({...cart, donations: {...cart.donations, frequency: `custom-${e.target.value}`}})} 
+                       placeholder={tStr("E.g. 10")} 
+                       className="w-full bg-transparent px-2 py-1 text-sm font-bold outline-none text-slate-800 placeholder:font-normal"
+                     />
+                     <span className="text-xs font-bold text-slate-500 uppercase tracking-widest shrink-0 pr-2">{tStr("Days")}</span>
+                   </div>
+                 )}
+                 
+                 <div className="flex items-start gap-2 text-xs font-medium text-slate-600 bg-white p-3 rounded-lg border border-saffron/20">
+                    <Heart className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                    <span>{tStr("By choosing recurring, you agree to auto-pay like other payment gateways. The amount will be auto-debited securely based on the selected period.")}</span>
+                 </div>
+              </div>
+            )}
+
+            {cart.donations?.frequency === 'pledge' && (
+              <div className="animate-in fade-in slide-in-from-top-2 mb-4 bg-amber-50 p-4 rounded-xl border border-amber-200">
+                 <label className="block text-xs font-bold uppercase tracking-widest text-amber-700 mb-2">{tStr("I promise to donate by:")}</label>
+                 <input 
+                   type="date"
+                   value={cart.donations.pledgeDate || ""}
+                   onChange={e => setCart({...cart, donations: {...cart.donations, pledgeDate: e.target.value}})}
+                   min={new Date().toISOString().split('T')[0]}
+                   className="w-full bg-white border-2 border-amber-200 rounded-xl px-3 py-2.5 text-sm font-bold outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 transition-all cursor-pointer shadow-sm mb-3 hover:border-amber-300"
+                 />
+                 <div className="flex items-start gap-2 text-xs font-medium text-amber-800 bg-white p-3 rounded-lg border border-amber-200">
+                    <Heart className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                    <span>{tStr("No money will be deducted today. We will gently remind you when your pledge date approaches.")}</span>
+                 </div>
+              </div>
+            )}
+
+            {cart.donations?.amount > 0 && (
+              <button onClick={() => setCart({...cart, donations: {amount: 0, frequency: 'one-time', cause: 'general'}})} className="text-xs font-bold text-rose-500 hover:text-rose-600 uppercase tracking-widest">
+                {tStr("Clear Donation")}
+              </button>
+            )}
           </div>
         </div>
       )}

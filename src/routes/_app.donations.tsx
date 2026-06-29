@@ -20,7 +20,8 @@ function DonationsPage() {
   const [amount, setAmount] = useState<number>(501);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState("upi");
-  const [frequency, setFrequency] = useState("one-time"); // one-time, monthly, yearly
+  const [frequency, setFrequency] = useState("one-time"); // one-time, pledge, etc.
+  const [pledgeDate, setPledgeDate] = useState("");
   
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -52,13 +53,14 @@ function DonationsPage() {
             amount={amount} setAmount={setAmount}
             customAmount={customAmount} setCustomAmount={setCustomAmount}
             frequency={frequency} setFrequency={setFrequency}
+            pledgeDate={pledgeDate} setPledgeDate={setPledgeDate}
             onNext={() => setStep(2)} getActiveAmount={getActiveAmount}
           />
         )}
 
         {step === 2 && (
           <PaymentProcessor 
-            templeObj={t} cause={cause} frequency={frequency}
+            templeObj={t} cause={cause} frequency={frequency} pledgeDate={pledgeDate}
             paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod}
             isProcessing={isProcessing} onPay={handlePay} 
             onCancel={() => setStep(1)} getActiveAmount={getActiveAmount}
@@ -67,8 +69,8 @@ function DonationsPage() {
 
         {step === 3 && (
           <DonationReceipt 
-            templeObj={t} cause={cause} paymentMethod={paymentMethod} frequency={frequency}
-            getActiveAmount={getActiveAmount} onReset={() => { setStep(1); setAmount(501); setCustomAmount(""); setFrequency("one-time"); }}
+            templeObj={t} cause={cause} paymentMethod={paymentMethod} frequency={frequency} pledgeDate={pledgeDate}
+            getActiveAmount={getActiveAmount} onReset={() => { setStep(1); setAmount(501); setCustomAmount(""); setFrequency("one-time"); setPledgeDate(""); }}
           />
         )}
       </div>

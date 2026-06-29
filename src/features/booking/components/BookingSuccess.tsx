@@ -60,7 +60,7 @@ export function BookingSuccess({ t, details, cart }: any) {
           {/* Add-ons & Pickup details */}
           <div className="flex flex-col gap-4">
             
-            {(cart.poojas.length > 0 || cart.accommodations.type || cart.venues.type) && (
+            {(cart.poojas.length > 0 || cart.accommodations.type || cart.venues.type || cart.donations?.amount > 0) && (
               <div className="bg-white border border-slate-200 rounded-2xl p-5 text-left shadow-sm">
                  <h4 className="font-bold text-slate-800 mb-3 text-sm uppercase tracking-wider">{tStr("Reserved Services")}</h4>
                  <ul className="text-sm space-y-2 text-slate-600">
@@ -72,6 +72,14 @@ export function BookingSuccess({ t, details, cart }: any) {
                     )}
                     {cart.venues.type && (
                       <li className="flex gap-2"><span className="text-saffron">•</span> {tStr(cart.venues.type)}</li>
+                    )}
+                    {cart.donations?.amount > 0 && (
+                      <li className="flex gap-2">
+                        <span className="text-saffron">•</span> 
+                        {cart.donations.frequency === 'pledge' 
+                          ? `${tStr("Donation Pledge")}: ₹${cart.donations.amount} ${tStr("by")} ${new Date(cart.donations.pledgeDate || "").toLocaleDateString()}` 
+                          : `${tStr("Temple Donation")}: ₹${cart.donations.amount} ${cart.donations.frequency !== 'one-time' ? `(${cart.donations.frequency === '15days' ? 'Every 15 Days' : cart.donations.frequency === '30days' ? 'Every 30 Days' : cart.donations.frequency.startsWith('custom-') ? `${cart.donations.frequency.split('-')[1]} Days` : cart.donations.frequency})` : ''}`}
+                      </li>
                     )}
                  </ul>
               </div>

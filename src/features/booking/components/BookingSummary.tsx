@@ -17,6 +17,7 @@ export function BookingSummary({ cart, setCart, details, onPay, isProcessing }: 
     t += cart.archana.price;
     if (cart.accommodations.type) t += cart.accommodations.nights * cart.accommodations.price;
     if (cart.venues.type) t += cart.venues.price;
+    if (cart.donations?.amount && cart.donations.frequency !== 'pledge') t += cart.donations.amount;
     return t;
   }, [cart]);
 
@@ -182,6 +183,28 @@ export function BookingSummary({ cart, setCart, details, onPay, isProcessing }: 
               )}
             </div>
           )}
+
+          {cart.donations?.amount > 0 && (
+            <div className="pt-4 border-t border-slate-200/60 border-dashed">
+              <div className="text-[11px] uppercase tracking-widest text-slate-400 font-bold mb-2">{tStr("Donations Pledge")}</div>
+              <div className="flex justify-between items-start text-sm">
+                <div>
+                  <div className="font-bold text-slate-800">{tStr("Temple Donation")} {cart.donations.frequency === 'pledge' && <span className="text-amber-600 bg-amber-50 px-2 py-0.5 rounded text-[10px] uppercase ml-2">{tStr("Pledge")}</span>}</div>
+                  {cart.donations.frequency !== 'one-time' && cart.donations.frequency !== 'pledge' && (
+                    <div className="text-[10px] uppercase tracking-wider font-bold text-saffron mt-0.5 bg-saffron/10 px-2 py-0.5 rounded inline-block">
+                      {tStr("Recurring")} - {cart.donations.frequency === '15days' ? tStr("Every 15 Days") : cart.donations.frequency === '30days' ? tStr("Every 30 Days") : cart.donations.frequency.startsWith('custom-') ? `${cart.donations.frequency.split('-')[1]} ${tStr("Days")}` : tStr("Custom")}
+                    </div>
+                  )}
+                  {cart.donations.frequency === 'pledge' && (
+                    <div className="text-[10px] font-bold text-amber-700 mt-0.5 inline-block">
+                      {tStr("To be paid by:")} {new Date(cart.donations.pledgeDate || "").toLocaleDateString()}
+                    </div>
+                  )}
+                </div>
+                <span className="font-bold text-slate-600">₹{cart.donations.amount}</span>
+              </div>
+            </div>
+          )}
           
         </div>
 
@@ -195,7 +218,7 @@ export function BookingSummary({ cart, setCart, details, onPay, isProcessing }: 
           className="w-full relative group inline-flex items-center justify-center gap-2.5 text-base font-bold text-white px-6 py-4 rounded-full transition-all duration-300 hover:scale-[1.02] bg-gradient-to-r from-emerald-500 to-teal-500 overflow-hidden shadow-lg shadow-emerald-500/30"
         >
           <CreditCard className="w-5 h-5 relative z-10" />
-          <span className="relative z-10 tracking-wide">{tStr("Pay securely")}</span>
+          <span className="relative z-10 tracking-wide">{total === 0 && cart.donations?.frequency === 'pledge' ? tStr("Confirm Pledge") : tStr("Pay securely")}</span>
         </button>
       </div>
     </div>

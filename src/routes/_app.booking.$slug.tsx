@@ -37,6 +37,7 @@ export type BookingCart = {
   archana: { optIn: boolean; partnerDelivery: boolean; price: number };
   accommodations: { type: string; nights: number; price: number; checkIn: Date | null };
   venues: { type: string; price: number; date: Date | null };
+  donations?: { amount: number; frequency: string; cause: string; pledgeDate?: string };
 };
 
 function BookingPage() {
@@ -49,7 +50,8 @@ function BookingPage() {
     prasadam: [],
     archana: { optIn: false, partnerDelivery: false, price: 0 },
     accommodations: { type: "", nights: 1, price: 0, checkIn: null },
-    venues: { type: "", price: 0, date: null }
+    venues: { type: "", price: 0, date: null },
+    donations: { amount: 0, frequency: "one-time", cause: "general", pledgeDate: "" }
   });
 
   const [visitDate, setVisitDate] = useState<Date | null>(null);
@@ -97,8 +99,9 @@ function BookingPage() {
     const hasArchana = cart.archana.optIn;
     const hasAcc = !!cart.accommodations.type;
     const hasVenue = !!cart.venues.type;
+    const hasDonation = !!(cart.donations && cart.donations.amount > 0);
 
-    if (!hasDarshan && !hasPoojas && !hasPrasadam && !hasArchana && !hasAcc && !hasVenue) {
+    if (!hasDarshan && !hasPoojas && !hasPrasadam && !hasArchana && !hasAcc && !hasVenue && !hasDonation) {
       errs.general = tStr("Please select at least one service to proceed.");
     }
 

@@ -11,6 +11,7 @@ export function DonationForm({
   amount, setAmount,
   customAmount, setCustomAmount,
   frequency, setFrequency,
+  pledgeDate, setPledgeDate,
   onNext, getActiveAmount
 }: any) {
   const { t: tStr } = useTranslation();
@@ -32,20 +33,76 @@ export function DonationForm({
 
       <div className="mb-5">
         <label className="block text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1.5">{tStr("Donation Frequency")}</label>
-        <RadioGroup value={frequency} onValueChange={setFrequency} className="grid grid-cols-3 gap-2">
+        <RadioGroup value={frequency === 'one-time' ? 'one-time' : frequency === 'pledge' ? 'pledge' : 'recurrent'} onValueChange={(val) => {
+          if (val === 'one-time') setFrequency('one-time');
+          else if (val === 'pledge') setFrequency('pledge');
+          else setFrequency('30days');
+        }} className="grid grid-cols-3 gap-2">
           <div className={`flex flex-col items-center justify-center p-2 border-2 rounded-xl cursor-pointer transition-all ${frequency === 'one-time' ? 'border-primary bg-primary/5 shadow-sm text-primary' : 'border-border/60 hover:border-border text-muted-foreground hover:bg-secondary/20'}`} onClick={() => setFrequency('one-time')}>
             <Zap className="w-4 h-4 mb-1" />
             <span className="font-semibold text-xs">{tStr("One-time")}</span>
           </div>
-          <div className={`flex flex-col items-center justify-center p-2 border-2 rounded-xl cursor-pointer transition-all ${frequency === 'monthly' ? 'border-primary bg-primary/5 shadow-sm text-primary' : 'border-border/60 hover:border-border text-muted-foreground hover:bg-secondary/20'}`} onClick={() => setFrequency('monthly')}>
-            <Calendar className="w-4 h-4 mb-1" />
-            <span className="font-semibold text-xs">{tStr("Monthly")}</span>
-          </div>
-          <div className={`flex flex-col items-center justify-center p-2 border-2 rounded-xl cursor-pointer transition-all ${frequency === 'yearly' ? 'border-primary bg-primary/5 shadow-sm text-primary' : 'border-border/60 hover:border-border text-muted-foreground hover:bg-secondary/20'}`} onClick={() => setFrequency('yearly')}>
+          <div className={`flex flex-col items-center justify-center p-2 border-2 rounded-xl cursor-pointer transition-all ${frequency !== 'one-time' && frequency !== 'pledge' ? 'border-primary bg-primary/5 shadow-sm text-primary' : 'border-border/60 hover:border-border text-muted-foreground hover:bg-secondary/20'}`} onClick={() => setFrequency('30days')}>
             <CalendarDays className="w-4 h-4 mb-1" />
-            <span className="font-semibold text-xs">{tStr("Yearly")}</span>
+            <span className="font-semibold text-xs">{tStr("Recurring")}</span>
+          </div>
+          <div className={`flex flex-col items-center justify-center p-2 border-2 rounded-xl cursor-pointer transition-all ${frequency === 'pledge' ? 'border-primary bg-primary/5 shadow-sm text-primary' : 'border-border/60 hover:border-border text-muted-foreground hover:bg-secondary/20'}`} onClick={() => setFrequency('pledge')}>
+            <Calendar className="w-4 h-4 mb-1" />
+            <span className="font-semibold text-xs">{tStr("Pledge")}</span>
           </div>
         </RadioGroup>
+        
+        {frequency !== 'one-time' && frequency !== 'pledge' && (
+          <div className="mt-3 p-4 bg-primary/5 border border-primary/20 rounded-xl animate-in fade-in slide-in-from-top-2">
+             <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-1.5">{tStr("Recurring Period")}</label>
+             <select 
+               value={frequency.startsWith('custom') ? 'custom' : frequency} 
+               onChange={e => setFrequency(e.target.value === 'custom' ? 'custom-7' : e.target.value)} 
+               className="w-full bg-background border-2 border-primary/20 hover:border-primary/40 rounded-xl px-3 py-2.5 text-sm font-semibold outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all cursor-pointer shadow-sm mb-3"
+             >
+               <option value="15days">{tStr("Every 15 Days")}</option>
+               <option value="30days">{tStr("Every 30 Days")}</option>
+               <option value="custom">{tStr("Custom")}</option>
+             </select>
+             
+             {frequency.startsWith('custom') && (
+               <div className="flex items-center gap-3 mb-3 animate-in fade-in slide-in-from-top-1 bg-white p-2 rounded-xl border border-primary/20">
+                 <input 
+                   type="number" 
+                   min="1"
+                   value={frequency.replace('custom-', '').replace('custom', '')} 
+                   onChange={e => setFrequency(`custom-${e.target.value}`)} 
+                   placeholder={tStr("E.g. 10")} 
+                   className="w-full bg-transparent px-2 py-1 text-sm font-bold outline-none text-foreground placeholder:font-normal"
+                 />
+                 <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest shrink-0 pr-2">{tStr("Days")}</span>
+               </div>
+             )}
+             
+             <div className="flex items-start gap-2 text-xs font-medium text-muted-foreground bg-background/50 p-3 rounded-lg border border-primary/10">
+                <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                <span>{tStr("By choosing recurring, you agree to auto-pay like other payment gateways. The amount will be auto-debited securely based on the selected period.")}</span>
+             </div>
+          </div>
+        )}
+
+        {frequency === 'pledge' && (
+          <div className="mt-3 p-4 bg-amber-50 border border-amber-200 rounded-xl animate-in fade-in slide-in-from-top-2">
+             <label className="block text-xs font-bold uppercase tracking-widest text-amber-700 mb-1.5">{tStr("I promise to donate by:")}</label>
+             <input 
+               type="date"
+               value={pledgeDate}
+               onChange={e => setPledgeDate(e.target.value)}
+               min={new Date().toISOString().split('T')[0]}
+               className="w-full bg-white border-2 border-amber-200 hover:border-amber-300 rounded-xl px-3 py-2.5 text-sm font-semibold outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 transition-all cursor-pointer shadow-sm mb-3"
+             />
+             
+             <div className="flex items-start gap-2 text-xs font-medium text-amber-800 bg-amber-100/50 p-3 rounded-lg border border-amber-200/50">
+                <ShieldCheck className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <span>{tStr("No money will be deducted today. We will gently remind you when your pledge date approaches.")}</span>
+             </div>
+          </div>
+        )}
       </div>
 
       <label className="block text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1.5">{tStr("Select Cause")}</label>
@@ -88,8 +145,8 @@ export function DonationForm({
         />
       </div>
 
-      <button onClick={onNext} disabled={!getActiveAmount()} className="w-full rounded-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 text-base font-bold flex items-center justify-center transition-all hover:-translate-y-0.5 shadow-md shadow-primary/20 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]">
-        {tStr("Proceed to Pay")} ₹{getActiveAmount().toLocaleString()} {frequency !== 'one-time' && <span className="ml-1 text-xs font-medium opacity-80 uppercase tracking-wider">/ {frequency === 'monthly' ? 'mo' : 'yr'}</span>}
+      <button onClick={onNext} disabled={!getActiveAmount() || (frequency.startsWith('custom-') && !frequency.split('-')[1]) || (frequency === 'pledge' && !pledgeDate)} className="w-full rounded-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 text-base font-bold flex items-center justify-center transition-all hover:-translate-y-0.5 shadow-md shadow-primary/20 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]">
+        {frequency === 'pledge' ? tStr("Confirm Pledge") : tStr("Proceed to Pay")} ₹{getActiveAmount().toLocaleString()} {frequency !== 'one-time' && frequency !== 'pledge' && <span className="ml-1 text-xs font-medium opacity-80 uppercase tracking-wider">/ {frequency === '15days' ? '15d' : frequency === '30days' ? '30d' : frequency.startsWith('custom-') ? `${frequency.split('-')[1]}d` : 'period'}</span>}
       </button>
 
       <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">

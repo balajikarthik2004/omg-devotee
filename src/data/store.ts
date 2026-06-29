@@ -32,33 +32,15 @@ const defaultProducts: Product[] = [
   },
   {
     id: "p2",
-    name: "Premium Kumkum & Turmeric Sachet Set",
-    description: "Auspicious set of pure kumkum and turmeric from the temple premises, blessed by the priests.",
-    price: 9.99,
-    category: "Sachets",
-    image: "/store/kumkum.png",
-    stock: 200,
+    name: "Framed Deity Photo (8x10)",
+    description: "High-resolution photo print of the main deity, beautifully framed in synthetic wood.",
+    price: 29.99,
+    category: "Photos",
+    image: "/store/murugan.png",
+    stock: 25,
   },
   {
-    id: "p3",
-    name: "Handcrafted Toran / Door Hanging",
-    description: "Beautiful marigold and mango leaf design door hanging to welcome prosperity.",
-    price: 18.50,
-    category: "Hangings",
-    image: "/store/garlands.png",
-    stock: 30,
-  },
-  {
-    id: "p4",
-    name: "Om & Swastika Wall Hanging",
-    description: "Metal alloy wall hanging with traditional symbols for peace and good fortune.",
-    price: 14.99,
-    category: "Hangings",
-    image: "/store/om.png",
-    stock: 45,
-  },
-  {
-    id: "p5",
+    id: "p6",
     name: "Customized Temple T-Shirt (Unisex)",
     description: "100% Cotton t-shirt featuring the temple deity's artwork. Available in multiple sizes.",
     price: 22.00,
@@ -68,6 +50,42 @@ const defaultProducts: Product[] = [
   },
   {
     id: "p6",
+    name: "Silver Vel (Spear) Replica",
+    description: "Miniature silver-plated Vel, the divine weapon of Lord Murugan.",
+    price: 35.00,
+    category: "Idols",
+    image: "/store/vel.png",
+    stock: 15,
+  },
+  {
+    id: "p3",
+    name: "Premium Kumkum & Turmeric Sachet Set",
+    description: "Auspicious set of pure kumkum and turmeric from the temple premises, blessed by the priests.",
+    price: 9.99,
+    category: "Sachets",
+    image: "/store/kumkum.png",
+    stock: 200,
+  },
+  {
+    id: "p4",
+    name: "Handcrafted Toran / Door Hanging",
+    description: "Beautiful marigold and mango leaf design door hanging to welcome prosperity.",
+    price: 18.50,
+    category: "Hangings",
+    image: "/store/garlands.png",
+    stock: 30,
+  },
+  {
+    id: "p5",
+    name: "Om & Swastika Wall Hanging",
+    description: "Metal alloy wall hanging with traditional symbols for peace and good fortune.",
+    price: 14.99,
+    category: "Hangings",
+    image: "/store/om.png",
+    stock: 45,
+  },
+  {
+    id: "p7",
     name: "Framed Deity Photo (8x10)",
     description: "High-resolution photo print of the main deity, beautifully framed in synthetic wood.",
     price: 29.99,
@@ -83,15 +101,51 @@ export const stores: Store[] = temples.map((temple) => {
   const specificProducts = [...defaultProducts];
   
   if (temple.slug.includes('murugan')) {
-    specificProducts.push({
-      id: `p-murugan-${temple.id}`,
-      name: "Silver Vel (Spear) Replica",
-      description: "Miniature silver-plated Vel, the divine weapon of Lord Murugan.",
-      price: 35.00,
-      category: "Idols",
-      image: "/store/vel.svg",
-      stock: 15,
-    });
+    const newItems: Product[] = [
+      {
+        id: `p-murugan-vel-${temple.id}`,
+        name: "Silver Vel (Spear) Replica",
+        description: "Miniature silver-plated Vel, the divine weapon of Lord Murugan.",
+        price: 35.00,
+        category: "Idols",
+      image: "/store/vel1.png",
+        stock: 15,
+      },
+      {
+        id: `p-murugan-panchamirtham-${temple.id}`,
+        name: "Palani Panchamirtham (500g)",
+        description: "The world-famous divine prasadam made of five natural ingredients: banana, jaggery, cow ghee, honey, and cardamom.",
+        price: 12.50,
+        category: "Merchandise",
+        image: "/store/Panchamirtham.png", // reusing an available image
+        stock: 100,
+      },
+      {
+        id: `p-murugan-vibhuthi-${temple.id}`,
+        name: "Sacred Vibhuthi & Jawadhu Set",
+        description: "Authentic holy ash (Bhasma) and traditional Jawadhu perfume powder blessed at the temple.",
+        price: 8.99,
+        category: "Sachets",
+        image: "/store/vibhuthi.png",
+        stock: 150,
+      },
+      {
+        id: `p-murugan-vati-${temple.id}`,
+        name: "Premium Cotton Wicks (Vati) & Agarbatti",
+        description: "Pure cotton wicks (diya bati) and aromatic incense sticks for your daily pooja.",
+        price: 5.50,
+        category: "Lamps",
+        image: "/store/vati.png",
+        stock: 300,
+      }
+    ];
+
+    const p4Index = specificProducts.findIndex(p => p.id === "p4");
+    if (p4Index !== -1) {
+      specificProducts.splice(p4Index, 0, ...newItems);
+    } else {
+      specificProducts.push(...newItems);
+    }
   }
 
   if (temple.slug.includes('shiva') || temple.deity.toLowerCase().includes('shiva')) {

@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { CheckCircle2, Download, Receipt } from "lucide-react";
 import { CAUSES } from "../constants";
 
-export function DonationReceipt({ templeObj, cause, paymentMethod, frequency, getActiveAmount, onReset }: any) {
+export function DonationReceipt({ templeObj, cause, paymentMethod, frequency, pledgeDate, getActiveAmount, onReset }: any) {
   const { t: tStr } = useTranslation();
 
   return (
@@ -10,7 +10,7 @@ export function DonationReceipt({ templeObj, cause, paymentMethod, frequency, ge
       <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner ring-4 ring-emerald-50/50 dark:ring-emerald-900/10">
         <CheckCircle2 className="w-8 h-8" />
       </div>
-      <h2 className="font-serif text-2xl font-bold mb-1 text-foreground tracking-tight">{tStr("Payment Successful")}</h2>
+      <h2 className="font-serif text-2xl font-bold mb-1 text-foreground tracking-tight">{frequency === 'pledge' ? tStr("Pledge Confirmed") : tStr("Payment Successful")}</h2>
       <div className="text-emerald-600 dark:text-emerald-500 font-semibold mb-6 text-sm">{tStr("May the Divine bless you! 🙏")}</div>
       
       <div className="bg-background rounded-2xl p-5 mb-6 text-left border-2 border-border/60 shadow-sm relative overflow-hidden">
@@ -20,17 +20,17 @@ export function DonationReceipt({ templeObj, cause, paymentMethod, frequency, ge
           <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
             <Receipt className="w-3.5 h-3.5" /> {tStr("E-Receipt")}
           </div>
-          <div className="text-[10px] font-bold bg-secondary px-2 py-1 rounded text-muted-foreground uppercase tracking-wider">
+          <div className="text-[10px] font-bold bg-secondary px-2 py-1 rounded text-white uppercase tracking-wider">
             {new Date().toLocaleDateString('en-IN')}
           </div>
         </div>
         
         <div className="space-y-3 text-[13px]">
           <div className="flex items-center justify-between">
-            <span className="text-muted-foreground font-semibold">{tStr("Amount")}</span> 
+            <span className="text-muted-foreground font-semibold">{frequency === 'pledge' ? tStr("Pledged Amount") : tStr("Amount")}</span> 
             <span className="font-black text-xl text-emerald-600 flex items-baseline gap-1">
               ₹{getActiveAmount().toLocaleString()}
-              {frequency !== 'one-time' && <span className="text-xs font-medium text-muted-foreground">/ {frequency === 'monthly' ? 'mo' : 'yr'}</span>}
+              {frequency !== 'one-time' && frequency !== 'pledge' && <span className="text-xs font-medium text-muted-foreground">/ {frequency === '15days' ? '15d' : frequency === '30days' ? '30d' : frequency.startsWith('custom-') ? `${frequency.split('-')[1]}d` : frequency}</span>}
             </span>
           </div>
           <div className="flex items-start justify-between gap-4">
@@ -41,15 +41,21 @@ export function DonationReceipt({ templeObj, cause, paymentMethod, frequency, ge
             <span className="text-muted-foreground font-semibold whitespace-nowrap mt-0.5">{tStr("Cause")}</span> 
             <span className="font-bold text-foreground text-right leading-tight">{tStr(CAUSES.find((c: any) => c.id === cause)?.title)}</span>
           </div>
-          {frequency !== 'one-time' && (
+          {frequency !== 'one-time' && frequency !== 'pledge' && (
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground font-semibold">{tStr("Frequency")}</span> 
-              <span className="font-bold text-primary bg-primary/10 px-2 py-0.5 rounded uppercase tracking-wider text-[11px]">{frequency}</span>
+              <span className="font-bold text-primary bg-primary/10 px-2 py-0.5 rounded uppercase tracking-wider text-[11px]">{frequency === '15days' ? '15 Days' : frequency === '30days' ? '30 Days' : frequency.startsWith('custom-') ? `${frequency.split('-')[1]} Days` : frequency}</span>
+            </div>
+          )}
+          {frequency === 'pledge' && (
+            <div className="flex items-center justify-between">
+              <span className="text-muted-foreground font-semibold">{tStr("Fulfillment Date")}</span> 
+              <span className="font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded uppercase tracking-wider text-[11px]">{new Date(pledgeDate || "").toLocaleDateString()}</span>
             </div>
           )}
           <div className="flex items-center justify-between">
             <span className="text-muted-foreground font-semibold">{tStr("Method")}</span> 
-            <span className="font-bold text-foreground uppercase bg-secondary px-2 py-0.5 rounded text-[11px] tracking-wider">{paymentMethod}</span>
+            <span className="font-bold text-white uppercase bg-secondary px-2 py-0.5 rounded text-[11px] tracking-wider">{paymentMethod}</span>
           </div>
           <div className="flex items-center justify-between border-t-2 border-dashed border-border/60 pt-3 mt-1">
             <span className="text-muted-foreground font-semibold">{tStr("Transaction ID")}</span> 
