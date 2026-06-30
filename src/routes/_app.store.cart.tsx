@@ -26,6 +26,7 @@ function CartPage() {
   const [card, setCard] = useState("");
   const [exp, setExp] = useState("");
   const [cvv, setCvv] = useState("");
+  const [address, setAddress] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const tax = totalPrice * 0.08;
@@ -56,6 +57,11 @@ function CartPage() {
   const handleCheckout = (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (deliveryMethod === "shipping" && !address.trim()) {
+      setErrors((p) => ({ ...p, address: t("Address is required for shipping") }));
+      return;
+    }
+
     setIsProcessing(true);
     
     // Simulate GPay style 1-1.5s real payment processing
@@ -64,7 +70,7 @@ function CartPage() {
       setIsSuccess(true);
       clearCart();
       toast.success(t("Order Confirmed"), {
-        description: t("Your receipt has been sent to your email.")
+        description: deliveryMethod === "shipping" ? t("Your order successfully placed.") : t("Your receipt has been sent to your email.")
       });
     }, 1500);
   };
@@ -214,6 +220,24 @@ function CartPage() {
                     <Label htmlFor="shipping" className="flex-1 cursor-pointer font-medium text-center text-sm">{t("Shipping")}<br/><span className="text-xs text-muted-foreground font-normal">$15.00</span></Label>
                   </div>
                 </RadioGroup>
+                
+                {deliveryMethod === "shipping" && (
+                  <div className="grid gap-1.5 relative mt-4 animate-in fade-in slide-in-from-top-2">
+                    <Label htmlFor="address" className="text-xs text-muted-foreground ml-1">{t("Shipping Address")}</Label>
+                    <textarea 
+                      id="address" 
+                      placeholder={t("Enter your full delivery address")} 
+                      value={address}
+                      onChange={(e) => {
+                        setAddress(e.target.value);
+                        if (errors.address) setErrors((p) => ({ ...p, address: "" }));
+                      }}
+                      required={deliveryMethod === "shipping"}
+                      className={`min-h-[80px] p-3 text-sm rounded-md border bg-background shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary ${errors.address ? 'border-red-500 focus-visible:ring-red-500' : 'border-input'}`}
+                    />
+                    {errors.address && <p className="text-xs text-red-500 ml-1">{errors.address}</p>}
+                  </div>
+                )}
               </div>
 
               <div>
