@@ -2,8 +2,9 @@ import { useTranslation } from "react-i18next";
 import { CreditCard, CheckCircle2, ShieldCheck, Lock, PackagePlus, Leaf } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import type { BookingCart } from "@/routes/_app.booking.$slug";
+import { DARSHAN_CATEGORIES } from "@/routes/_app.booking.$slug";
 
-export function BookingSummary({ cart, setCart, details, onPay, isProcessing }: any) {
+export function BookingSummary({ cart, setCart, details, visitDate, visitTime, onPay, isProcessing }: any) {
   const { t: tStr } = useTranslation();
   
   const [loadingText, setLoadingText] = useState(() => tStr("Initiating secure connection..."));
@@ -11,7 +12,10 @@ export function BookingSummary({ cart, setCart, details, onPay, isProcessing }: 
   // Calculate totals
   const total = useMemo(() => {
     let t = 0;
-    if (cart.darshan.type) t += cart.darshan.persons * cart.darshan.price;
+    const darshanCat = DARSHAN_CATEGORIES.find(c => c.id === details.categoryId);
+    if (darshanCat) {
+      t += darshanCat.price * (details.persons || 1);
+    }
     cart.poojas.forEach((p: any) => t += p.price);
     cart.prasadam.forEach((p: any) => t += p.qty * p.price);
     t += cart.archana.price;
@@ -19,10 +23,10 @@ export function BookingSummary({ cart, setCart, details, onPay, isProcessing }: 
     if (cart.venues.type) t += cart.venues.price;
     if (cart.donations?.amount && cart.donations.frequency !== 'pledge') t += cart.donations.amount;
     return t;
-  }, [cart]);
+  }, [cart, details.categoryId, details.persons]);
 
   // Upsell check
-  const hasDarshanOrPooja = !!cart.darshan.type || cart.poojas.length > 0;
+  const hasDarshanOrPooja = !!details.categoryId || cart.poojas.length > 0;
   const missingPrasadamOrArchana = (cart.prasadam.length === 0 || !cart.archana.optIn) && hasDarshanOrPooja;
   const [showUpsell, setShowUpsell] = useState(missingPrasadamOrArchana);
 
@@ -111,16 +115,21 @@ export function BookingSummary({ cart, setCart, details, onPay, isProcessing }: 
         
         <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 mb-4 space-y-4">
           
-          {cart.darshan.type && (
+          {details.categoryId && (
             <div className="pb-4 border-b border-slate-200/60 border-dashed">
               <div className="text-[11px] uppercase tracking-widest text-slate-400 font-bold mb-2">{tStr("Darshan Details")}</div>
               <div className="flex justify-between items-start text-sm">
                 <div>
-                  <div className="font-bold text-slate-800">{tStr(cart.darshan.type)}</div>
-                  <div className="text-slate-500 mt-0.5">{cart.darshan.date?.toLocaleDateString("en-IN")} at {cart.darshan.time}</div>
-                  <div className="text-slate-500">{cart.darshan.persons} {tStr("Devotees")}</div>
+                  <div className="font-bold text-slate-800">{tStr(DARSHAN_CATEGORIES.find(c => c.id === details.categoryId)?.name || "General Darshan")}</div>
+                  <div className="text-slate-500 mt-0.5">{visitDate ? new Date(visitDate).toLocaleDateString("en-IN") : ""} at {visitTime}</div>
+                  <div className="text-slate-500">{details.persons || 1} {tStr("Devotees")}</div>
                 </div>
-                <div className="font-bold text-saffron">{cart.darshan.price === 0 ? tStr("Free") : `₹${cart.darshan.price * cart.darshan.persons}`}</div>
+                <div className="font-bold text-saffron">
+                  {(() => {
+                    const price = DARSHAN_CATEGORIES.find(c => c.id === details.categoryId)?.price || 0;
+                    return price === 0 ? tStr("Free") : `₹${price * (details.persons || 1)}`;
+                  })()}
+                </div>
               </div>
             </div>
           )}

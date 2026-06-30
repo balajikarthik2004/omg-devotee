@@ -765,7 +765,7 @@
   "Select Cause": "कारण निवडा",
   "Temple Stores": "मंदिराची दुकाने",
   "Temple Store": "मंदिराचे दुकान",
-  "Purchase authentic prasadam, sacred idols, and merchandise directly from temple premises.": "मंदिराच्या आवारातून थेट अस्सल प्रसादम, पवित्र मूर्ती आणि माल खरेदी करा.",
+  "Purchase authentic prasadam, sacred idols, and merchandise directly from temple premises.": "मंदिर परिसरातून थेट प्रामाणिक प्रसाद, पवित्र मूर्ती आणि माल खरेदी करा.",
   "Search for a temple store...": "मंदिराचे दुकान शोधा...",
   "No stores found": "कोणतीही दुकाने आढळली नाहीत",
   "Try adjusting your search term.": "तुमचा शोध शब्द बदलून पहा.",
@@ -973,5 +973,9 @@
   "Sacred Vibhuthi & Jawadhu Set": "पवित्र विभूती आणि जवादू सेट",
   "Authentic holy ash (Bhasma) and traditional Jawadhu perfume powder blessed at the temple.": "मंदिरात आशीर्वादित अस्सल पवित्र राख (भस्म) आणि पारंपारिक जवादू अत्तर पावडर.",
   "Premium Cotton Wicks (Vati) & Agarbatti": "प्रीमियम कापसाची वात आणि अगरबत्ती",
-  "Pure cotton wicks (diya bati) and aromatic incense sticks for your daily pooja.": "तुमच्या रोजच्या पूजेसाठी शुद्ध कापसाची वात (दिवा वात) आणि सुगंधी अगरबत्ती."
+  "Pure cotton wicks (diya bati) and aromatic incense sticks for your daily pooja.": "तुमच्या रोजच्या पूजेसाठी शुद्ध कापसाची वात (दिवा वात) आणि सुगंधी अगरबत्ती.",
+  "Shipping Address": "शिपिंग पत्ता",
+  "Enter your full delivery address": "तुमचा संपूर्ण वितरण पत्ता प्रविष्ट करा",
+  "Address is required for shipping": "शिपिंगसाठी पत्ता आवश्यक आहे",
+  "Your order successfully placed.": "तुमची ऑर्डर यशस्वीरित्या दिली गेली."
 }

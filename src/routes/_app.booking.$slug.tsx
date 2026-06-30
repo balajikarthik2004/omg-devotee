@@ -10,7 +10,7 @@ import { BookingForm } from "@/features/booking/components/BookingForm";
 import { BookingSummary } from "@/features/booking/components/BookingSummary";
 import { BookingSuccess } from "@/features/booking/components/BookingSuccess";
 import { UpcomingEvents } from "@/features/booking/components/UpcomingEvents";
-import { Check, Sparkles, Star, Crown } from "lucide-react";
+import { Check, Sparkles, Star, Crown, Users, Heart } from "lucide-react";
 
 export const Route = createFileRoute("/_app/booking/$slug")({
   loader: ({ params }) => {
@@ -25,9 +25,10 @@ export const Route = createFileRoute("/_app/booking/$slug")({
 });
 
 export const DARSHAN_CATEGORIES = [
-  { id: "special", name: "Special Darshan", price: 50, desc: "Standard special queue", icon: Sparkles },
-  { id: "vip", name: "VIP Darshan", price: 200, desc: "Fast-track entry", icon: Star },
-  { id: "vvip", name: "VVIP Darshan", price: 500, desc: "Direct sanctum access", icon: Crown },
+  { id: "general", name: "General Darshan", price: 0, desc: "Standard public queue", icon: Users },
+  { id: "special", name: "Special Entry", price: 200, desc: "Fast-track entry queue", icon: Star },
+  { id: "vip", name: "VIP Darshan", price: 500, desc: "Direct sanctum access", icon: Crown },
+  { id: "senior", name: "Senior Citizen / Differently Abled / Pregnant Women", price: 100, desc: "Priority entry with assistance", icon: Heart, isPremium: true }
 ];
 
 export type BookingCart = {
@@ -57,7 +58,7 @@ function BookingPage() {
   const [visitDate, setVisitDate] = useState<Date | null>(null);
   const [visitTime, setVisitTime] = useState<string>("");
 
-  const [details, setDetails] = useState({ name: "", phone: "", idNumber: "" });
+  const [details, setDetails] = useState({ name: "", phone: "", idNumber: "", categoryId: "general", persons: 1 });
   const [errors, setErrors] = useState<any>({});
   
   // Steps: 1: Schedule, 2: Devotee, 3: Services, 4: Checkout, 5: Processing/Success
@@ -101,9 +102,9 @@ function BookingPage() {
     const hasVenue = !!cart.venues.type;
     const hasDonation = !!(cart.donations && cart.donations.amount > 0);
 
-    if (!hasDarshan && !hasPoojas && !hasPrasadam && !hasArchana && !hasAcc && !hasVenue && !hasDonation) {
-      errs.general = tStr("Please select at least one service to proceed.");
-    }
+    // if (!hasDarshan && !hasPoojas && !hasPrasadam && !hasArchana && !hasAcc && !hasVenue && !hasDonation) {
+    //   errs.general = tStr("Please select at least one service to proceed.");
+    // }
 
     if (Object.keys(errs).length > 0) {
       setErrors(errs);

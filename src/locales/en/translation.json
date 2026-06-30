@@ -946,5 +946,9 @@
   "Partner flower/rice delivery": "Partner flower/rice delivery",
   "Nights": "Nights",
   "/ night": "/ night",
-  "/ day": "/ day"
+  "/ day": "/ day",
+  "Shipping Address": "Shipping Address",
+  "Enter your full delivery address": "Enter your full delivery address",
+  "Address is required for shipping": "Address is required for shipping",
+  "Your order successfully placed.": "Your order successfully placed."
 }

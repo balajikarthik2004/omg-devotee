@@ -104,7 +104,7 @@ export function ServiceSelection({ cart, setCart, errors, setErrors, t }: any) {
     { id: "prasadam", label: tStr("Prasadam") },
     { id: "accommodations", label: tStr("Rooms") },
     { id: "venues", label: tStr("Venues") },
-    { id: "donations", label: tStr("Donations Pledge") },
+    // { id: "donations", label: tStr("Donations Pledge") },
   ] as const;
 
   return (
@@ -344,7 +344,7 @@ export function ServiceSelection({ cart, setCart, errors, setErrors, t }: any) {
       )}
 
       {/* DONATIONS SECTION */}
-      {activeTab === "donations" && (
+      {/* {activeTab === "donations" && (
         <div className="animate-in fade-in slide-in-from-left-4 duration-300">
           <h3 className="font-serif text-xl font-bold text-slate-800 mb-4">{tStr("Donations Pledge")}</h3>
           <p className="text-sm text-slate-500 mb-6">{tStr("Make a sacred offering to support the temple.")}</p>
@@ -447,7 +447,7 @@ export function ServiceSelection({ cart, setCart, errors, setErrors, t }: any) {
             )}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

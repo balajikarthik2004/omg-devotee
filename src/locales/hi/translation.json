@@ -692,7 +692,7 @@
   "Celebration of celestial weddings. Special silver chariot procession.": "दिव्य विवाह का उत्सव। विशेष रजत रथ जुलूस।",
   "Annual cleansing ceremony of the main deity with holy water.": "पवित्र जल से मुख्य देवता का वार्षिक शुद्धिकरण समारोह।",
   "Ten days of special celebrations and chariot processions around the Annamalai hill.": "अन्नामलाई पहाड़ी के चारों ओर दस दिनों के विशेष उत्सव और रथ जुलूस।",
-  "Free": "निःशुल्क",
+  "Free": "मुफ़्त",
   "Senior Citizen / Differently Abled / Pregnant Women": "वरिष्ठ नागरिक / दिव्यांग / गर्भवती महिलाएँ",
   "Skip the free darshan queue. Book your special entry tickets 24 hours in advance.": "मुफ्त दर्शन कतार छोड़ें। अपने विशेष प्रवेश टिकट 24 घंटे पहले बुक करें।",
   "Best Time for Darshan": "दर्शन के लिए सबसे अच्छा समय",
@@ -765,7 +765,7 @@
   "Select Cause": "कारण चुनें",
   "Temple Stores": "मंदिर के स्टोर",
   "Temple Store": "मंदिर की दुकान",
-  "Purchase authentic prasadam, sacred idols, and merchandise directly from temple premises.": "मंदिर परिसर से सीधे प्रामाणिक प्रसादम, पवित्र मूर्तियां और माल खरीदें।",
+  "Purchase authentic prasadam, sacred idols, and merchandise directly from temple premises.": "मंदिर परिसर से सीधे प्रामाणिक प्रसाद, पवित्र मूर्तियां और माल खरीदें।",
   "Search for a temple store...": "मंदिर की दुकान खोजें...",
   "No stores found": "कोई दुकान नहीं मिली",
   "Try adjusting your search term.": "अपना खोज शब्द बदलने का प्रयास करें।",
@@ -973,5 +973,9 @@
   "Sacred Vibhuthi & Jawadhu Set": "पवित्र विभूति और जवादु सेट",
   "Authentic holy ash (Bhasma) and traditional Jawadhu perfume powder blessed at the temple.": "मंदिर में आशीर्वादित प्रामाणिक पवित्र राख (भस्म) और पारंपरिक जवादु इत्र पाउडर।",
   "Premium Cotton Wicks (Vati) & Agarbatti": "प्रीमियम रुई की बत्ती (वाती) और अगरबत्ती",
-  "Pure cotton wicks (diya bati) and aromatic incense sticks for your daily pooja.": "आपकी दैनिक पूजा के लिए शुद्ध रुई की बत्ती (दीया बाती) और सुगंधित अगरबत्ती।"
+  "Pure cotton wicks (diya bati) and aromatic incense sticks for your daily pooja.": "आपकी दैनिक पूजा के लिए शुद्ध रुई की बत्ती (दीया बाती) और सुगंधित अगरबत्ती।",
+  "Shipping Address": "शिपिंग पता",
+  "Enter your full delivery address": "अपना पूरा वितरण पता दर्ज करें",
+  "Address is required for shipping": "शिपिंग के लिए पता आवश्यक है",
+  "Your order successfully placed.": "आपका ऑर्डर सफलतापूर्वक दिया गया।"
 }

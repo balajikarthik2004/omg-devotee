@@ -55,7 +55,11 @@ const translations = {
     " has been added to your shopping cart.": " has been added to your shopping cart.",
     "Quick Add": "Quick Add",
     "Add to Cart": "Add to Cart",
-    "Add to Cart — ": "Add to Cart — "
+    "Add to Cart — ": "Add to Cart — ",
+    "Shipping Address": "Shipping Address",
+    "Enter your full delivery address": "Enter your full delivery address",
+    "Address is required for shipping": "Address is required for shipping",
+    "Your order successfully placed.": "Your order successfully placed."
   },
   'ta': {
     "Purchase authentic prasadam, sacred idols, and merchandise directly from temple premises.": "கோவில் வளாகத்தில் இருந்து நேரடியாக பிரசாதம், புனித சிலைகள் மற்றும் பொருட்களை வாங்குங்கள்.",
@@ -109,7 +113,11 @@ const translations = {
     " has been added to your shopping cart.": " உங்கள் வண்டியில் சேர்க்கப்பட்டுள்ளது.",
     "Quick Add": "விரைவாக சேர்",
     "Add to Cart": "வண்டியில் சேர்",
-    "Add to Cart — ": "வண்டியில் சேர் — "
+    "Add to Cart — ": "வண்டியில் சேர் — ",
+    "Shipping Address": "கப்பல் முகவரி",
+    "Enter your full delivery address": "உங்கள் முழு விநியோக முகவரியை உள்ளிடவும்",
+    "Address is required for shipping": "கப்பல் போக்குவரத்துக்கு முகவரி தேவை",
+    "Your order successfully placed.": "உங்கள் ஆர்டர் வெற்றிகரமாக வைக்கப்பட்டது."
   },
   'hi': {
     "Purchase authentic prasadam, sacred idols, and merchandise directly from temple premises.": "मंदिर परिसर से सीधे प्रामाणिक प्रसाद, पवित्र मूर्तियां और माल खरीदें।",
@@ -163,7 +171,11 @@ const translations = {
     " has been added to your shopping cart.": " आपके शॉपिंग कार्ट में जोड़ दिया गया है।",
     "Quick Add": "त्वरित जोड़ें",
     "Add to Cart": "कार्ट में डालें",
-    "Add to Cart — ": "कार्ट में डालें — "
+    "Add to Cart — ": "कार्ट में डालें — ",
+    "Shipping Address": "शिपिंग पता",
+    "Enter your full delivery address": "अपना पूरा वितरण पता दर्ज करें",
+    "Address is required for shipping": "शिपिंग के लिए पता आवश्यक है",
+    "Your order successfully placed.": "आपका ऑर्डर सफलतापूर्वक दिया गया।"
   },
   'kn': {
     "Purchase authentic prasadam, sacred idols, and merchandise directly from temple premises.": "ದೇವಾಲಯದ ಆವರಣದಿಂದ ನೇರವಾಗಿ ಅಧಿಕೃತ ಪ್ರಸಾದ, ಪವಿತ್ರ ವಿಗ್ರಹಗಳು ಮತ್ತು ಸರಕುಗಳನ್ನು ಖರೀದಿಸಿ.",
@@ -217,7 +229,11 @@ const translations = {
     " has been added to your shopping cart.": " ನಿಮ್ಮ ಶಾಪಿಂಗ್ ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಲಾಗಿದೆ.",
     "Quick Add": "ತ್ವರಿತವಾಗಿ ಸೇರಿಸಿ",
     "Add to Cart": "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",
-    "Add to Cart — ": "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ — "
+    "Add to Cart — ": "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ — ",
+    "Shipping Address": "ಶಿಪ್ಪಿಂಗ್ ವಿಳಾಸ",
+    "Enter your full delivery address": "ನಿಮ್ಮ ಸಂಪೂರ್ಣ ವಿತರಣಾ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ",
+    "Address is required for shipping": "ಶಿಪ್ಪಿಂಗ್‌ಗಾಗಿ ವಿಳಾಸ ಅಗತ್ಯವಿದೆ",
+    "Your order successfully placed.": "ನಿಮ್ಮ ಆದೇಶವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಇರಿಸಲಾಗಿದೆ."
   },
   'mr': {
     "Purchase authentic prasadam, sacred idols, and merchandise directly from temple premises.": "मंदिर परिसरातून थेट प्रामाणिक प्रसाद, पवित्र मूर्ती आणि माल खरेदी करा.",
@@ -271,7 +287,11 @@ const translations = {
     " has been added to your shopping cart.": " तुमच्या शॉपिंग कार्टमध्ये जोडले गेले आहे.",
     "Quick Add": "त्वरित जोडा",
     "Add to Cart": "कार्टमध्ये टाका",
-    "Add to Cart — ": "कार्टमध्ये टाका — "
+    "Add to Cart — ": "कार्टमध्ये टाका — ",
+    "Shipping Address": "शिपिंग पत्ता",
+    "Enter your full delivery address": "तुमचा संपूर्ण वितरण पत्ता प्रविष्ट करा",
+    "Address is required for shipping": "शिपिंगसाठी पत्ता आवश्यक आहे",
+    "Your order successfully placed.": "तुमची ऑर्डर यशस्वीरित्या दिली गेली."
   },
   'gu': {
     "Purchase authentic prasadam, sacred idols, and merchandise directly from temple premises.": "મંદિર પરિસરમાંથી સીધા પ્રમાણિક પ્રસાદ, પવિત્ર મૂર્તિઓ અને માલ ખરીદો.",
@@ -325,7 +345,11 @@ const translations = {
     " has been added to your shopping cart.": " તમારા શોપિંગ કાર્ટમાં ઉમેરવામાં આવ્યું છે.",
     "Quick Add": "ઝડપી ઉમેરો",
     "Add to Cart": "કાર્ટમાં ઉમેરો",
-    "Add to Cart — ": "કાર્ટમાં ઉમેરો — "
+    "Add to Cart — ": "કાર્ટમાં ઉમેરો — ",
+    "Shipping Address": "શિપિંગ સરનામું",
+    "Enter your full delivery address": "તમારું સંપૂર્ણ વિતરણ સરનામું દાખલ કરો",
+    "Address is required for shipping": "શિપિંગ માટે સરનામું આવશ્યક છે",
+    "Your order successfully placed.": "તમારો ઓર્ડર સફળતાપૂર્વક મૂકવામાં આવ્યો."
   }
 };
 
