@@ -49,30 +49,41 @@ function ActionBtn({ icon, label }: any) {
 export function OtherTemples({ t }: any) {
   const { t: tStr } = useTranslation();
 
-  let nearby = temples.filter(o => o.id !== t.id && o.district === t.district);
-  
-  if (nearby.length < 4) {
-    const sameState = temples.filter(o => o.id !== t.id && o.state === t.state && !nearby.some(n => n.id === o.id));
-    nearby = [...nearby, ...sameState];
-  }
-  
-  if (nearby.length < 4) {
-    const others = temples.filter(o => o.id !== t.id && !nearby.some(n => n.id === o.id));
-    nearby = [...nearby, ...others];
+  const isUSA = t.state === "USA";
+
+  let nearby: typeof temples = [];
+
+  if (isUSA) {
+    // For USA temples: show all other USA temples
+    nearby = temples.filter(o => o.id !== t.id && o.state === "USA");
+  } else {
+    nearby = temples.filter(o => o.id !== t.id && o.district === t.district);
+
+    if (nearby.length < 4) {
+      const sameState = temples.filter(o => o.id !== t.id && o.state === t.state && !nearby.some(n => n.id === o.id));
+      nearby = [...nearby, ...sameState];
+    }
+
+    if (nearby.length < 4) {
+      const others = temples.filter(o => o.id !== t.id && o.state !== "USA" && !nearby.some(n => n.id === o.id));
+      nearby = [...nearby, ...others];
+    }
   }
 
   const finalNearby = nearby.slice(0, 4);
 
+  const heading = isUSA ? tStr("Other USA Temples") : `${tStr("Other temples in")} ${tStr(t.state)}`;
+
   return (
     <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
-      <h3 className="font-serif text-xl font-bold text-slate-900 mb-4">{tStr("Other temples in")} {tStr(t.state)}</h3>
+      <h3 className="font-serif text-xl font-bold text-slate-900 mb-4">{heading}</h3>
       <div className="space-y-2">
         {finalNearby.map(o => (
           <Link key={o.id} to="/temple/$slug" params={{ slug: o.slug }} className="group flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-serif shadow-sm group-hover:scale-105 transition-transform" style={{ background: o.color }}>ॐ</div>
             <div className="flex-1 min-w-0">
               <div className="font-serif text-sm font-bold text-slate-800 truncate group-hover:text-saffron transition-colors">{tStr(o.name)}</div>
-              <div className="text-xs font-medium text-slate-500 mt-0.5">{tStr(o.district)}</div>
+              <div className="text-xs font-medium text-slate-500 mt-0.5">{tStr(o.city)}</div>
             </div>
             <CrowdBadge status={o.crowdStatus} />
           </Link>

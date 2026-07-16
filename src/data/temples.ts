@@ -81,6 +81,14 @@ const gujaratPoojas = [
   "8:00 PM Light & Sound Show",
 ];
 
+const usaPoojas = [
+  "8:00 AM Morning Archana",
+  "10:00 AM Abhishekam",
+  "12:00 PM Noon Aarti",
+  "5:00 PM Evening Aarti",
+  "7:00 PM Night Aarti",
+];
+
 export const temples: Temple[] = [
   // Tamil Nadu
   { id:1, slug:"palani-murugan", name:"Palani Murugan Temple", image: "/palani_temple.png", deityImage: "/deities/murugan_palani_1779692676216.png", deity:"Lord Murugan (Dhandayuthapani Swamy)", state: "Tamil Nadu", district:"Dindigul", city:"Palani", established:"2000+ years", tier:"Arupadaiveedu", openTime:"05:45", closeTime:"21:30", afternoonClose:"13:00", afternoonOpen:"13:30", crowd:12450, capacity:20000, crowdPct:62, waitMin:45, parking:{lotA:80,lotB:68,overflow:0}, color:"#F97316", gradientFrom:"#FFF7ED", gradientTo:"#FFEDD5", specialDay:"Tuesday", crowdStatus:"MODERATE", poojas: palaniPoojas },
@@ -129,7 +137,13 @@ export const temples: Temple[] = [
   { id:38, slug:"pavagadh-kalika", name:"Kalika Mata Temple", deity:"Goddess Kalika", state: "Gujarat", district:"Panchmahal", city:"Pavagadh", openTime:"05:00", closeTime:"19:00", crowd:11000, capacity:18000, crowdPct:61, waitMin:45, parking:{lotA:60,lotB:40,overflow:20}, color:"#DC2626", gradientFrom:"#FFF1F2", gradientTo:"#FFE4E6", specialDay:"Tuesday", crowdStatus:"MODERATE", poojas: gujaratPoojas },
   { id:39, slug:"swaminarayan-kalupur", name:"Shree Swaminarayan Mandir", deity:"Nar Narayan", state: "Gujarat", district:"Ahmedabad", city:"Ahmedabad", openTime:"06:00", closeTime:"21:00", crowd:9000, capacity:15000, crowdPct:60, waitMin:25, parking:{lotA:40,lotB:20,overflow:0}, color:"#7C3AED", gradientFrom:"#F5F3FF", gradientTo:"#EDE9FE", specialDay:"Sunday", crowdStatus:"MODERATE", poojas: gujaratPoojas },
   { id:40, slug:"dakor-ranchhodrai", name:"Ranchhodrai Temple", deity:"Lord Krishna", state: "Gujarat", district:"Kheda", city:"Dakor", openTime:"06:00", closeTime:"20:00", crowd:13500, capacity:20000, crowdPct:67, waitMin:40, parking:{lotA:50,lotB:40,overflow:10}, color:"#0284C7", gradientFrom:"#F0F9FF", gradientTo:"#E0F2FE", specialDay:"Full Moon", crowdStatus:"MODERATE", poojas: gujaratPoojas },
-  { id:41, slug:"dallas-arulmigu-mariamman-usa", name:"Dallas Mariamman Temple USA", deity:"Goddess Mariamman", state: "USA", district:"USA", city:"Dallas", openTime:"06:00", closeTime:"21:00", crowd:5000, capacity:10000, crowdPct:50, waitMin:30, parking:{lotA:100,lotB:50,overflow:20}, color:"#DB2777", gradientFrom:"#FFF0F9", gradientTo:"#FCE7F3", specialDay:"Friday", crowdStatus:"LOW", poojas: basePoojas },
+  { id:41, slug:"dallas-arulmigu-mariamman-usa", name:"Dallas Mariamman Temple USA", deity:"Goddess Mariamman", state: "USA", district:"Texas", city:"Dallas, TX", openTime:"06:00", closeTime:"21:00", crowd:5000, capacity:10000, crowdPct:50, waitMin:30, parking:{lotA:100,lotB:50,overflow:20}, color:"#DB2777", gradientFrom:"#FFF0F9", gradientTo:"#FCE7F3", specialDay:"Friday", crowdStatus:"LOW", poojas: usaPoojas },
+
+  // USA
+  { id:42, slug:"murugan-temple-north-america", name:"Murugan Temple of North America", deity:"Lord Murugan (Skanda)", state: "USA", district:"Pennsylvania", city:"Lanham, MD", openTime:"08:00", closeTime:"20:00", crowd:800, capacity:3000, crowdPct:27, waitMin:10, parking:{lotA:80,lotB:0,overflow:0}, color:"#F97316", gradientFrom:"#FFF7ED", gradientTo:"#FFEDD5", specialDay:"Tuesday", crowdStatus:"LOW", poojas: usaPoojas },
+  { id:43, slug:"venkateswara-temple-pittsburgh", name:"Sri Venkateswara Temple", deity:"Lord Venkateswara (Vishnu)", state: "USA", district:"Pennsylvania", city:"Pittsburgh, PA", openTime:"09:00", closeTime:"20:00", crowd:1200, capacity:5000, crowdPct:24, waitMin:12, parking:{lotA:120,lotB:60,overflow:0}, color:"#7C3AED", gradientFrom:"#F5F3FF", gradientTo:"#EDE9FE", specialDay:"Saturday", crowdStatus:"LOW", poojas: usaPoojas },
+  { id:44, slug:"meenakshi-temple-pearland", name:"Meenakshi Amman Temple", deity:"Goddess Meenakshi & Lord Shiva", state: "USA", district:"Texas", city:"Pearland, TX", openTime:"08:00", closeTime:"20:30", crowd:1500, capacity:4000, crowdPct:37, waitMin:15, parking:{lotA:100,lotB:40,overflow:0}, color:"#DB2777", gradientFrom:"#FFF0F9", gradientTo:"#FCE7F3", specialDay:"Friday", crowdStatus:"LOW", poojas: usaPoojas },
+  { id:45, slug:"ganesha-temple-new-york", name:"Ganesha Temple of New York", deity:"Lord Ganesha & Other Deities", state: "USA", district:"New York", city:"Flushing, NY", openTime:"08:00", closeTime:"21:00", crowd:2200, capacity:6000, crowdPct:36, waitMin:18, parking:{lotA:60,lotB:20,overflow:0}, color:"#F97316", gradientFrom:"#FFF7ED", gradientTo:"#FFEDD5", specialDay:"Wednesday", crowdStatus:"LOW", poojas: usaPoojas },
 ];
 
 export const statesAndDistricts = Array.from(new Set(temples.map(t => t.state))).map(state => {

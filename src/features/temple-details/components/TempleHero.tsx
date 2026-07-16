@@ -17,7 +17,7 @@ const bgImages: Record<string, string> = {
 const bgPositions: Record<string, string> = {
   "palani-murugan": "center 20%",
   "madurai-meenakshi": "center 20%",
-  "dallas-arulmigu-mariamman-usa": "center 30%",
+  "dallas-arulmigu-mariamman-usa": "center 20%",
 };
 
 export function TempleHero({ t }: any) {
