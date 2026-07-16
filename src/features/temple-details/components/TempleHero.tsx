@@ -5,10 +5,19 @@ import { useState } from "react";
 
 import muruganImg from "@/assets/murugan.png";
 import meenakshiImg from "@/assets/meenakshi.png";
+import dallasMariammanImg from "@/assets/dallas-mariamman.png";
 
 const bgImages: Record<string, string> = {
   "palani-murugan": muruganImg,
   "madurai-meenakshi": meenakshiImg,
+  "dallas-arulmigu-mariamman-usa": dallasMariammanImg,
+};
+
+// Per-temple object-position overrides (helps low-res images show the best area)
+const bgPositions: Record<string, string> = {
+  "palani-murugan": "center 20%",
+  "madurai-meenakshi": "center 20%",
+  "dallas-arulmigu-mariamman-usa": "center 30%",
 };
 
 export function TempleHero({ t }: any) {
@@ -25,12 +34,20 @@ export function TempleHero({ t }: any) {
 
   return (
     <>
-      <div className="relative h-[180px] lg:h-[200px] overflow-hidden" style={{
-        background: hasBgImg
-          ? `url(${bgImages[t.slug]}) center 20% / cover no-repeat`
-          : `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})`
-      }}>
-        {hasBgImg && <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/10 to-black/30" />}
+      <div
+        className="relative h-[240px] lg:h-[260px] overflow-hidden"
+        style={{ background: `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})` }}
+      >
+        {/* Banner image */}
+        {hasBgImg && (
+          <img
+            src={bgImages[t.slug]}
+            alt={t.name}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: bgPositions[t.slug] ?? "center 20%" }}
+          />
+        )}
+        {hasBgImg && <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10" />}
         {!hasBgImg && <svg viewBox="0 0 100 100" className="absolute -right-10 -bottom-10 w-48 h-48 text-white opacity-[0.08]"><text x="50" y="72" textAnchor="middle" fontSize="80" fill="currentColor" fontFamily="Noto Serif">ॐ</text></svg>}
 
         <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 z-10">
@@ -58,7 +75,7 @@ export function TempleHero({ t }: any) {
                   <X className="w-4 h-4" />
                 </button>
               </div>
-              
+
               <div className="grid grid-cols-4 gap-4">
                 <button className="flex flex-col items-center gap-2 group">
                   <div className="w-14 h-14 rounded-full bg-green-50 text-green-600 flex items-center justify-center group-hover:bg-green-500 group-hover:text-white transition-all shadow-sm border border-green-100">
@@ -66,21 +83,21 @@ export function TempleHero({ t }: any) {
                   </div>
                   <span className="text-[10px] font-bold text-slate-600">WhatsApp</span>
                 </button>
-                
+
                 <button className="flex flex-col items-center gap-2 group">
                   <div className="w-14 h-14 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm border border-blue-100">
                     <Facebook className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-bold text-slate-600">Facebook</span>
                 </button>
-                
+
                 <button className="flex flex-col items-center gap-2 group">
                   <div className="w-14 h-14 rounded-full bg-slate-50 text-slate-700 flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-all shadow-sm border border-slate-200">
                     <Twitter className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-bold text-slate-600">Twitter</span>
                 </button>
-                
+
                 <button className="flex flex-col items-center gap-2 group">
                   <div className="w-14 h-14 rounded-full bg-pink-50 text-pink-600 flex items-center justify-center group-hover:bg-gradient-to-tr from-orange-500 via-pink-500 to-purple-500 group-hover:text-white group-hover:border-transparent transition-all shadow-sm border border-pink-100">
                     <Instagram className="w-6 h-6" />
@@ -88,7 +105,7 @@ export function TempleHero({ t }: any) {
                   <span className="text-[10px] font-bold text-slate-600">Instagram</span>
                 </button>
               </div>
-              
+
               <div className="mt-6 p-1 bg-slate-50 rounded-xl border border-slate-200 flex items-center gap-2">
                 <div className="truncate text-xs text-slate-500 pl-3 flex-1 font-medium select-all">
                   https://omg-devotee.vercel.app/temple/{t.slug}
