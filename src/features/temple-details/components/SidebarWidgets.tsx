@@ -72,7 +72,7 @@ export function OtherTemples({ t }: any) {
 
   const finalNearby = nearby.slice(0, 4);
 
-  const heading = isUSA ? tStr("Other USA Temples") : `${tStr("Other temples in")} ${tStr(t.state)}`;
+  const heading = isUSA ? tStr("Other Temples in USA") : `${tStr("Other temples in")} ${tStr(t.state)}`;
 
   return (
     <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
