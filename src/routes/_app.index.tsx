@@ -41,7 +41,7 @@ function Dashboard() {
 
   const results = useMemo(() => {
     const v = q.toLowerCase().trim();
-    return temples.filter(t => {
+    const filtered = temples.filter(t => {
       if (state && t.state !== state) return false;
       if (district && t.district !== district) return false;
       if (activeFilter === "Low Crowd" && t.crowdStatus !== "low") return false;
@@ -49,6 +49,10 @@ function Dashboard() {
       if (!v) return true;
       return t.name.toLowerCase().includes(v) || t.district.toLowerCase().includes(v) || t.deity.toLowerCase().includes(v);
     });
+    // Pin Dallas Mariamman first
+    return filtered.sort((a, b) =>
+      a.slug === "dallas-arulmigu-mariamman-usa" ? -1 : b.slug === "dallas-arulmigu-mariamman-usa" ? 1 : 0
+    );
   }, [q, state, district, activeFilter]);
 
   return (
