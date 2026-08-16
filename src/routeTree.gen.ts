@@ -17,6 +17,7 @@ import { Route as AppPoojasRouteImport } from './routes/_app.poojas'
 import { Route as AppPlanRouteImport } from './routes/_app.plan'
 import { Route as AppNotificationsRouteImport } from './routes/_app.notifications'
 import { Route as AppNearbyRouteImport } from './routes/_app.nearby'
+import { Route as AppMembershipRouteImport } from './routes/_app.membership'
 import { Route as AppHeatmapRouteImport } from './routes/_app.heatmap'
 import { Route as AppDonationsRouteImport } from './routes/_app.donations'
 import { Route as AppChatRouteImport } from './routes/_app.chat'
@@ -64,6 +65,11 @@ const AppNotificationsRoute = AppNotificationsRouteImport.update({
 const AppNearbyRoute = AppNearbyRouteImport.update({
   id: '/nearby',
   path: '/nearby',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMembershipRoute = AppMembershipRouteImport.update({
+  id: '/membership',
+  path: '/membership',
   getParentRoute: () => AppRoute,
 } as any)
 const AppHeatmapRoute = AppHeatmapRouteImport.update({
@@ -119,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/chat': typeof AppChatRoute
   '/donations': typeof AppDonationsRoute
   '/heatmap': typeof AppHeatmapRoute
+  '/membership': typeof AppMembershipRoute
   '/nearby': typeof AppNearbyRoute
   '/notifications': typeof AppNotificationsRoute
   '/plan': typeof AppPlanRoute
@@ -136,6 +143,7 @@ export interface FileRoutesByTo {
   '/chat': typeof AppChatRoute
   '/donations': typeof AppDonationsRoute
   '/heatmap': typeof AppHeatmapRoute
+  '/membership': typeof AppMembershipRoute
   '/nearby': typeof AppNearbyRoute
   '/notifications': typeof AppNotificationsRoute
   '/plan': typeof AppPlanRoute
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   '/_app/chat': typeof AppChatRoute
   '/_app/donations': typeof AppDonationsRoute
   '/_app/heatmap': typeof AppHeatmapRoute
+  '/_app/membership': typeof AppMembershipRoute
   '/_app/nearby': typeof AppNearbyRoute
   '/_app/notifications': typeof AppNotificationsRoute
   '/_app/plan': typeof AppPlanRoute
@@ -177,6 +186,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/donations'
     | '/heatmap'
+    | '/membership'
     | '/nearby'
     | '/notifications'
     | '/plan'
@@ -194,6 +204,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/donations'
     | '/heatmap'
+    | '/membership'
     | '/nearby'
     | '/notifications'
     | '/plan'
@@ -213,6 +224,7 @@ export interface FileRouteTypes {
     | '/_app/chat'
     | '/_app/donations'
     | '/_app/heatmap'
+    | '/_app/membership'
     | '/_app/nearby'
     | '/_app/notifications'
     | '/_app/plan'
@@ -290,6 +302,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNearbyRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/membership': {
+      id: '/_app/membership'
+      path: '/membership'
+      fullPath: '/membership'
+      preLoaderRoute: typeof AppMembershipRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/heatmap': {
       id: '/_app/heatmap'
       path: '/heatmap'
@@ -360,6 +379,7 @@ interface AppRouteChildren {
   AppChatRoute: typeof AppChatRoute
   AppDonationsRoute: typeof AppDonationsRoute
   AppHeatmapRoute: typeof AppHeatmapRoute
+  AppMembershipRoute: typeof AppMembershipRoute
   AppNearbyRoute: typeof AppNearbyRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppPlanRoute: typeof AppPlanRoute
@@ -378,6 +398,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppChatRoute: AppChatRoute,
   AppDonationsRoute: AppDonationsRoute,
   AppHeatmapRoute: AppHeatmapRoute,
+  AppMembershipRoute: AppMembershipRoute,
   AppNearbyRoute: AppNearbyRoute,
   AppNotificationsRoute: AppNotificationsRoute,
   AppPlanRoute: AppPlanRoute,
