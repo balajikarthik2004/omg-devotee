@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as MembershipCardRouteImport } from './routes/membership-card'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
 import { Route as AppProfileRouteImport } from './routes/_app.profile'
@@ -31,6 +32,11 @@ import { Route as AppStoreStoreIdItemItemIdRouteImport } from './routes/_app.sto
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MembershipCardRoute = MembershipCardRouteImport.update({
+  id: '/membership-card',
+  path: '/membership-card',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -121,6 +127,7 @@ const AppStoreStoreIdItemItemIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
+  '/membership-card': typeof MembershipCardRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/chat': typeof AppChatRoute
   '/donations': typeof AppDonationsRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/store/$storeId/item/$itemId': typeof AppStoreStoreIdItemItemIdRoute
 }
 export interface FileRoutesByTo {
+  '/membership-card': typeof MembershipCardRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/chat': typeof AppChatRoute
   '/donations': typeof AppDonationsRoute
@@ -160,6 +168,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
+  '/membership-card': typeof MembershipCardRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_app/chat': typeof AppChatRoute
   '/_app/donations': typeof AppDonationsRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/membership-card'
     | '/sitemap.xml'
     | '/chat'
     | '/donations'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/store/$storeId/item/$itemId'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/membership-card'
     | '/sitemap.xml'
     | '/chat'
     | '/donations'
@@ -220,6 +231,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_app'
+    | '/membership-card'
     | '/sitemap.xml'
     | '/_app/chat'
     | '/_app/donations'
@@ -241,6 +253,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
+  MembershipCardRoute: typeof MembershipCardRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
@@ -251,6 +264,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/membership-card': {
+      id: '/membership-card'
+      path: '/membership-card'
+      fullPath: '/membership-card'
+      preLoaderRoute: typeof MembershipCardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app': {
@@ -417,6 +437,7 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
+  MembershipCardRoute: MembershipCardRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport

@@ -59,21 +59,16 @@ function MembershipPage() {
     <div className="max-w-6xl mx-auto px-4 lg:px-8 py-8 pb-28">
       {!payment && (
         <>
-          <div className="text-center max-w-2xl mx-auto mb-7">
-            <div className="inline-flex items-center gap-2 text-primary bg-primary/10 px-4 py-1.5 rounded-full mb-4">
-              <Shield className="w-4 h-4" />
-              <span className="text-xs font-bold uppercase tracking-wider">
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center gap-2 text-primary bg-primary/10 px-3 py-1 rounded-full mb-3">
+              <Shield className="w-3.5 h-3.5" />
+              <span className="text-[10px] font-bold uppercase tracking-wider">
                 {t("Support Your Temple")}
               </span>
             </div>
-            <h1 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mb-3">
+            <h1 className="font-serif text-2xl lg:text-3xl font-bold text-foreground">
               {t("Become a Member")}
             </h1>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {t(
-                "Temple memberships fund daily poojas, annadhanam, gopuram upkeep and the cultural schools. Choose a temple, pick a seva that suits you, and your contribution reaches that temple's trust directly.",
-              )}
-            </p>
           </div>
 
           <MembershipStepper current={step} onJump={setStep} />
