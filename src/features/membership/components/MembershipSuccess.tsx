@@ -127,7 +127,7 @@ export function MembershipSuccess({
       {/* Scan hint */}
       <div className="flex items-start gap-2.5 bg-primary/5 border border-primary/15 rounded-xl p-3.5 mb-5">
         <Smartphone className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-        <p className="text-[11px] text-foreground/75 leading-relaxed">
+        <p className="text-xs text-foreground/75 leading-relaxed">
           {t(
             "Scan this QR with any phone camera to open your full membership details — plan, validity, entitlements and payment reference.",
           )}
@@ -170,7 +170,7 @@ export function MembershipSuccess({
 
       <button
         onClick={onReset}
-        className="w-full mt-4 text-xs font-bold text-primary hover:underline print:hidden"
+        className="w-full mt-4 text-sm font-bold text-primary hover:underline print:hidden"
       >
         {t("Add another membership")}
       </button>
@@ -182,9 +182,9 @@ function Row({ label, value, mono }: { label: string; value: string; mono?: bool
   const { t } = useTranslation();
   return (
     <div className="px-4 py-3 flex items-center justify-between gap-4">
-      <dt className="text-xs font-semibold text-muted-foreground shrink-0">{t(label)}</dt>
+      <dt className="text-sm font-semibold text-muted-foreground shrink-0">{t(label)}</dt>
       <dd
-        className={`text-xs font-bold text-foreground text-right truncate ${mono ? "font-mono" : ""}`}
+        className={`text-sm font-bold text-foreground text-right truncate ${mono ? "font-mono" : ""}`}
       >
         {value}
       </dd>

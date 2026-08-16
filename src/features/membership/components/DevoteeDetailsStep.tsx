@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowRight, ArrowLeft, ChevronDown, Lock } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import type { Temple } from "@/data/temples";
+import { templeThumb, type Temple } from "@/data/temples";
 import { currencyFor, priceFor, formatMoney, type MembershipPlan } from "../data";
 
 export interface DevoteeDetails {
@@ -99,21 +99,17 @@ export function DevoteeDetailsStep({
       <div className="bg-card border border-border rounded-2xl p-3.5 mb-6 shadow-sm flex items-center gap-3.5">
         <div
           className="w-11 h-11 rounded-xl shrink-0"
-          style={{
-            background: temple.image
-              ? `url(${temple.image}) center / cover no-repeat`
-              : `linear-gradient(135deg, ${temple.gradientFrom}, ${temple.color})`,
-          }}
+          style={{ background: templeThumb(temple) }}
         />
         <div className="min-w-0 flex-1">
           <div className="font-bold text-sm text-foreground truncate">{t(temple.name)}</div>
-          <div className="text-[11px] text-muted-foreground">{t(plan.name)}</div>
+          <div className="text-xs text-muted-foreground">{t(plan.name)}</div>
         </div>
         <div className="text-right shrink-0">
           <div className="font-serif text-lg font-extrabold text-foreground leading-tight">
             {formatMoney(amount, currency)}
           </div>
-          <button onClick={onBack} className="text-[10px] font-bold text-primary hover:underline">
+          <button onClick={onBack} className="text-xs font-bold text-primary hover:underline">
             {t("Change")}
           </button>
         </div>
@@ -177,7 +173,7 @@ export function DevoteeDetailsStep({
               <div className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
                 {t("Archana & tax details")}
               </div>
-              <div className="text-[10px] text-muted-foreground">
+              <div className="text-xs text-muted-foreground">
                 {t("Optional — add now or later from your profile")}
               </div>
             </div>
@@ -233,7 +229,7 @@ export function DevoteeDetailsStep({
 
         <div className="flex items-start gap-2.5 pt-1">
           <Lock className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-          <p className="text-[11px] text-muted-foreground leading-relaxed">
+          <p className="text-xs text-muted-foreground leading-relaxed">
             {t(
               "Shared only with the temple trust and the payment gateway. Card details are never stored.",
             )}

@@ -20,6 +20,8 @@ export interface MembershipPlan {
   gradient: string;
   popular?: boolean;
   benefits: string[];
+  /** Same entitlements, spelled out in plain words for the scannable card. */
+  cardBenefits: { title: string; detail: string }[];
   /** Short line printed under the price. */
   note: string;
 }
@@ -46,6 +48,20 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     gradient: "from-sky-500 to-cyan-500",
     note: "Renews yearly",
     benefits: ["Photo membership card", "Free archana on your birth star", "Priority queue lane"],
+    cardBenefits: [
+      {
+        title: "Your own temple ID card",
+        detail: "A printed card with your photo and member number. Carry it on every visit.",
+      },
+      {
+        title: "One free archana each year",
+        detail: "On your birth star, the priest says your name during the pooja. No extra charge.",
+      },
+      {
+        title: "Skip the ordinary queue",
+        detail: "Use the members' lane on normal days and wait far less for darshan.",
+      },
+    ],
   },
   {
     id: "kudumba",
@@ -66,6 +82,20 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
       "10% off poojas and abhishekam",
       "2 prasadam coupons every visit",
     ],
+    cardBenefits: [
+      {
+        title: "Covers four people",
+        detail: "You, your spouse and two more family members — each gets their own card.",
+      },
+      {
+        title: "10% off every paid pooja",
+        detail: "Applies to archana, abhishekam and homam booked at this temple.",
+      },
+      {
+        title: "Two free meal coupons per visit",
+        detail: "Exchange them at the annadhanam counter for prasadam meals.",
+      },
+    ],
   },
   {
     id: "archana",
@@ -85,6 +115,21 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
       "Prasadam couriered to your address",
       "All Nithya Sevak benefits, for life",
     ],
+    cardBenefits: [
+      {
+        title: "Archana every year, for life",
+        detail:
+          "Paid once. The priest performs it in your name on your birth star, every year, forever.",
+      },
+      {
+        title: "Prasadam posted to your home",
+        detail: "After each archana the temple couriers the prasadam to your address.",
+      },
+      {
+        title: "A card that never expires",
+        detail: "No renewal, no yearly fee. All Nithya Sevak benefits stay active for life.",
+      },
+    ],
   },
   {
     id: "patron",
@@ -103,6 +148,21 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
       "2 VIP break-darshan passes a year",
       "3 nights at the temple guest house",
       "Name engraved on the donor plaque",
+    ],
+    cardBenefits: [
+      {
+        title: "Two VIP darshan passes a year",
+        detail:
+          "Enter through the special-entry gate and reach the sanctum without the main queue.",
+      },
+      {
+        title: "Three free nights at the guest house",
+        detail: "Temple accommodation for your family, including two prasadam meals each day.",
+      },
+      {
+        title: "Your name on the donor plaque",
+        detail: "Engraved on the temple's stone donor board, kept permanently.",
+      },
     ],
   },
 ];

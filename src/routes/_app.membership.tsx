@@ -66,7 +66,7 @@ function MembershipPage() {
                 {t("Support Your Temple")}
               </span>
             </div>
-            <h1 className="font-serif text-2xl lg:text-3xl font-bold text-foreground">
+            <h1 className="font-serif text-3xl lg:text-4xl font-bold text-foreground">
               {t("Become a Member")}
             </h1>
           </div>

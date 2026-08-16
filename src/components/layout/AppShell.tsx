@@ -30,8 +30,8 @@ const navItems = [
 
 const sidebarExtras = [
   { to: "/booking/palani-murugan", label: "Pooja Booking", icon: Ticket },
-  { to: "/chat", label: "Ask AI", icon: MessageCircle },
   { to: "/membership", label: "Membership", icon: Award },
+  { to: "/chat", label: "Ask AI", icon: MessageCircle },
 ];
 
 export function AppShell() {

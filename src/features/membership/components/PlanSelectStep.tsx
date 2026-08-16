@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Check, ArrowRight, ArrowLeft, ChevronDown, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import type { Temple } from "@/data/temples";
+import { templeThumb, type Temple } from "@/data/temples";
 import {
   MEMBERSHIP_PLANS,
   UNIVERSAL_PERKS,
@@ -35,15 +35,11 @@ export function PlanSelectStep({
       <div className="flex items-center gap-3 bg-card border border-border rounded-2xl p-3 mb-6 shadow-sm">
         <div
           className="w-11 h-11 rounded-xl shrink-0 bg-secondary/40"
-          style={{
-            background: temple.image
-              ? `url(${temple.image}) center / cover no-repeat`
-              : `linear-gradient(135deg, ${temple.gradientFrom}, ${temple.color})`,
-          }}
+          style={{ background: templeThumb(temple) }}
         />
         <div className="min-w-0 flex-1">
           <div className="font-bold text-sm text-foreground truncate">{t(temple.name)}</div>
-          <div className="text-[11px] text-muted-foreground flex items-center gap-1">
+          <div className="text-xs text-muted-foreground flex items-center gap-1">
             <MapPin className="w-3 h-3 text-primary shrink-0" /> {t(temple.city)}
           </div>
         </div>
@@ -158,7 +154,7 @@ function PlanCard({
       }`}
     >
       {plan.popular && (
-        <div className="absolute -top-2.5 left-5 bg-primary text-primary-foreground text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full shadow-md">
+        <div className="absolute -top-2.5 left-5 bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full shadow-md">
           {t("Popular")}
         </div>
       )}
@@ -173,7 +169,7 @@ function PlanCard({
           <h3 className="font-serif text-base font-bold text-foreground leading-tight truncate">
             {t(plan.name)}
           </h3>
-          <div className="text-[10px] text-muted-foreground truncate">{t(plan.tagline)}</div>
+          <div className="text-xs text-muted-foreground truncate">{t(plan.tagline)}</div>
         </div>
       </div>
 
@@ -185,11 +181,11 @@ function PlanCard({
           <span className="text-xs font-medium text-muted-foreground">/{t("yr")}</span>
         )}
       </div>
-      <div className="text-[10px] font-medium text-muted-foreground mb-4">{t(plan.note)}</div>
+      <div className="text-xs font-medium text-muted-foreground mb-4">{t(plan.note)}</div>
 
       <div className="space-y-2 border-t border-border/60 pt-3.5 flex-1">
         {plan.benefits.map((benefit) => (
-          <div key={benefit} className="flex gap-2 text-[11px] leading-relaxed">
+          <div key={benefit} className="flex gap-2 text-xs leading-relaxed">
             <Check className="w-3.5 h-3.5 shrink-0 mt-px" style={{ color: plan.accent }} />
             <span className="text-foreground/75">{t(benefit)}</span>
           </div>
@@ -197,7 +193,7 @@ function PlanCard({
       </div>
 
       <div
-        className={`mt-4 w-full py-2.5 rounded-xl font-bold text-xs text-center transition-all ${
+        className={`mt-4 w-full py-2.5 rounded-xl font-bold text-sm text-center transition-all ${
           active
             ? "bg-primary text-primary-foreground shadow-sm"
             : "bg-secondary/30 text-foreground"
@@ -222,13 +218,13 @@ function Faq() {
               onClick={() => setOpen(open === i ? null : i)}
               className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left hover:bg-secondary/10 transition-colors"
             >
-              <span className="font-semibold text-xs text-foreground">{t(item.q)}</span>
+              <span className="font-semibold text-sm text-foreground">{t(item.q)}</span>
               <ChevronDown
                 className={`w-4 h-4 shrink-0 text-muted-foreground transition-transform ${open === i ? "rotate-180" : ""}`}
               />
             </button>
             {open === i && (
-              <div className="px-4 pb-3.5 text-[11px] leading-relaxed text-muted-foreground animate-in fade-in slide-in-from-top-1">
+              <div className="px-4 pb-3.5 text-xs leading-relaxed text-muted-foreground animate-in fade-in slide-in-from-top-1">
                 {t(item.a)}
               </div>
             )}

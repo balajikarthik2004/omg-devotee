@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Search, MapPin, Check, ArrowRight, Landmark } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { temples, type Temple } from "@/data/temples";
+import { temples, type Temple, templeThumb } from "@/data/temples";
 
 const PAGE_SIZE = 12;
 
@@ -67,7 +67,7 @@ export function TempleSelectStep({
           <button
             key={s}
             onClick={() => reset(() => setState(s))}
-            className={`shrink-0 px-3.5 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider border-2 transition-all ${
+            className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border-2 transition-all ${
               state === s
                 ? "border-primary bg-primary text-primary-foreground shadow-sm"
                 : "border-border/60 bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground"
@@ -160,20 +160,14 @@ function TempleOption({
     >
       <div
         className="w-12 h-12 rounded-lg shrink-0"
-        style={{
-          background: temple.image
-            ? `url(${temple.image}) center 30% / cover no-repeat`
-            : `linear-gradient(135deg, ${temple.gradientFrom}, ${temple.color})`,
-        }}
+        style={{ background: templeThumb(temple, "center 30%") }}
       />
       <div className="min-w-0 flex-1">
-        <div className="font-bold text-xs text-foreground leading-tight line-clamp-1">
+        <div className="font-bold text-sm text-foreground leading-tight line-clamp-1">
           {t(temple.name)}
         </div>
-        <div className="text-[10px] text-muted-foreground line-clamp-1 mt-0.5">
-          {t(temple.deity)}
-        </div>
-        <div className="flex items-center gap-1 text-[10px] font-semibold text-foreground/60 mt-0.5">
+        <div className="text-xs text-muted-foreground line-clamp-1 mt-0.5">{t(temple.deity)}</div>
+        <div className="flex items-center gap-1 text-xs font-semibold text-foreground/60 mt-0.5">
           <MapPin className="w-2.5 h-2.5 shrink-0 text-primary" />
           <span className="truncate">{t(temple.city)}</span>
         </div>
