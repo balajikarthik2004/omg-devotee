@@ -49,6 +49,13 @@ export const tiruvannamalaiGallery: CreditedImage[] = [
     sourceUrl: "https://commons.wikimedia.org/wiki/File:Annamalaiyar_Rajagopuram.jpg",
   },
   {
+    src: "/temples/tiruvannamalai/temple-hill.jpg",
+    caption: "Gopurams beneath Arunachala hill",
+    author: "Ssriram mt",
+    license: "CC BY-SA 4.0",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Annamalaiyar_Temple_(15).jpg",
+  },
+  {
     src: "/temples/tiruvannamalai/gopuram-sky.jpg",
     caption: "Gopuram and temple tank",
     author: "Ssriram mt",
