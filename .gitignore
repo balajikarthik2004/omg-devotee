@@ -1,4 +1,6 @@
-# Logs
+# Sub-projects
+OMG-Temple-Admin/
+
 logs
 *.log
 npm-debug.log*

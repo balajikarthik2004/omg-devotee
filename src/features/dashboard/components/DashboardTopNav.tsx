@@ -12,7 +12,7 @@ export function DashboardTopNav({
   const { t } = useTranslation();
 
   return (
-    <div className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-white/20 bg-white/80 px-4 lg:px-8 backdrop-blur-xl shadow-[0_2px_10px_rgba(0,0,0,0.05)] gap-2">
+    <div className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-white/20 bg-white/80 px-4 lg:px-8 backdrop-blur-xl shadow-[0_2px_10px_rgba(0,0,0,0.05)] gap-2">
       <div className="flex flex-1 items-center gap-2 lg:gap-4 min-w-0">
         {/* State Selector */}
         <div className="relative hidden sm:block group">
