@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import { format } from "date-fns";
 import type { Temple } from "@/data/temples";
 import { getUpcomingEvents } from "@/data/events";
@@ -72,6 +72,8 @@ interface BaseZone {
   advice: string;
 }
 
+const LIVE_REFRESH_MS = 5000;
+
 export function useLiveCrowd(t: Temple, baseZones: BaseZone[]) {
   const [tick, setTick] = useState(0);
   const [updatedAt, setUpdatedAt] = useState(() => new Date());
@@ -81,11 +83,17 @@ export function useLiveCrowd(t: Temple, baseZones: BaseZone[]) {
     setUpdatedAt(new Date());
   }, []);
 
-  // Auto-refresh every 30 s, matching the "updated every 30s" promise elsewhere in the app.
+  // Live feed: refresh every 5 s (skipped while the tab is hidden) so the counters visibly move.
   useEffect(() => {
-    const id = setInterval(refresh, 30_000);
+    const id = setInterval(() => {
+      if (!document.hidden) refresh();
+    }, LIVE_REFRESH_MS);
     return () => clearInterval(id);
   }, [refresh]);
+
+  // Today's total only ever goes up within a session; restart the count when the temple changes.
+  const totalRef = useRef({ slug: t.slug, base: 0, startTick: 0 });
+  if (totalRef.current.slug !== t.slug) totalRef.current = { slug: t.slug, base: 0, startTick: tick };
 
   return useMemo(() => {
     const now = updatedAt;
@@ -103,7 +111,7 @@ export function useLiveCrowd(t: Temple, baseZones: BaseZone[]) {
     const currentAt = (h: number) => Math.round(typicalAt(h) * dayFactor * (1 + wobble(h + t.id, 0.035)));
 
     // Live figures follow the time of day; outside darshan hours only a trickle remains.
-    const liveCrowd = Math.round((isClosed ? typicalAt(nowH) * 0.15 : currentAt(nowH)) * (1 + wobble(tick + t.id, 0.03)));
+    const liveCrowd = Math.round((isClosed ? typicalAt(nowH) * 0.15 : currentAt(nowH)) * (1 + wobble(tick + t.id, 0.012)));
     const occupancy = Math.min(100, Math.round((liveCrowd / t.capacity) * 100));
     // Zone baselines in useHeatmapZones describe the temple's busy period; scale them to now.
     const zoneScale = Math.min(1.15, Math.max(0.15, liveCrowd / t.crowd));
@@ -125,7 +133,13 @@ export function useLiveCrowd(t: Temple, baseZones: BaseZone[]) {
 
     // KPIs
     const elapsed = trend.filter((p) => p.current !== undefined && p.h <= nowH);
-    const totalToday = Math.round(elapsed.reduce((s, p) => s + (p.current ?? 0), 0) * 1.25);
+    // Base from the day's curve plus arrivals since the page opened (~1 arrival per 90 min of stay per person).
+    if (!totalRef.current.base) totalRef.current.base = Math.round(elapsed.reduce((s, p) => s + (p.current ?? 0), 0) * 1.25);
+    let arrivals = 0;
+    if (!isClosed) {
+      for (let k = totalRef.current.startTick + 1; k <= tick; k++) arrivals += Math.round((liveCrowd / 1080) * (1 + Math.abs(wobble(k * 3 + t.id, 0.6))));
+    }
+    const totalToday = totalRef.current.base + arrivals;
     const vsTypicalPct = Math.round((dayFactor - 1) * 100 + wobble(t.id, 3));
     const avgWait = isClosed ? 0 : t.waitMin * zoneScale;
     const hourAgo = Math.max(FIRST_HOUR, nowH - 1);

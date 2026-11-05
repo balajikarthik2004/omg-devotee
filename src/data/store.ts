@@ -167,7 +167,7 @@ export const stores: Store[] = temples.map((temple) => {
         description: "Print of the 11-storey, 217 ft East Rajagopuram of the Annamalaiyar Temple, framed in synthetic wood.",
         price: 29.99,
         category: "Photos",
-        image: "/temples/tiruvannamalai/rajagopuram.jpg",
+        image: "/store/shiva/framed-rajagopuram.jpg",
         stock: 25,
       },
       {
@@ -209,7 +209,7 @@ export const stores: Store[] = temples.map((temple) => {
         description: "Devotional print of a decorated Shiva Lingam with lamps and flowers — for the home shrine of every Annamalaiyar devotee.",
         price: 24.99,
         category: "Photos",
-        image: "/images/shiva.png",
+        image: "/store/shiva/framed-annamalaiyar.jpg",
         stock: 40,
       },
       {
@@ -238,9 +238,8 @@ export const stores: Store[] = temples.map((temple) => {
         description: "Dried trifoliate bilva leaves, the offering most dear to Lord Shiva — for Pradosham, Shivaratri and Monday archana at home.",
         price: 6.99,
         category: "Sachets",
-        image: "/store/shiva/bilva-leaf.jpg",
+        image: "/store/shiva/bilva-pack.jpg",
         stock: 150,
-        credit: "Photo: Salil Kumar Mukherjee, CC BY-SA 4.0, via Wikimedia Commons",
       },
       {
         id: `p-tvm-damaru-${temple.id}`,
@@ -281,7 +280,7 @@ export const stores: Store[] = temples.map((temple) => {
       description: "Small pure crystal (Sphatik) Shiva Lingam for home worship.",
       price: 45.00,
       category: "Idols",
-      image: "/deities/shiva_lingam_1779692728170.png",
+      image: "/store/shiva/crystal-lingam.jpg",
       stock: 10,
     });
   }

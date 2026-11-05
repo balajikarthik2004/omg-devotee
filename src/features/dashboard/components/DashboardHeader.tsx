@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Users, TrendingUp, Workflow, CalendarClock, Landmark } from "lucide-react";
+import { ArrowRight, Users, TrendingUp, Workflow, CalendarClock, Landmark, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Temple } from "@/data/temples";
 import { templeStats } from "../utils";
 
@@ -39,18 +39,39 @@ export function DashboardHeader({ activeTemple: t, now }: { activeTemple: Temple
   const { t: tr } = useTranslation();
   const s = templeStats(t);
   const scenes = SCENES[t.slug];
-  const [index, setIndex] = useState(0);
+  // Slider state: `prev` is the slide animating out, `dir` 1 = next (enters from right), -1 = previous.
+  const [slide, setSlide] = useState({ index: 0, prev: -1, dir: 1, key: 0 });
+  const index = slide.index;
   const scene = scenes?.[index % scenes.length];
+  const [paused, setPaused] = useState(false);
 
-  // Crossfade to the next image every 5 s; paused while the tab is hidden.
+  const go = useCallback(
+    (to: number, dir: 1 | -1) => {
+      if (!scenes) return;
+      const next = (to + scenes.length) % scenes.length;
+      setSlide((cur) => (next === cur.index ? cur : { index: next, prev: cur.index, dir, key: cur.key + 1 }));
+    },
+    [scenes],
+  );
+
+  useEffect(() => setSlide({ index: 0, prev: -1, dir: 1, key: 0 }), [scenes]);
+
+  // Auto-advance right→left every 5 s; restarts after manual navigation, pauses on hover / hidden tab.
   useEffect(() => {
-    setIndex(0);
-    if (!scenes || scenes.length < 2) return;
-    const id = setInterval(() => {
-      if (!document.hidden) setIndex((i) => (i + 1) % scenes.length);
+    if (!scenes || scenes.length < 2 || paused) return;
+    const id = setTimeout(() => {
+      if (!document.hidden) go(slide.index + 1, 1);
+      else setSlide((c) => ({ ...c, key: c.key + 1 }));
     }, ROTATE_MS);
-    return () => clearInterval(id);
-  }, [scenes]);
+    return () => clearTimeout(id);
+  }, [scenes, paused, slide, go]);
+
+  // Drop the outgoing slide once its animation has finished.
+  useEffect(() => {
+    if (slide.prev < 0) return;
+    const id = setTimeout(() => setSlide((c) => (c.key === slide.key ? { ...c, prev: -1 } : c)), 750);
+    return () => clearTimeout(id);
+  }, [slide]);
   const hero = scene ? undefined : HERO[t.slug] ?? t.thumb ?? t.image;
 
   const stats = [
@@ -62,12 +83,19 @@ export function DashboardHeader({ activeTemple: t, now }: { activeTemple: Temple
 
   return (
     <header className="max-w-7xl mx-auto w-full px-4 lg:px-6 pt-6">
-      <div className="relative overflow-hidden rounded-3xl border border-rose-100 bg-gradient-to-br from-[#fff7f2] via-[#fdeee9] to-[#fbe3dc] shadow-sm">
-        {/* Scene: crossfading temple + sacred hill images */}
+      <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} className="relative overflow-hidden rounded-3xl border border-rose-100 bg-gradient-to-br from-[#fff7f2] via-[#fdeee9] to-[#fbe3dc] shadow-sm">
+        {/* Scene: temple + sacred hill images, sliding right→left */}
         {scenes && (
-          <div className="absolute inset-0 hidden lg:block pointer-events-none" aria-hidden>
-            {scenes.map((sc, i) => (
-              <div key={sc.src} className={`absolute inset-0 transition-opacity duration-1000 motion-reduce:transition-none ${i === index ? "opacity-100" : "opacity-0"}`}>
+          <div className="absolute inset-0 z-0 isolate hidden lg:block pointer-events-none overflow-hidden" aria-hidden>
+            {scenes.map((sc, i) => {
+              const isCurrent = i === slide.index;
+              const isPrev = i === slide.prev;
+              if (!isCurrent && !isPrev) return null;
+              const motion = isCurrent
+                ? slide.prev >= 0 ? (slide.dir > 0 ? "animate-in slide-in-from-right" : "animate-in slide-in-from-left") : ""
+                : slide.dir > 0 ? "animate-out slide-out-to-left fill-mode-forwards" : "animate-out slide-out-to-right fill-mode-forwards";
+              return (
+              <div key={`${sc.src}-${isCurrent ? slide.key : "out"}`} className={`absolute inset-0 duration-700 ease-in-out motion-reduce:animate-none ${motion} ${isPrev ? "z-0" : "z-[1]"}`}>
                 {/* Blurred fill so the banner is covered whatever the image shape */}
                 <img src={sc.src} alt="" className="absolute inset-0 w-full h-full object-cover scale-125 blur-lg saturate-125" />
                 {/* Whole image at banner height, edges feathered into the blurred fill */}
@@ -84,7 +112,34 @@ export function DashboardHeader({ activeTemple: t, now }: { activeTemple: Temple
                   )}
                 </div>
               </div>
-            ))}
+              );
+            })}
+            {/* One shared right-side scrim (same for every image) so the stat cards always sit on a calm, even tone */}
+            <div className="absolute inset-y-0 right-0 w-[40%] z-[2] backdrop-blur-[6px] bg-gradient-to-r from-transparent via-[#fbe3dc]/35 to-[#fbe3dc]/70 [mask-image:linear-gradient(90deg,transparent,black_45%)]" />
+          </div>
+        )}
+
+        {scenes && scenes.length > 1 && (
+          <div className="absolute bottom-3 right-4 sm:right-6 z-20 hidden lg:flex items-center gap-2">
+            <button type="button" onClick={() => go(index - 1, -1)} aria-label={tr("Previous image")} className="w-7 h-7 rounded-full bg-white/85 backdrop-blur text-slate-700 shadow flex items-center justify-center hover:bg-white hover:text-saffron transition-colors">
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <div role="tablist" aria-label={tr("Banner images")} className="flex items-center gap-1.5 rounded-full bg-black/25 backdrop-blur px-2 py-1.5">
+              {scenes.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === index}
+                  aria-label={`${tr("Image")} ${i + 1}`}
+                  onClick={() => go(i, i >= index ? 1 : -1)}
+                  className={`h-2 rounded-full transition-all ${i === index ? "w-5 bg-white" : "w-2 bg-white/60 hover:bg-white/90"}`}
+                />
+              ))}
+            </div>
+            <button type="button" onClick={() => go(index + 1, 1)} aria-label={tr("Next image")} className="w-7 h-7 rounded-full bg-white/85 backdrop-blur text-slate-700 shadow flex items-center justify-center hover:bg-white hover:text-saffron transition-colors">
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         )}
 
@@ -97,7 +152,7 @@ export function DashboardHeader({ activeTemple: t, now }: { activeTemple: Temple
           </div>
         )}
 
-        <div className={`relative grid gap-4 p-4 sm:p-5 lg:items-center ${scene ? "lg:min-h-[260px] " : ""}${scene ? "lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.25fr)_minmax(0,0.8fr)_minmax(0,0.95fr)]" : "lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1.05fr)_minmax(0,0.8fr)_minmax(0,0.95fr)]"}`}>
+        <div className={`relative grid gap-4 p-4 sm:p-5 lg:pb-8 lg:items-center ${scene ? "lg:min-h-[260px] " : ""}${scene ? "lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.25fr)_minmax(0,0.8fr)_minmax(0,0.95fr)]" : "lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1.05fr)_minmax(0,0.8fr)_minmax(0,0.95fr)]"}`}>
           {/* Temple identity (frosted card over the image) */}
           <div className={`min-w-0 ${scene ? "lg:bg-white/80 lg:backdrop-blur-md lg:border lg:border-white/70 lg:rounded-2xl lg:p-3.5 lg:shadow-sm" : ""}`}>
             <div className="flex items-start gap-3">
@@ -146,7 +201,7 @@ export function DashboardHeader({ activeTemple: t, now }: { activeTemple: Temple
           </div>
 
           {/* Stats */}
-          <ul className="space-y-1.5">
+          <ul className="space-y-1.5 lg:mb-3">
             {stats.map((st) => (
               <li key={st.label} className={`flex items-center justify-between gap-3 rounded-xl border px-3 py-2 ${scene ? "bg-white/85 backdrop-blur-md border-white/70 shadow-sm" : `border-rose-100 ${st.bg}`}`}>
                 <span className="flex items-center gap-2 min-w-0">

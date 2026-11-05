@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Users, UserRound, Hourglass, Gauge, CalendarClock, ArrowUp, ArrowDown, CheckCircle2, AlertTriangle, TrendingUp, Lightbulb, CalendarDays, Footprints, ChevronRight, ListChecks, Info } from "lucide-react";
 import type { ReactNode } from "react";
 import { Area, ComposedChart, Line, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from "recharts";
+import { AnimatedNumber } from "./AnimatedNumber";
 import { formatHour, formatWait, type Level, type LiveZone, type TrendPoint } from "../hooks/useLiveCrowd";
 
 const nf = new Intl.NumberFormat("en-IN");
@@ -89,7 +90,7 @@ export function KpiRow(p: KpiProps) {
         className="lg:col-span-2 xl:col-span-1"
         icon={Users}
         label={tStr("Total Visitors (Today)")}
-        value={nf.format(p.totalToday)}
+        value={<AnimatedNumber value={p.totalToday} format={(n) => nf.format(Math.round(n))} />}
         footer={
           <span className="flex items-center gap-1.5 min-w-0">
             <Delta good={up} up={up}>{Math.abs(p.vsTypicalPct)}%</Delta>
@@ -102,13 +103,13 @@ export function KpiRow(p: KpiProps) {
         className="lg:col-span-2 xl:col-span-1"
         icon={UserRound}
         label={tStr("Current Crowd")}
-        value={nf.format(p.liveCrowd)}
+        value={<AnimatedNumber value={p.liveCrowd} format={(n) => nf.format(Math.round(n))} upIsGood={false} />}
         footer={
           <span className="flex items-center gap-2 w-full min-w-0">
             <span className="flex-1 h-1.5 rounded-full bg-slate-100 overflow-hidden" role="meter" aria-valuenow={p.occupancy} aria-valuemin={0} aria-valuemax={100} aria-label={tStr("Capacity used")}>
               <span className="block h-full rounded-full" style={{ width: `${Math.max(2, p.occupancy)}%`, background: p.overall.color }} />
             </span>
-            <span className="text-slate-600 font-semibold tabular-nums shrink-0">{p.occupancy}% {tStr("of capacity")}</span>
+            <span className="text-slate-600 font-semibold tabular-nums shrink-0"><AnimatedNumber value={p.occupancy} format={(n) => `${Math.round(n)}%`} upIsGood={false} /> {tStr("of capacity")}</span>
           </span>
         }
       />
@@ -117,7 +118,7 @@ export function KpiRow(p: KpiProps) {
         className="lg:col-span-2 xl:col-span-1"
         icon={Hourglass}
         label={tStr("Avg. Darshan Wait")}
-        value={p.isClosed ? tStr("Closed") : formatWait(p.avgWait)}
+        value={p.isClosed ? tStr("Closed") : <AnimatedNumber value={Math.round(p.avgWait)} format={(n) => formatWait(n)} upIsGood={false} />}
         footer={
           p.isClosed ? (
             <Muted>{tStr("Reopens at")} <strong className="text-slate-700">{p.openTime}</strong></Muted>
