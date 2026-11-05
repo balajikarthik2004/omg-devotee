@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { Bell, MessageCircle, Navigation, Share2, Ticket } from "lucide-react";
 import { CrowdBadge } from "@/components/shared/CrowdBadge";
-import { temples } from "@/data/temples";
+import { temples, templeThumb } from "@/data/temples";
 
 export function MobileActionBar({ t }: any) {
   const { t: tStr } = useTranslation();
@@ -75,12 +75,12 @@ export function OtherTemples({ t }: any) {
   const heading = isUSA ? tStr("Other Temples in USA") : `${tStr("Other temples in")} ${tStr(t.state)}`;
 
   return (
-    <div className="bg-white border border-slate-100 rounded-3xl p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
-      <h3 className="font-serif text-xl font-bold text-slate-900 mb-4">{heading}</h3>
+    <div className="bg-white border border-slate-100 rounded-3xl p-5 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+      <h3 className="font-serif text-lg font-bold text-slate-900 mb-3">{heading}</h3>
       <div className="space-y-2">
         {finalNearby.map(o => (
-          <Link key={o.id} to="/temple/$slug" params={{ slug: o.slug }} className="group flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-serif shadow-sm group-hover:scale-105 transition-transform" style={{ background: o.color }}>ॐ</div>
+          <Link key={o.id} to="/temple/$slug" params={{ slug: o.slug }} className="group flex items-center gap-3 p-2.5 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+            <div className="w-11 h-11 rounded-xl shrink-0 border border-slate-100 shadow-sm group-hover:scale-105 transition-transform" style={{ background: templeThumb(o, "center 30%") }} role="img" aria-label={tStr(o.name)} />
             <div className="flex-1 min-w-0">
               <div className="font-serif text-sm font-bold text-slate-800 truncate group-hover:text-saffron transition-colors">{tStr(o.name)}</div>
               <div className="text-xs font-medium text-slate-500 mt-0.5">{tStr(o.city)}</div>

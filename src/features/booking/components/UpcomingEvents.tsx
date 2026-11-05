@@ -40,7 +40,7 @@ export function UpcomingEvents({
   return (
     // Self-contained scroll area: the card is capped to the viewport and only the list scrolls,
     // so a long festival calendar never pushes into or overlaps the booking steps.
-    <div className="bg-white border border-rose-100 rounded-3xl shadow-sm flex flex-col max-h-[480px] lg:max-h-[calc(100vh-8rem)] overflow-hidden">
+    <div className="bg-white border border-rose-100 rounded-3xl shadow-sm flex flex-col max-h-[480px] lg:max-h-none lg:h-full overflow-hidden">
       <div className="px-5 pt-5 pb-3 border-b border-rose-100 shrink-0">
         <h3 className="font-serif text-lg font-bold text-slate-900 mb-1 flex items-center gap-2">
           <CalendarDays className="w-5 h-5 text-saffron" />

@@ -178,7 +178,7 @@ function BookingPage() {
             />
           </div>
         ) : (
-          <div className="grid lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_380px] gap-6 items-start">
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_380px] gap-6 items-stretch">
             <div className="min-w-0">
               {/* STEP 1: SCHEDULE */}
               {step === 1 && (
@@ -253,11 +253,17 @@ function BookingPage() {
             </div>
 
             {/* Sidebar: events (steps 1–2) or live booking summary (step 3). Sticky, and the events list scrolls on its own. */}
-            <aside className="lg:sticky lg:top-6 min-w-0">
+            <aside className="relative min-w-0">
               {showEvents ? (
-                <UpcomingEvents slug={t.slug} onSelectEvent={handleSelectEvent} selectedTitle={selectedEvent?.title} />
+                // Absolutely filled on desktop so the events card matches the main card's height
+                // exactly (it never stretches the row) and scrolls inside itself.
+                <div className="lg:absolute lg:inset-0">
+                  <UpcomingEvents slug={t.slug} onSelectEvent={handleSelectEvent} selectedTitle={selectedEvent?.title} />
+                </div>
               ) : (
-                <BookingCartSummary cart={cart} details={details} visitDate={visitDate} visitTime={visitTime} />
+                <div className="lg:sticky lg:top-6">
+                  <BookingCartSummary cart={cart} details={details} visitDate={visitDate} visitTime={visitTime} />
+                </div>
               )}
             </aside>
           </div>

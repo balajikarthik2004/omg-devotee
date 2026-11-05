@@ -37,7 +37,7 @@ function PoojaPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 lg:px-8 py-6 lg:py-10">
+    <div className="max-w-4xl mx-auto px-4 lg:px-8 pt-6 lg:pt-10 pb-10">
       <button 
         onClick={() => router.history.back()} 
         className="mb-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all hover:-translate-x-1"

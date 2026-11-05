@@ -20,7 +20,7 @@ export function LevelPill({ level }: { level: Level }) {
 function Panel({ title, icon: Icon, children, className = "", right }: { title: string; icon: typeof Users; children: ReactNode; className?: string; right?: ReactNode }) {
   return (
     <section className={`bg-white border border-rose-100 rounded-3xl p-4 shadow-sm ${className}`}>
-      <div className="flex items-center justify-between gap-3 mb-3">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 mb-3">
         <h2 className="font-serif text-base font-bold text-slate-900 flex items-center gap-2">
           <Icon className="w-5 h-5 text-saffron" /> {title}
         </h2>
@@ -227,7 +227,7 @@ export function GateTable({ zones, selectedId, onSelect, isClosed }: { zones: Li
   return (
     <Panel title={tStr("Gate-wise Crowd Details")} icon={ListChecks}>
       <div className="overflow-x-auto -mx-2">
-        <table className="w-full text-sm min-w-[520px]">
+        <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-xs text-slate-500 border-b border-rose-100">
               <th className="font-semibold py-2 px-2">{tStr("Gate / Area")}</th>
@@ -285,13 +285,14 @@ function TrendTooltip({ active, payload }: any) {
 
 export function CrowdTrendChart({ trend, nowH, liveCrowd }: { trend: TrendPoint[]; nowH: number; liveCrowd: number }) {
   const { t: tStr } = useTranslation();
-  const ticks = [6, 8, 10, 12, 14, 16, 18, 20, 22];
+  const ticks = [6, 10, 14, 18, 22];
   // Round y-axis steps (5K for big temples, 1K for small ones).
   const maxY = Math.max(...trend.map((p) => Math.max(p.typical, p.current ?? 0)));
   const step = maxY > 10000 ? 5000 : maxY > 2000 ? 1000 : 200;
   const yTicks = Array.from({ length: Math.ceil(maxY / step) + 1 }, (_, i) => i * step);
   return (
     <Panel
+      className="xl:flex-1 xl:flex xl:flex-col"
       title={tStr("Crowd Trend (Today)")}
       icon={TrendingUp}
       right={
@@ -301,7 +302,7 @@ export function CrowdTrendChart({ trend, nowH, liveCrowd }: { trend: TrendPoint[
         </div>
       }
     >
-      <div className="h-[260px]" role="img" aria-label={`${tStr("Crowd trend today")}: ${nf.format(liveCrowd)} ${tStr("devotees at")} ${formatHour(nowH)}`}>
+      <div className="h-[260px] xl:h-auto xl:flex-1 xl:min-h-[260px]" role="img" aria-label={`${tStr("Crowd trend today")}: ${nf.format(liveCrowd)} ${tStr("devotees at")} ${formatHour(nowH)}`}>
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={trend} margin={{ top: 28, right: 12, left: 0, bottom: 0 }}>
             <defs>

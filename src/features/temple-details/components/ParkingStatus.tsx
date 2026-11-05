@@ -4,7 +4,7 @@ export function ParkingStatus({ t }: any) {
   const { t: tStr } = useTranslation();
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl p-5 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+    <div className="bg-white border border-slate-100 rounded-3xl p-5 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
       <h3 className="font-serif text-lg font-bold text-slate-900">{tStr("Parking status")}</h3>
       <div className="mt-4 space-y-2.5">
         {(["lotA", "lotB", "overflow"] as const).map((k) => {

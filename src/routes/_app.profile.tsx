@@ -12,7 +12,7 @@ function ProfilePage() {
   const { t } = useTranslation();
   const watchlist = temples.slice(0, 2);
   return (
-    <div className="max-w-3xl mx-auto px-4 lg:px-8 py-6">
+    <div className="max-w-3xl mx-auto px-4 lg:px-8 pt-6 pb-10">
       <div className="bg-card border border-border rounded-2xl card-soft p-6 flex items-center gap-4">
         <div className="w-16 h-16 rounded-full gradient-saffron text-white flex items-center justify-center font-serif text-2xl">RA</div>
         <div>

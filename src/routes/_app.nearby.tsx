@@ -12,7 +12,7 @@ function NearbyPage() {
   const t = temples.find(x => x.id === sel)!;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 lg:px-8 py-6">
+    <div className="max-w-3xl mx-auto px-4 lg:px-8 pt-6 pb-10">
       <h1 className="font-serif text-4xl font-semibold">Plan your journey</h1>
       <p className="text-muted-foreground text-base mt-1">Travel options, parking and nearby essentials.</p>
 

@@ -111,7 +111,7 @@ function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fdf8f6] pb-20 relative">
+    <div className="min-h-screen bg-[#fdf8f6] pb-10 relative">
       
       <div className="bg-primary/5 py-8 px-6 lg:px-12 border-b border-border/50">
         <div className="max-w-7xl mx-auto flex items-center gap-4">

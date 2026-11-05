@@ -55,7 +55,7 @@ function DonationsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdf8f6] pb-24">
+    <div className="min-h-screen bg-[#fdf8f6] pb-10">
       {/* Header banner */}
       <header className="relative overflow-hidden">
         {hero && (
@@ -89,7 +89,7 @@ function DonationsPage() {
             />
           </div>
         ) : (
-          <div className="grid lg:grid-cols-[minmax(0,1fr)_400px] gap-6 items-start">
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_400px] gap-6 items-stretch">
             <DonationForm
               temple={temple} setTemple={setTemple}
               cause={cause} setCause={setCause}
@@ -98,7 +98,7 @@ function DonationsPage() {
               frequency={frequency} setFrequency={setFrequency}
               pledgeDate={pledgeDate} setPledgeDate={setPledgeDate}
             />
-            <aside className="lg:sticky lg:top-6">
+            <aside className="flex flex-col">
               <DonationSummary
                 templeObj={t}
                 cause={cause}

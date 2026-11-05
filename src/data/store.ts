@@ -200,9 +200,9 @@ export const stores: Store[] = temples.map((temple) => {
     );
   }
 
-  // Lord Shiva collection for Arunachaleswarar (Annamalaiyar).
+  // Lord Shiva collection for Arunachaleswarar (Annamalaiyar) — shown first in the store.
   if (temple.slug === 'tiruvannamalai') {
-    specificProducts.push(
+    specificProducts.unshift(
       {
         id: `p-tvm-annamalaiyar-photo-${temple.id}`,
         name: "Framed Annamalaiyar Lingam Portrait (8x10)",
@@ -275,7 +275,7 @@ export const stores: Store[] = temples.map((temple) => {
   }
 
   if (temple.slug.includes('shiva') || temple.deity.toLowerCase().includes('shiva')) {
-    specificProducts.push({
+    specificProducts.unshift({
       id: `p-shiva-${temple.id}`,
       name: "Crystal Shiva Lingam",
       description: "Small pure crystal (Sphatik) Shiva Lingam for home worship.",

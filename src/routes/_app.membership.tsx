@@ -80,7 +80,7 @@ function MembershipPage() {
         </header>
       )}
 
-      <div className="max-w-6xl mx-auto px-4 lg:px-8 pb-28 pt-2">
+      <div className="max-w-6xl mx-auto px-4 lg:px-8 pb-10 pt-2">
 
       {payment && temple && plan ? (
         <MembershipSuccess

@@ -38,7 +38,7 @@ export function DonationSummary({ templeObj, cause, frequency, pledgeDate, amoun
     : `${tStr("Proceed to Pay")} ${fmt(amount)}`;
 
   return (
-    <div className="bg-white border border-rose-100 rounded-3xl p-5 sm:p-6 shadow-sm space-y-6">
+    <div className="bg-white border border-rose-100 rounded-3xl p-5 sm:p-6 shadow-sm space-y-6 h-full flex flex-col">
       {/* Summary */}
       <section>
         <h2 className="flex items-center gap-2 text-base font-bold text-slate-900 mb-3">
@@ -93,7 +93,7 @@ export function DonationSummary({ templeObj, cause, frequency, pledgeDate, amoun
         </section>
       )}
 
-      <div>
+      <div className="mt-auto">
         <button
           type="button"
           onClick={onPay}

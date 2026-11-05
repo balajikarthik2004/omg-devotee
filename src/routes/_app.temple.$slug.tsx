@@ -1,6 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { getTemple, forecastFor } from "@/data/temples";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { TempleHero } from "@/features/temple-details/components/TempleHero";
 import { CrowdDashboard } from "@/features/temple-details/components/CrowdDashboard";
@@ -38,6 +38,21 @@ function TempleDetail() {
   const [alertOn, setAlertOn] = useState(false);
   const [now, setNow] = useState(new Date());
 
+  // Sidebar sticks by its top when it fits the screen; when it is taller, it scrolls
+  // with the page until its last card is visible and then stays pinned by its bottom.
+  const sideRef = useRef<HTMLDivElement>(null);
+  const [sideTop, setSideTop] = useState(24);
+  useEffect(() => {
+    const el = sideRef.current;
+    if (!el) return;
+    const update = () => setSideTop(Math.min(24, window.innerHeight - el.offsetHeight - 24));
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener("resize", update);
+    return () => { ro.disconnect(); window.removeEventListener("resize", update); };
+  }, []);
+
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(timer);
@@ -52,24 +67,25 @@ function TempleDetail() {
   }, []);
 
   return (
-    <div className="pb-32 lg:pb-8">
+    <div className="pb-32 lg:pb-10">
       <TempleHero t={t} />
 
       <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-4 relative z-20">
         <CrowdDashboard t={t} wait={wait} now={now} />
 
-        <div className="mt-8 grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
+        <div className="mt-8 grid lg:grid-cols-3 gap-8 items-start">
+          <div className="lg:col-span-2 space-y-6 min-w-0">
             <AIInsights t={t} />
+            {/* About / facts / Girivalam / gallery need the wide column */}
+            <TempleTabs t={t} />
             <TempleTimings t={t} />
             <ForecastChart data={data} nowHour={nowHour} />
             <SmartAlerts t={t} pct={pct} alertOn={alertOn} setAlertOn={setAlertOn} />
             <AnnadhanamDetails t={t} />
           </div>
 
-          <div className="space-y-6">
+          <div ref={sideRef} className="space-y-6 min-w-0 lg:sticky" style={{ top: sideTop }}>
             <BookingWidget t={t} />
-            <TempleTabs t={t} />
             <ParkingStatus t={t} />
             <OtherTemples t={t} />
           </div>

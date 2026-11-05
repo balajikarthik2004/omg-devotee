@@ -64,7 +64,7 @@ function PlanPage() {
   const hero = HERO[t?.slug ?? "tiruvannamalai"] ?? t?.image;
 
   return (
-    <div className="relative min-h-screen bg-[#fdf8f6] pb-16">
+    <div className="relative min-h-screen bg-[#fdf8f6] pb-10">
       {/* Header banner */}
       <header className="relative overflow-hidden print:hidden">
         {hero && (

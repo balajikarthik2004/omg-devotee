@@ -61,7 +61,7 @@ function HeatmapPage() {
 
   return (
     <div ref={rootRef} className={`bg-[#fdf8f6] ${isFullscreen ? "overflow-y-auto h-screen" : "min-h-screen"}`}>
-      <div className="max-w-[1500px] mx-auto px-4 lg:px-8 py-6 space-y-5">
+      <div className="max-w-[1500px] mx-auto px-4 lg:px-8 pt-6 pb-10 space-y-5">
         {/* Header */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
@@ -121,9 +121,10 @@ function HeatmapPage() {
           isClosed={live.isClosed}
         />
 
-        {/* Map + side panels */}
-        <div className="grid xl:grid-cols-[minmax(0,1fr)_300px] gap-5 items-start">
-          <div className="min-w-0">
+        {/* Two independent columns so neither leaves an empty gap:
+            left = map + gate table, right = insights + tips + trend. */}
+        <div className="grid xl:grid-cols-[minmax(0,1fr)_360px] gap-5 items-start xl:items-stretch">
+          <div className="min-w-0 space-y-5">
             {mapImage ? (
               <div className="relative rounded-3xl overflow-hidden bg-slate-900 shadow-sm">
                 <img src={mapImage} alt={`${t.name} ${tStr("crowd map")}`} className="w-full h-auto block" />
@@ -140,8 +141,11 @@ function HeatmapPage() {
                 {tStr("A live map for this temple is coming soon. Gate-wise figures are shown below.")}
               </div>
             )}
+            <div ref={tableRef}>
+              <GateTable zones={live.zones} selectedId={selectedZone} onSelect={focusZone} isClosed={live.isClosed} />
+            </div>
           </div>
-          <div className="grid md:grid-cols-2 xl:grid-cols-1 gap-5">
+          <div className="min-w-0 grid md:grid-cols-2 gap-5 xl:flex xl:flex-col">
             <InsightsPanel
               overall={live.overall}
               hottest={live.hottest}
@@ -150,15 +154,10 @@ function HeatmapPage() {
               closedNote={live.isClosed ? `${tStr("Darshan is closed now — reopens at")} ${live.openTime}` : undefined}
             />
             <TipsPanel slug={t.slug} bestWindow={live.bestWindow} quietestGate={live.quietestGate} nextEvent={live.nextEvent} onSelectZone={focusZone} />
+            <div className="md:col-span-2 xl:flex-1 xl:flex xl:flex-col">
+              <CrowdTrendChart trend={live.trend} nowH={live.nowH} liveCrowd={live.liveCrowd} />
+            </div>
           </div>
-        </div>
-
-        {/* Table + trend */}
-        <div className="grid lg:grid-cols-2 gap-5 items-start">
-          <div ref={tableRef}>
-          <GateTable zones={live.zones} selectedId={selectedZone} onSelect={focusZone} isClosed={live.isClosed} />
-          </div>
-          <CrowdTrendChart trend={live.trend} nowH={live.nowH} liveCrowd={live.liveCrowd} />
         </div>
       </div>
 

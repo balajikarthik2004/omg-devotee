@@ -14,7 +14,7 @@ const alerts = [
 
 function NotificationsPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 lg:px-8 py-6">
+    <div className="max-w-3xl mx-auto px-4 lg:px-8 pt-6 pb-10">
       <h1 className="font-serif text-3xl font-semibold">Your temple alerts</h1>
       <p className="text-muted-foreground text-sm mt-1">Smart, contextual reminders for your peaceful visits.</p>
 
