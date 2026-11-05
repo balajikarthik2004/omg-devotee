@@ -77,7 +77,7 @@ function CartPage() {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center">
+      <div className="min-h-screen bg-[#fdf8f6] flex flex-col items-center justify-center p-6 text-center">
         <div className="w-32 h-32 bg-[#e32c26]/10 text-[#e32c26] rounded-full flex items-center justify-center mb-8 animate-in zoom-in duration-500 shadow-xl shadow-[#e32c26]/20">
           <CheckCircle2 className="w-16 h-16 animate-in slide-in-from-bottom-4 duration-700" />
         </div>
@@ -97,7 +97,7 @@ function CartPage() {
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center">
+      <div className="min-h-screen bg-[#fdf8f6] flex flex-col items-center justify-center p-6 text-center">
         <div className="w-24 h-24 bg-muted text-muted-foreground rounded-full flex items-center justify-center mb-6">
           <ShoppingCartIcon className="w-10 h-10" />
         </div>
@@ -111,14 +111,14 @@ function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background pb-20 relative">
+    <div className="min-h-screen bg-[#fdf8f6] pb-20 relative">
       
       <div className="bg-primary/5 py-8 px-6 lg:px-12 border-b border-border/50">
         <div className="max-w-7xl mx-auto flex items-center gap-4">
           <Link to="/store" className="p-2 hover:bg-white/50 rounded-full transition-colors text-foreground">
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <h1 className="text-2xl lg:text-3xl font-bold text-foreground">{t("Secure Checkout")}</h1>
+          <h1 className="font-serif text-2xl lg:text-3xl font-bold text-slate-900">{t("Secure Checkout")}</h1>
         </div>
       </div>
 
@@ -129,7 +129,7 @@ function CartPage() {
           <h2 className="text-xl font-semibold text-foreground mb-4">{t("Cart Items")}</h2>
           <div className="space-y-4">
             {cart.map((item) => (
-              <div key={item.id} className="flex gap-4 p-4 bg-card rounded-xl border border-border/50 shadow-sm transition-all hover:shadow-md">
+              <div key={item.id} className="flex gap-4 p-4 bg-white rounded-3xl border border-rose-100 shadow-sm transition-all hover:shadow-md">
                 <div className="w-24 h-24 bg-muted rounded-lg overflow-hidden shrink-0">
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                 </div>
@@ -170,7 +170,7 @@ function CartPage() {
 
         {/* Checkout Form & Summary */}
         <div className="lg:col-span-5">
-          <form onSubmit={handleCheckout} className="bg-card rounded-2xl p-6 lg:p-8 border border-border/50 shadow-xl sticky top-24 relative overflow-hidden">
+          <form onSubmit={handleCheckout} className="bg-white rounded-3xl p-6 lg:p-8 border border-rose-100 shadow-sm sticky top-24 relative overflow-hidden">
             
             {/* Localized GPay Style Processing Overlay */}
             {isProcessing && (
@@ -313,7 +313,7 @@ function CartPage() {
               <Button 
                 type="submit" 
                 size="lg" 
-                className="w-full h-14 text-lg font-semibold bg-[#e32c26] hover:bg-[#c9221d] text-white shadow-xl shadow-[#e32c26]/20 transition-all active:scale-[0.98]"
+                className="w-full h-14 rounded-full text-lg font-bold bg-[#e32c26] hover:bg-[#c9221d] text-white shadow-lg shadow-[#e32c26]/20 transition-all active:scale-[0.98]"
               >
                 {t("Pay ")}${finalTotal.toFixed(2)}
               </Button>

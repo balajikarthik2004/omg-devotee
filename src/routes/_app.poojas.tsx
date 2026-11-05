@@ -1,13 +1,13 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { temples } from "@/data/temples";
-import { MapPin, ArrowLeft, Sparkles } from "lucide-react";
+import { MapPin, ArrowLeft, Flame } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/_app/poojas")({
   validateSearch: (search: Record<string, unknown>) => {
     return {
-      temple: (search.temple as string) || "palani-murugan",
+      temple: (search.temple as string) || "tiruvannamalai",
     };
   },
   head: () => ({ meta: [{ title: "Pooja & Timings — OMG Smart Temple" }] }),
@@ -75,7 +75,7 @@ function PoojaPage() {
           <div>
             <div className="font-serif text-2xl font-bold">{t(activeTempleData.name)}</div>
             <div className="text-[11px] font-bold uppercase tracking-widest text-saffron mt-1">
-              ✨ {t(activeTempleData.specialDay)} {t("is the special pooja day")}
+              {t(activeTempleData.specialDay)} {t("is the special pooja day")}
             </div>
           </div>
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 px-3 py-1.5 rounded-full text-xs font-bold tracking-wider">
@@ -133,7 +133,9 @@ function PoojaPage() {
           <div className="bg-white rounded-full p-1.5 shadow-sm border border-border/50 text-base leading-none">⭐</div>
           <div className="flex-1">
             <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{t("Today's Special")}</div>
-            <div className="text-foreground mt-0.5">{t("Abhishekam for registered devotees at 5:40 AM · Special Sashti Pooja at 7:00 AM")}</div>
+            <div className="text-foreground mt-0.5">{activeTempleData.slug === "tiruvannamalai"
+              ? t("Karthigai Deepam Brahmotsavam begins Nov 15 · Maha Deepam on Nov 24 at 6:00 PM")
+              : t("Special abhishekam for registered devotees in the morning · Check the temple notice board for today's sevas")}</div>
           </div>
         </div>
       </div>
@@ -144,15 +146,15 @@ function PoojaPage() {
         </h2>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
-            { n: "Karthigai Deepam", t: "Tiruvannamalai", d: "Nov 23", c: "10 lakh" },
-            { n: "Thai Poosam", t: "Palani", d: "Jan 21", c: "15 lakh" },
+            { n: "Karthigai Deepam", t: "Tiruvannamalai", d: "Nov 24", c: "20 lakh+" },
+            { n: "Chitra Pournami Girivalam", t: "Tiruvannamalai", d: "Apr–May", c: "20 lakh+" },
             { n: "Chithirai Festival", t: "Meenakshi", d: "Apr 20", c: "15 lakh" },
           ].map((f) => (
             <div key={f.n} className="border border-border/70 rounded-3xl p-5 bg-card hover:border-saffron/40 hover:shadow-[0_12px_28px_rgba(0,0,0,0.06)] transition-all group flex flex-col h-full cursor-pointer relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-saffron/10 opacity-0 group-hover:opacity-10 transition-opacity" />
               <div className="flex items-start gap-4 mb-4 relative z-10">
                 <div className="bg-saffron/10 text-saffron border border-saffron/20 rounded-2xl w-12 h-12 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-sm">
-                  <Sparkles className="w-5 h-5" />
+                  <Flame className="w-5 h-5" />
                 </div>
                 <div className="flex-1 mt-0.5">
                   <div className="font-bold text-sm text-foreground leading-tight group-hover:text-saffron transition-colors">{t(f.n)}</div>

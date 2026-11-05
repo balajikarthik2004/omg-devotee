@@ -44,7 +44,7 @@ function ProfilePage() {
       <section className="mt-6 bg-card border border-border rounded-2xl p-5 card-soft">
         <div className="font-serif text-lg font-semibold mb-3">{t("Planned visits")}</div>
         <div className="border border-saffron/30 bg-saffron/5 rounded-xl p-4">
-          <div className="font-medium">{t("Tomorrow · Palani Murugan Temple · 3:30 PM")}</div>
+          <div className="font-medium">{t("Tomorrow · Tiruvannamalai Arunachaleswarar Temple · 3:30 PM")}</div>
           <div className="text-sm text-muted-foreground mt-1">{t("AI suggested this time — LOW crowd expected.")}</div>
           <div className="mt-3 flex gap-2 text-sm"><button className="rounded-full bg-foreground text-background px-3 py-1">{t("Directions")}</button><button className="rounded-full bg-white border border-border px-3 py-1">{t("Edit")}</button></div>
         </div>
@@ -53,7 +53,7 @@ function ProfilePage() {
       <section className="mt-6 bg-card border border-border rounded-2xl p-5 card-soft">
         <div className="font-serif text-lg font-semibold mb-3">{t("My temple visits")}</div>
         <div className="space-y-4">
-          <Visit date={t("15 May 2025")} temple={t("Kapaleeshwarar Temple, Chennai")} note={t("Visited at 7:30 AM — Very peaceful ✨")} stars={5} t={t} />
+          <Visit date={t("15 May 2025")} temple={t("Kapaleeshwarar Temple, Chennai")} note={t("Visited at 7:30 AM — Very peaceful")} stars={5} t={t} />
           <Visit date={t("28 Apr 2025")} temple={t("Srirangam Temple, Trichy")} note={t("Visited at 4:00 PM — Moderate crowd")} stars={4} t={t} />
         </div>
       </section>

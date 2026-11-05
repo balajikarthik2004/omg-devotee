@@ -8,6 +8,7 @@ import meenakshiImg from "@/assets/meenakshi.png";
 import dallasMariammanImg from "@/assets/dallas-mariamman.png";
 
 const bgImages: Record<string, string> = {
+  "tiruvannamalai": "/temples/tiruvannamalai/panorama.jpg",
   "palani-murugan": muruganImg,
   "madurai-meenakshi": meenakshiImg,
   "dallas-arulmigu-mariamman-usa": dallasMariammanImg,
@@ -15,6 +16,7 @@ const bgImages: Record<string, string> = {
 
 // Per-temple object-position overrides (helps low-res images show the best area)
 const bgPositions: Record<string, string> = {
+  "tiruvannamalai": "center 40%",
   "palani-murugan": "center 20%",
   "madurai-meenakshi": "center 20%",
   "dallas-arulmigu-mariamman-usa": "center 20%",

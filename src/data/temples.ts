@@ -27,11 +27,14 @@ export interface Temple {
   crowdStatus: CrowdStatus;
   poojas: string[];
   image?: string;
+  /** Optional square-friendly photo for list cards (falls back to `image`). */
+  thumb?: string;
   deityImage?: string;
+  description?: string;
 }
 
 const basePoojas = [
-  "6:00 AM Thiruvannamalai Pooja",
+  "6:00 AM Ushathkala Pooja",
   "7:30 AM Thiru Neeru Pooja",
   "9:00 AM Kalasa Pooja",
   "12:00 PM Uchikala Pooja",
@@ -39,6 +42,17 @@ const basePoojas = [
   "6:00 PM Arthajama Pooja",
   "8:00 PM Iranda Kala Pooja",
   "9:00 PM Palliyarai Pooja",
+];
+
+// Six daily kaala poojas (Wikipedia: Arunachalesvara Temple). Times can shift on
+// festival / Pournami days — confirm with the temple office before relying on them.
+const tiruvannamalaiPoojas = [
+  "5:30 AM Ushathkalam (Kaalaippani) Pooja",
+  "8:00 AM Kaalasanthi Pooja",
+  "10:00 AM Uchikalam Pooja",
+  "6:00 PM Sayarakshai Pooja",
+  "8:00 PM Irandaam Kaalam Pooja",
+  "10:00 PM Arthajamam Pooja",
 ];
 
 const palaniPoojas = [
@@ -92,11 +106,43 @@ const usaPoojas = [
 
 export const temples: Temple[] = [
   // Tamil Nadu
+  // Primary temple — Arulmigu Arunachaleswarar (Annamalaiyar) Temple
+  {
+    id: 4,
+    slug: "tiruvannamalai",
+    name: "Tiruvannamalai Arunachaleswarar Temple",
+    image: "/temples/tiruvannamalai/panorama.jpg",
+    thumb: "/temples/tiruvannamalai/gopuram-sky.jpg",
+    deityImage: "/deities/shiva_lingam_1779692728170.png",
+    deity: "Lord Shiva (Arunachaleswarar / Annamalaiyar) & Unnamulai Amman",
+    state: "Tamil Nadu",
+    district: "Tiruvannamalai",
+    city: "Tiruvannamalai",
+    established: "Chola era (9th century CE)",
+    tier: "Pancha Bhoota Sthalam · Agni (Fire)",
+    description:
+      "Arulmigu Arunachaleswarar Temple, also called Annamalaiyar Temple, stands at the foot of the sacred Arunachala hill in Tiruvannamalai. Lord Shiva is worshipped here as the Agni Lingam, making it the Fire (Agni) shrine among the five Pancha Bhoota Sthalams, with Goddess Parvati as Unnamulai Amman. The temple covers 25 acres with five precincts and four great gateway towers; the 11-storey, 66 m (217 ft) East Rajagopuram, begun under Krishnadevaraya and completed under Sevappa Nayaka, is among the tallest in India. Inside are the Thousand-Pillared Hall, the Sivaganga and Brahma theerthams, the Kambathu Ilayanar (Murugan) shrine sung by Arunagirinathar, and the Pathala Lingam where Bhagavan Sri Ramana Maharshi meditated. Devotees believe that merely remembering Arunachala grants liberation. Every full moon, lakhs of pilgrims walk the 14 km Girivalam around the hill, and during Karthigai Deepam the Maha Deepam is lit on the hill summit at dusk. The temple is administered by the Tamil Nadu HR&CE Department.",
+    openTime: "05:30",
+    closeTime: "21:30",
+    afternoonClose: "12:30",
+    afternoonOpen: "15:30",
+    crowd: 22100,
+    capacity: 25000,
+    crowdPct: 88,
+    waitMin: 85,
+    parking: { lotA: 96, lotB: 94, overflow: 82 },
+    color: "#DC2626",
+    gradientFrom: "#FFF1F2",
+    gradientTo: "#FFE4E6",
+    specialDay: "Full Moon",
+    crowdStatus: "CRITICAL",
+    poojas: tiruvannamalaiPoojas,
+  },
   {
     id: 1,
     slug: "palani-murugan",
     name: "Palani Murugan Temple",
-    image: "/palani_temple.png",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Palani_Murugan_Hill_Temple.jpg?width=800",
     deityImage: "/deities/murugan_palani_1779692676216.png",
     deity: "Lord Murugan (Dhandayuthapani Swamy)",
     state: "Tamil Nadu",
@@ -124,8 +170,7 @@ export const temples: Temple[] = [
     id: 2,
     slug: "madurai-meenakshi",
     name: "Madurai Meenakshi Temple",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg?width=800",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Tower_of_Meenakshi_amman_temple.jpg?width=800",
     deityImage: "/deities/meenakshi_madurai_1779692694024.png",
     deity: "Goddess Meenakshi & Lord Sundareswarar",
     state: "Tamil Nadu",
@@ -170,31 +215,6 @@ export const temples: Temple[] = [
     gradientTo: "#DCFCE7",
     specialDay: "Saturday",
     crowdStatus: "LOW",
-    poojas: basePoojas,
-  },
-  {
-    id: 4,
-    slug: "tiruvannamalai",
-    name: "Tiruvannamalai Arunachaleswarar Temple",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Arunachalam_temple_from_a_nearby_hill.jpg?width=800",
-    deityImage: "/deities/shiva_lingam_1779692728170.png",
-    deity: "Lord Shiva (Arunachaleswarar)",
-    state: "Tamil Nadu",
-    district: "Tiruvannamalai",
-    city: "Tiruvannamalai",
-    openTime: "05:30",
-    closeTime: "21:30",
-    crowd: 22100,
-    capacity: 25000,
-    crowdPct: 88,
-    waitMin: 85,
-    parking: { lotA: 96, lotB: 94, overflow: 82 },
-    color: "#DC2626",
-    gradientFrom: "#FFF1F2",
-    gradientTo: "#FFE4E6",
-    specialDay: "Full Moon",
-    crowdStatus: "CRITICAL",
     poojas: basePoojas,
   },
   {
@@ -251,8 +271,7 @@ export const temples: Temple[] = [
     id: 7,
     slug: "tiruchendur",
     name: "Tiruchendur Murugan Temple",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Thiruchendur_Murugan_Temple.jpg?width=800",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/The_Raja_Gopuram_at_Thiruchendur_Murugan_Temple.JPG?width=800",
     deityImage: "/deities/murugan_palani_1779692676216.png",
     deity: "Lord Murugan (Senthilandavar)",
     state: "Tamil Nadu",
@@ -400,8 +419,7 @@ export const temples: Temple[] = [
     id: 13,
     slug: "murudeshwara",
     name: "Murudeshwara Temple",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Shiva_Statue_Murdeshwara_Temple.jpg?width=800",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Raja_Gopura_Murudeshwara.jpg?width=800",
     deity: "Lord Shiva",
     state: "Karnataka",
     district: "Uttara Kannada",
@@ -665,7 +683,7 @@ export const temples: Temple[] = [
     id: 24,
     slug: "bhimashankar",
     name: "Bhimashankar Temple",
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Bhimashankar.jpg?width=800",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Bhimashankar_temple_front.jpg?width=800",
     deity: "Lord Shiva",
     state: "Maharashtra",
     district: "Pune",
@@ -808,7 +826,7 @@ export const temples: Temple[] = [
     id: 30,
     slug: "jejuri-khandoba",
     name: "Khandoba Temple",
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Khandoba_temple_Pune.jpg?width=800",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Khandoba_jejuri_temple_front.jpg?width=800",
     deity: "Lord Khandoba",
     state: "Maharashtra",
     district: "Pune",
@@ -905,8 +923,7 @@ export const temples: Temple[] = [
     id: 34,
     slug: "ambaji",
     name: "Ambaji Temple",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Ambaji_Temple_at_Night.jpg?width=800",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/0081323_Arasuri_Ambaji_mandir%2C_Shakti_Peeth%2C_north_Gujarat_011.jpg?width=800",
     deity: "Goddess Amba",
     state: "Gujarat",
     district: "Banaskantha",
@@ -952,7 +969,7 @@ export const temples: Temple[] = [
     id: 36,
     slug: "palitana",
     name: "Palitana Jain Temples",
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Palitana.jpg?width=800",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Palitana_temples_01.jpg?width=800",
     deity: "Adinath",
     state: "Gujarat",
     district: "Bhavnagar",
@@ -1211,7 +1228,9 @@ export function getTemple(slug: string) {
  */
 export function templeThumb(t: Temple, position = "center") {
   const gradient = `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})`;
-  return t.image ? `url(${t.image}) ${position} / cover no-repeat, ${gradient}` : gradient;
+  const src = t.thumb ?? t.image;
+  // Quote the URL: Commons file names often contain "(" ")" or "," which break an unquoted url().
+  return src ? `url("${src.replace(/"/g, "%22")}") ${position} / cover no-repeat, ${gradient}` : gradient;
 }
 
 export function statusColor(s: CrowdStatus) {

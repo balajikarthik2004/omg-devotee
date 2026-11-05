@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Sparkles, Sun, Sunset } from "lucide-react";
+import { Sun, Sunset, BrainCircuit } from "lucide-react";
 
 export function CrowdDashboard({ t, wait, now }: any) {
   const { t: tStr } = useTranslation();
@@ -12,7 +12,7 @@ export function CrowdDashboard({ t, wait, now }: any) {
       <div className="grid gap-8 md:grid-cols-3 md:items-center relative z-10">
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-200/50 text-indigo-700 text-[10px] font-bold tracking-widest uppercase mb-3 shadow-sm">
-            <Sparkles className="w-3 h-3 text-indigo-500" /> {tStr("AI Visit Intelligence")}
+            <BrainCircuit className="w-3 h-3 text-indigo-500" /> {tStr("AI Visit Intelligence")}
           </div>
           <div className="text-xl md:text-2xl font-bold font-serif text-slate-900 tracking-tight leading-snug mb-4">
             {tStr("Best times to visit")} {tStr("today:")}

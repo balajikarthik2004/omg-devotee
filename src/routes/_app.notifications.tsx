@@ -7,9 +7,9 @@ export const Route = createFileRoute("/_app/notifications")({
 
 const alerts = [
   { type: "crowd", color: "var(--status-high)", title: "Tiruvannamalai is now CRITICAL", body: "Crowd has exceeded 85% capacity. Consider visiting after 6:00 PM today.", time: "2 min ago" },
-  { type: "best", color: "var(--status-mod)", title: "✨ Good time to visit Palani Murugan", body: "Crowd dropped to LOW — only 15 min wait right now.", time: "15 min ago" },
+  { type: "best", color: "var(--status-mod)", title: "Good time for Annamalaiyar darshan", body: "Queues at the East Rajagopuram have eased — try the afternoon session after 3:30 PM.", time: "15 min ago" },
   { type: "reminder", color: "var(--status-low)", title: "Your planned visit to Srirangam is tomorrow at 4 PM", body: "Current forecast: LOW crowd. Great timing! 🎉", time: "1 hour ago" },
-  { type: "festival", color: "var(--saffron)", title: "Thai Poosam at Palani is in 12 days", body: "Book your accommodation early — expected 12 lakh devotees.", time: "2 hours ago" },
+  { type: "festival", color: "var(--saffron)", title: "Karthigai Deepam at Tiruvannamalai — Nov 24", body: "Flag hoisting Nov 15 · Maha Deepam at 6 PM on Nov 24. Lakhs of devotees expected — book your stay early.", time: "2 hours ago" },
 ];
 
 function NotificationsPage() {

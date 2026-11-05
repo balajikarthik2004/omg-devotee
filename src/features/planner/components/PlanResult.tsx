@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
-import { Sparkles, Navigation2, MapPin, ArrowRight, BedDouble, Ticket, Users, ThermometerSun, Bell, Heart, Car, Train, Bus, Plane } from "lucide-react";
+import { Navigation2, MapPin, ArrowRight, BedDouble, Ticket, Users, ThermometerSun, Bell, Heart, Car, Train, Bus, Plane, BrainCircuit, Crown } from "lucide-react";
 
 export function PlanResult({
   t, date, fromLocation, travelHours, travelMins, trans, hotels, setFullMap
@@ -12,7 +12,7 @@ export function PlanResult({
       <div className="bg-card rounded-2xl p-4 lg:p-6 print:hidden">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
           <div>
-            <div className="flex items-center gap-1.5 text-saffron font-semibold text-sm"><Sparkles className="w-4 h-4" /> {tStr("Your Temple Visit Plan")}</div>
+            <div className="flex items-center gap-1.5 text-saffron font-semibold text-sm"><BrainCircuit className="w-4 h-4" /> {tStr("Your Temple Visit Plan")}</div>
             <h2 className="font-serif text-2xl font-bold mt-1.5">{tStr(t.name)}</h2>
           </div>
           <div className="flex items-center gap-2.5 bg-gradient-to-b from-white to-slate-50/80 px-3.5 py-2 rounded-xl border border-slate-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] shrink-0">
@@ -33,7 +33,7 @@ export function PlanResult({
           
           <div className="relative z-10 flex items-center gap-3.5">
             <div className="bg-white/20 backdrop-blur-md border border-white/30 w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 shadow-inner">
-              <Sparkles className="w-5 h-5 text-emerald-50 drop-shadow-md" />
+              <BrainCircuit className="w-5 h-5 text-emerald-50 drop-shadow-md" />
             </div>
             <div>
               <div className="text-emerald-100 text-[10px] uppercase tracking-widest font-bold mb-0.5">{tStr("Best Time for Darshan")}</div>
@@ -239,6 +239,11 @@ export function PlanResult({
                 { name: "Srirangam Ranganathaswamy", city: "Trichy", timeAdded: "+2h", desc: "Massive 108-divya desam temple complex, perfect midway halt." },
                 { name: "Rockfort Ucchi Pillayar", city: "Trichy", timeAdded: "+1.5h", desc: "Iconic hilltop temple offering panoramic city views." }
               ];
+            } else if ((origin.includes("chennai") || origin.includes("madras")) && dest === "tiruvannamalai") {
+              enRoute = [
+                { name: "Gingee Fort & Venkataramana Temple", city: "Gingee", timeAdded: "+1.5h", desc: "Historic hill fort and Vijayanagara-era temple right on the Tindivanam–Tiruvannamalai road." },
+                { name: "Melmalayanur Angalamman", city: "Gingee", timeAdded: "+1h", desc: "Powerful Amman temple a short detour from Gingee." }
+              ];
             } else if ((origin.includes("chennai") || origin.includes("madras")) && dest === "palani-murugan") {
               enRoute = [
                 { name: "Srirangam Ranganathaswamy", city: "Trichy", timeAdded: "+2h", desc: "Highly recommended midway halt before turning towards Dindigul." },
@@ -283,7 +288,7 @@ export function PlanResult({
 
         <div className="mt-6">
           <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="w-5 h-5 text-saffron" />
+            <BrainCircuit className="w-5 h-5 text-saffron" />
             <div className="text-base font-semibold">{tStr("Why did AI pick this time?")}</div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -324,7 +329,7 @@ export function PlanResult({
               <div className="text-[10px] font-medium text-foreground/80 mt-1 flex items-center gap-1 leading-snug">{tStr("Dedicated queue line B.")}</div>
             </div>
             <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-2xl p-3 relative overflow-hidden group hover:border-emerald-500/40 transition-colors">
-              <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 mb-1 flex items-center gap-1"><Sparkles className="w-3.5 h-3.5" /> {tStr("VIP Pass (Rs. 500)")}</div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 mb-1 flex items-center gap-1"><Crown className="w-3.5 h-3.5" /> {tStr("VIP Pass (Rs. 500)")}</div>
               <div className="font-serif font-semibold text-lg text-emerald-600">15 {tStr("m")}</div>
               <div className="text-[10px] font-medium text-foreground/80 mt-1 leading-snug">{tStr("Fastest route. Direct access to Sanctum approach.")}</div>
             </div>

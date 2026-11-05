@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Sparkles, ArrowRight, CheckCircle2, AlertTriangle, XCircle, Info } from "lucide-react";
+import { ArrowRight, CheckCircle2, AlertTriangle, XCircle, Info, BrainCircuit } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 function SlotCard({ time, period, label, ok, warn, bad, info }: any) {
@@ -26,7 +26,7 @@ export function AIInsights({ t }: any) {
 
       <div className="relative z-10">
         <div className="flex items-center gap-2 text-indigo-700 font-bold text-lg mb-1">
-          <Sparkles className="w-5 h-5" /> {tStr("AI Visit Intelligence")}
+          <BrainCircuit className="w-5 h-5" /> {tStr("AI Visit Intelligence")}
         </div>
         <div className="text-sm text-muted-foreground mb-5">{tStr("Predictive insights based on live crowd data & historical trends")}</div>
 
@@ -39,7 +39,7 @@ export function AIInsights({ t }: any) {
 
         <div className="bg-white/80 backdrop-blur-md border border-indigo-100/50 rounded-xl p-4 shadow-sm flex gap-3">
           <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center shrink-0">
-            <Sparkles className="w-4 h-4 text-indigo-600" />
+            <BrainCircuit className="w-4 h-4 text-indigo-600" />
           </div>
           <div className="text-sm text-slate-700 leading-relaxed">
             <span className="font-semibold text-indigo-900 block mb-1">{tStr("Insight for Today")}</span>
@@ -51,7 +51,7 @@ export function AIInsights({ t }: any) {
           <Link to="/chat" className="relative group inline-flex items-center justify-center gap-2.5 text-sm font-bold text-white px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_25px_rgba(79,70,229,0.4)] bg-gradient-to-r from-indigo-600 to-violet-600 shadow-lg shadow-indigo-200 overflow-hidden">
             <span className="absolute inset-0 rounded-full border-2 border-indigo-400 animate-[ping_2s_ease-in-out_infinite] opacity-40 pointer-events-none" />
             <div className="absolute inset-0 bg-white/20 group-hover:translate-x-[150%] -translate-x-[150%] skew-x-12 transition-transform duration-700 ease-out pointer-events-none" />
-            <Sparkles className="w-4 h-4 relative z-10" />
+            <BrainCircuit className="w-4 h-4 relative z-10" />
             <span className="relative z-10 tracking-wide">{tStr("Ask AI Assistant")}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10" />
           </Link>

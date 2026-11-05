@@ -57,6 +57,27 @@ export function getTransportInfo(origin: string, dest: string, tStr: any) {
     };
   }
 
+  // Road/bus guidance only — train numbers intentionally omitted (few direct trains; check IRCTC).
+  if (dest === "tiruvannamalai") {
+    if (o.includes("chennai") || o.includes("madras") || o.includes("maa")) return {
+      isInternational: false,
+      roadTime: "4h 30m", route: "GST Road (NH 32) to Tindivanam, then NH 77 via Gingee (~195 km)",
+      buses: [
+        { name: "TNSTC / SETC (Kilambakkam bus terminus)", time: "Frequent, round the clock", price: "Duration: ~5h 00m" },
+        { name: "Festival special buses (Pournami / Deepam)", time: "Announced by TNSTC before each festival", price: "Duration: 5h+ on peak days" }
+      ],
+      trains: []
+    };
+    if (o.includes("bangalore") || o.includes("bengaluru") || o.includes("blr")) return {
+      isInternational: false,
+      roadTime: "4h 30m", route: "NH 44 to Krishnagiri, then NH 77 via Chengam (~200 km)",
+      buses: [
+        { name: "TNSTC / KSRTC (Satellite / Majestic)", time: "Frequent day and night", price: "Duration: ~5h 30m" }
+      ],
+      trains: []
+    };
+  }
+
   if (o.includes("bangalore") || o.includes("bengaluru") || o.includes("blr")) {
     if (dest === "palani-murugan") return {
       isInternational: false,

@@ -5,12 +5,12 @@ export function ChatMessages({ messages, typing, endRef, send }: any) {
   const { t: tStr } = useTranslation();
 
   const quick = [
-    "Best time to visit Palani today?",
+    "Best time to visit Tiruvannamalai today?",
     "Is Meenakshi crowded now?",
     "Which temple has least crowd today?",
     "Pooja timings for Kapaleeshwarar",
-    "Tiruvannamalai crowd status",
-    "Murugan temples in Coimbatore",
+    "When is Karthigai Deepam?",
+    "Girivalam route and Ashta Lingams",
   ];
 
   return (

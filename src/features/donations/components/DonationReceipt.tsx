@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { CheckCircle2, Download, Receipt } from "lucide-react";
-import { CAUSES } from "../constants";
+import { CAUSES, PAYMENT_METHODS } from "../constants";
 
 export function DonationReceipt({ templeObj, cause, paymentMethod, frequency, pledgeDate, getActiveAmount, onReset }: any) {
   const { t: tStr } = useTranslation();
@@ -39,7 +39,7 @@ export function DonationReceipt({ templeObj, cause, paymentMethod, frequency, pl
           </div>
           <div className="flex items-start justify-between gap-4">
             <span className="text-muted-foreground font-semibold whitespace-nowrap mt-0.5">{tStr("Cause")}</span> 
-            <span className="font-bold text-foreground text-right leading-tight">{tStr(CAUSES.find((c: any) => c.id === cause)?.title)}</span>
+            <span className="font-bold text-foreground text-right leading-tight">{tStr(CAUSES.find((c: any) => c.id === cause)?.title ?? "")}</span>
           </div>
           {frequency !== 'one-time' && frequency !== 'pledge' && (
             <div className="flex items-center justify-between">
@@ -55,7 +55,7 @@ export function DonationReceipt({ templeObj, cause, paymentMethod, frequency, pl
           )}
           <div className="flex items-center justify-between">
             <span className="text-muted-foreground font-semibold">{tStr("Method")}</span> 
-            <span className="font-bold text-white uppercase bg-secondary px-2 py-0.5 rounded text-[11px] tracking-wider">{paymentMethod}</span>
+            <span className="font-bold text-white uppercase bg-secondary px-2 py-0.5 rounded text-[11px] tracking-wider">{tStr(PAYMENT_METHODS.find((m) => m.id === paymentMethod)?.label.split(" (")[0] ?? paymentMethod)}</span>
           </div>
           <div className="flex items-center justify-between border-t-2 border-dashed border-border/60 pt-3 mt-1">
             <span className="text-muted-foreground font-semibold">{tStr("Transaction ID")}</span> 

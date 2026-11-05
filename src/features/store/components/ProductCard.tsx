@@ -1,7 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Plus } from "lucide-react";
 import type { Product } from "@/data/store";
 import { useCart } from "@/features/store/context/CartContext";
@@ -17,9 +14,7 @@ export function ProductCard({ storeId, product }: ProductCardProps) {
   const { t } = useTranslation();
   const { addToCart } = useCart();
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleAddToCart = () => {
     addToCart(product, 1);
     toast.success(t("Added to cart"), {
       description: `${product.name}${t(" has been added to your shopping cart.")}`,
@@ -28,49 +23,36 @@ export function ProductCard({ storeId, product }: ProductCardProps) {
   };
 
   return (
-    <Link to={`/store/${storeId}/item/${product.id}`} className="group block h-full">
-      <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/30 flex flex-col bg-white">
-        <div className="relative aspect-square overflow-hidden bg-muted/20">
-          <img 
-            src={product.image} 
-            alt={product.name} 
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+    <div className="group relative flex flex-col h-full bg-white border border-rose-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md hover:border-saffron/40 transition-all">
+      <Link to="/store/$storeId/item/$itemId" params={{ storeId, itemId: product.id }} className="flex flex-col flex-1">
+        <div className="relative aspect-square overflow-hidden bg-rose-50">
+          <img
+            src={product.image}
+            alt={t(product.name)}
+            loading="lazy"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <Badge className="absolute top-3 left-3 bg-white/80 text-foreground hover:bg-white/90 backdrop-blur-md shadow-sm">
+          <span className="absolute top-3 left-3 rounded-full bg-white/90 backdrop-blur-sm px-2.5 py-1 text-[11px] font-bold text-slate-700 shadow-sm">
             {t(product.category)}
-          </Badge>
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-            <Button 
-              variant="secondary" 
-              className="translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white/90 hover:bg-white text-primary rounded-full shadow-lg"
-              onClick={handleAddToCart}
-            >
-              <ShoppingCart className="w-4 h-4 mr-2" />
-              {t("Quick Add")}
-            </Button>
-          </div>
+          </span>
         </div>
-        <CardContent className="p-4 flex flex-col flex-1">
-          <div className="flex justify-between items-start gap-2 mb-2">
-            <h3 className="font-semibold text-foreground line-clamp-2 leading-tight flex-1">
-              {t(product.name)}
-            </h3>
-            <div className="font-bold text-primary shrink-0 text-lg">
-              ${product.price.toFixed(2)}
-            </div>
+        <div className="flex flex-col flex-1 p-4 pb-3">
+          <div className="flex justify-between items-start gap-2">
+            <h3 className="font-bold text-sm text-slate-900 leading-snug line-clamp-2 group-hover:text-saffron transition-colors">{t(product.name)}</h3>
+            <span className="font-black text-saffron text-base tabular-nums shrink-0">${product.price.toFixed(2)}</span>
           </div>
-          <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-1">
-            {t(product.description)}
-          </p>
-          <Button 
-            className="w-full mt-auto bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-colors group-hover:shadow-md"
-            onClick={handleAddToCart}
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            {t("Add to Cart")}
-          </Button>
-        </CardContent>
-      </Card>
-    </Link>
+          <p className="text-xs text-slate-500 mt-1.5 line-clamp-2">{t(product.description)}</p>
+        </div>
+      </Link>
+      <div className="px-4 pb-4">
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          className="w-full h-10 rounded-full border border-saffron/30 bg-rose-50 text-saffron text-sm font-bold flex items-center justify-center gap-1.5 hover:bg-saffron hover:text-white hover:border-saffron transition-colors"
+        >
+          <Plus className="w-4 h-4" /> {t("Add to Cart")}
+        </button>
+      </div>
+    </div>
   );
 }

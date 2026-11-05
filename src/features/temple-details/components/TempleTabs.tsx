@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { Info, MapPin, Star, Sparkles, Accessibility, ChevronRight } from "lucide-react";
+import { Info, MapPin, Star, Accessibility, ChevronRight, Flame, Mountain, Landmark } from "lucide-react";
+import { tiruvannamalaiFacts, ashtaLingams, tiruvannamalaiGallery } from "@/data/tiruvannamalai";
 
 export function TempleTabs({ t }: any) {
   const { t: tStr } = useTranslation();
@@ -54,7 +55,7 @@ export function TempleTabs({ t }: any) {
           <div className="space-y-5">
             <div className="flex flex-col md:flex-row gap-3 bg-gradient-to-br from-orange-50/50 to-rose-50/30 p-4 rounded-xl border border-orange-100/50 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-3 opacity-10 pointer-events-none">
-                <Sparkles className="w-16 h-16 text-orange-600" />
+                <Landmark className="w-16 h-16 text-orange-600" />
               </div>
               <div className="relative z-10 flex flex-col justify-center">
                 <span className="text-[10px] font-extrabold uppercase tracking-widest text-orange-600/80 mb-0.5">{tStr("Presiding Deity")}</span>
@@ -67,10 +68,63 @@ export function TempleTabs({ t }: any) {
               <span className="text-blue-600 font-bold cursor-pointer ml-1 hover:underline">{tStr("See more")}</span>
             </div>
 
+            {t.slug === 'tiruvannamalai' && (
+              <>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {tiruvannamalaiFacts.map(f => (
+                    <div key={f.label} className="bg-slate-50 border border-slate-100 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{tStr(f.label)}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-0.5">{tStr(f.value)}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="bg-rose-50/50 p-4 rounded-xl border border-rose-100/50">
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5"><Flame className="w-4 h-4 text-rose-500" /> {tStr("Upcoming Festival")}</h3>
+                  <div className="bg-white rounded-lg p-3 border border-rose-100 shadow-sm flex items-center justify-between gap-3">
+                    <div>
+                      <div className="font-bold text-rose-700 text-sm">{tStr("Karthigai Deepam · Bharani & Maha Deepam")}</div>
+                      <div className="text-xs text-slate-500 mt-0.5">{tStr("Bharani Deepam at 4 AM in the temple; Maha Deepam lit on the Arunachala summit at 6 PM. Dates per published calendars — confirm with the temple.")}</div>
+                    </div>
+                    <div className="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1.5 rounded-lg text-center shrink-0 shadow-inner">
+                      {tStr("Nov 24")}<br />2026
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-amber-50/50 p-4 rounded-xl border border-amber-100/60">
+                  <h3 className="font-bold text-slate-800 mb-1 flex items-center gap-1.5"><Mountain className="w-4 h-4 text-amber-600" /> {tStr("Girivalam · Ashta Lingams")}</h3>
+                  <p className="text-xs text-slate-500 mb-3">{tStr("The 14 km barefoot walk around Arunachala passes these eight lingams, clockwise from the East.")}</p>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {ashtaLingams.map((l, i) => (
+                      <div key={l.name} className="bg-white rounded-lg border border-amber-100 p-2 text-center">
+                        <div className="text-[10px] font-bold text-amber-600">{i + 1} · {tStr(l.direction)}</div>
+                        <div className="text-xs font-bold text-slate-800">{tStr(l.name)}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-slate-800 mb-2">{tStr("Photo Gallery")}</h3>
+                  <div className="flex gap-3 overflow-x-auto pb-2 snap-x">
+                    {tiruvannamalaiGallery.map(img => (
+                      <figure key={img.src} className="shrink-0 w-48 snap-start">
+                        <img src={img.src} alt={img.caption} loading="lazy" className="w-48 h-32 object-cover rounded-xl border border-slate-100" />
+                        <figcaption className="text-[10px] text-slate-500 mt-1 leading-snug">
+                          {tStr(img.caption)} · <a href={img.sourceUrl} target="_blank" rel="noreferrer" className="underline hover:text-slate-700">{img.author}, {img.license}</a>
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
             {t.slug === 'palani-murugan' && (
               <>
                 <div className="mt-4 bg-rose-50/50 p-4 rounded-xl border border-rose-100/50">
-                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5"><Sparkles className="w-4 h-4 text-rose-500" /> {tStr("Upcoming Festivals")}</h3>
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5"><Flame className="w-4 h-4 text-rose-500" /> {tStr("Upcoming Festivals")}</h3>
                   <div className="bg-white rounded-lg p-3 border border-rose-100 shadow-sm flex items-center justify-between">
                     <div>
                       <div className="font-bold text-rose-700 text-sm">{tStr("kanda Sashti & Soora Samharam")}</div>

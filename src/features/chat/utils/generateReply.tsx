@@ -5,7 +5,32 @@ import { Msg } from "../types";
 
 export function generateReply(q: string, tStr: any): Msg {
   const lower = q.toLowerCase();
-  const t = temples.find(x => lower.includes(x.name.split(" ")[0].toLowerCase()) || lower.includes(x.slug.split("-")[0]));
+  const tvmAliases = ["thiruvannamalai", "tiruvannamalai", "annamalai", "arunachala", "arunachaleswar", "girivalam", "deepam"];
+  const t = tvmAliases.some(a => lower.includes(a))
+    ? temples.find(x => x.slug === "tiruvannamalai")
+    : temples.find(x => lower.includes(x.name.split(" ")[0].toLowerCase()) || lower.includes(x.slug.split("-")[0]));
+
+  if (lower.includes("deepam") || lower.includes("karthigai") || lower.includes("kartigai")) {
+    return {
+      role: "ai",
+      text: `🪔 ${tStr("Karthigai Deepam 2026 at Tiruvannamalai (per published calendars — confirm with the temple):")}
+• ${tStr("Flag hoisting: Sun, Nov 15")}
+• ${tStr("Maha Ratham (chariot): Sat, Nov 21")}
+• ${tStr("Bharani Deepam: Tue, Nov 24 · 4:00 AM in the temple")}
+• ${tStr("Maha Deepam: Tue, Nov 24 · 6:00 PM on the Arunachala summit")}
+
+${tStr("Lakhs of devotees attend — book stays early and plan to arrive the day before.")}`
+    };
+  }
+
+  if (lower.includes("girivalam") || lower.includes("pournami") || lower.includes("full moon")) {
+    return {
+      role: "ai",
+      text: `⛰️ ${tStr("Girivalam is the 14 km barefoot walk around Arunachala, done on every Pournami (full moon). Devotees pass eight Ashta Lingams clockwise: Indra, Agni, Yama, Niruthi, Varuna, Vayu, Kubera and Esanya.")}
+
+${tStr("An ordinary Pournami draws several lakh devotees; Chitra Pournami and Karthigai Deepam draw 20 lakh+. Start early, carry water, and allow 4–6 hours (much longer on peak days).")}`
+    };
+  }
 
   if (lower.includes("least crowd") || lower.includes("which temple")) {
     const sorted = [...temples].sort((a,b) => a.crowdPct - b.crowdPct).slice(0,3);
@@ -43,7 +68,7 @@ export function generateReply(q: string, tStr: any): Msg {
   if (t && (lower.includes("time") || lower.includes("best") || lower.includes("when"))) {
     return {
       role: "ai",
-      text: `✨ ${tStr("Best times to visit")} ${tStr(t.name)} ${tStr("today:")}\n🌅 ${tStr("Early morning 6:00–7:30 AM — Very peaceful")}\n🌇 ${tStr("Afternoon 3:00–5:30 PM — Recommended ⭐")}\n🌙 ${tStr("Evening 7:00–8:30 PM — Moderate crowd")}\n\n${tStr("Avoid 9:00–11:30 AM.")} ${tStr("It's a")} ${t.specialDay} ${tStr("special day — early morning will be extra auspicious. 🙏")}`
+      text: `🕉 ${tStr("Best times to visit")} ${tStr(t.name)} ${tStr("today:")}\n🌅 ${tStr("Early morning 6:00–7:30 AM — Very peaceful")}\n🌇 ${tStr("Afternoon 3:00–5:30 PM — Recommended ⭐")}\n🌙 ${tStr("Evening 7:00–8:30 PM — Moderate crowd")}\n\n${tStr("Avoid 9:00–11:30 AM.")} ${tStr("It's a")} ${t.specialDay} ${tStr("special day — early morning will be extra auspicious. 🙏")}`
     };
   }
 
@@ -79,5 +104,5 @@ export function generateReply(q: string, tStr: any): Msg {
     };
   }
 
-  return { role: "ai", text: "🙏 " + tStr("I can help with live crowd status, best times to visit, parking, pooja timings, and temple recommendations across Tamil Nadu. Try asking about a specific temple like Palani, Meenakshi, or Srirangam.") };
+  return { role: "ai", text: "🙏 " + tStr("I can help with live crowd status, best times to visit, parking, pooja timings, and temple recommendations across Tamil Nadu. Try asking about a specific temple like Tiruvannamalai, Meenakshi, or Srirangam — or about Girivalam and Karthigai Deepam.") };
 }

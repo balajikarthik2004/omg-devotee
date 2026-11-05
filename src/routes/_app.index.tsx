@@ -44,7 +44,7 @@ function Dashboard() {
     const filtered = temples.filter(t => {
       if (state && t.state !== state) return false;
       if (district && t.district !== district) return false;
-      if (activeFilter === "Low Crowd" && t.crowdStatus !== "low") return false;
+      if (activeFilter === "Low Crowd" && t.crowdStatus !== "LOW") return false;
       else if (activeFilter !== "All" && activeFilter !== "Open Now" && !t.deity.includes(activeFilter)) return false;
       if (!v) return true;
       return t.name.toLowerCase().includes(v) || t.district.toLowerCase().includes(v) || t.deity.toLowerCase().includes(v);
@@ -56,7 +56,7 @@ function Dashboard() {
   }, [q, state, district, activeFilter]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-background pb-12">
+    <div className="flex flex-col min-h-screen bg-[#fdf8f6] pb-12">
       <DashboardTopNav 
         state={state} setState={setState}
         stateOpen={stateOpen} setStateOpen={setStateOpen}
@@ -71,10 +71,10 @@ function Dashboard() {
       <DashboardHeader activeTemple={activeTemple} now={now} />
 
       <div className="max-w-7xl mx-auto px-4 lg:px-6 py-6 space-y-8 w-full">
-        {(!q && district === "" && activeFilter === "All") && (
-          <DevoteeEssentials />
+        {(district === "" && activeFilter === "All") && (
+          <DevoteeEssentials activeTemple={activeTemple} />
         )}
-        <LiveTempleFeed results={results} />
+        <LiveTempleFeed results={results} q={q} setQ={setQ} activeTemple={activeTemple} now={now} />
       </div>
     </div>
   );

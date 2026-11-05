@@ -1,151 +1,136 @@
 import { useTranslation } from "react-i18next";
-import { Users, User, Phone, FileDigit, Star, Heart, MonitorPlay, Crown } from "lucide-react";
+import { Users, User, Phone, FileDigit, ChevronDown, type LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
+import { DARSHAN_CATEGORIES } from "../constants";
+
+function Field({ id, label, error, hint, children }: { id: string; label: string; error?: string; hint?: string; children: ReactNode }) {
+  return (
+    <div>
+      <label htmlFor={id} className="block text-sm font-bold text-slate-800 mb-2">
+        {label} <span className="text-saffron">*</span>
+      </label>
+      {children}
+      {error ? <p id={`${id}-error`} role="alert" className="text-xs text-rose-600 mt-1.5 font-medium">{error}</p> : hint ? <p className="text-xs text-slate-500 mt-1.5">{hint}</p> : null}
+    </div>
+  );
+}
+
+const inputCls = (hasError: boolean) =>
+  `w-full h-12 pr-4 bg-rose-50/40 border rounded-xl outline-none text-sm text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-saffron focus:ring-4 focus:ring-saffron/10 transition-all ${
+    hasError ? "border-rose-400 bg-rose-50" : "border-rose-100"
+  }`;
+
+function IconInput({ icon: Icon, children }: { icon: LucideIcon; children: ReactNode }) {
+  return (
+    <div className="relative">
+      <Icon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-slate-400 pointer-events-none" />
+      {children}
+    </div>
+  );
+}
 
 export function BookingForm({ details, setDetails, errors }: any) {
   const { t: tStr } = useTranslation();
-
   const update = (field: string, val: any) => setDetails((prev: any) => ({ ...prev, [field]: val }));
+  const category = DARSHAN_CATEGORIES.find((c) => c.id === details.categoryId);
 
   return (
-    <div className="bg-white/70 backdrop-blur-2xl border border-white/80 rounded-[32px] p-8 shadow-[0_8px_40px_rgb(0,0,0,0.04)] mb-6 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent pointer-events-none" />
-      <div className="relative z-10">
-      <h2 className="font-serif text-xl font-bold text-slate-900 flex items-center gap-2 mb-6">
-        <Users className="w-5 h-5 text-saffron" />
-        {tStr("Devotee Details")}
-      </h2>
-
-      <div className="space-y-4">
-        {/* Darshan Category */}
-        <div className="mb-6">
-          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Darshan Category")}</label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
-            {[
-              { id: "general", name: "General Darshan", price: 0, desc: "Standard public queue", icon: Users },
-              { id: "special", name: "Special Entry", price: 200, desc: "Fast-track entry queue", icon: Star },
-              { id: "vip", name: "VIP Darshan", price: 500, desc: "Direct sanctum access", icon: Crown },
-              { id: "senior", name: "Senior Citizen / Differently Abled / Pregnant Women", price: 100, desc: "Priority entry with assistance", icon: Heart, isPremium: true }
-            ].map(cat => {
-              const Icon = cat.icon;
-              const isSelected = details.categoryId === cat.id;
-              const isPremium = cat.isPremium;
-
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => update("categoryId", cat.id)}
-                  className={`relative p-3 rounded-xl border-2 text-left transition-all duration-300 overflow-hidden group ${
-                    isSelected
-                      ? isPremium ? "border-amber-500 bg-gradient-to-br from-amber-50 to-orange-50 shadow-sm shadow-amber-500/20" : "border-saffron bg-amber-50/30 shadow-sm shadow-saffron/10"
-                      : isPremium ? "border-amber-200 bg-gradient-to-br from-amber-50/30 to-white hover:border-amber-400" : "border-slate-100 bg-white hover:border-saffron/30"
-                  }`}
-                >
-                  <div className={`absolute top-0 right-0 w-16 h-16 rounded-bl-full transition-all duration-500 ${
-                    isSelected 
-                      ? isPremium ? "bg-gradient-to-bl from-amber-400/40 to-transparent scale-110" : "bg-gradient-to-bl from-saffron/20 to-transparent scale-110" 
-                      : isPremium ? "bg-amber-100/50 group-hover:bg-amber-300/40 group-hover:scale-125" : "bg-slate-50 group-hover:bg-saffron/10 group-hover:scale-125"
-                  }`} />
-                  
-                  <div className="flex justify-between items-start mb-2 relative z-10">
-                    <Icon className={`w-5 h-5 ${
-                      isSelected ? (isPremium ? "text-amber-600" : "text-saffron") : (isPremium ? "text-amber-500" : "text-slate-400")
-                    }`} />
-                    <div className={`font-black text-[15px] ${
-                      isSelected ? (isPremium ? "text-amber-600" : "text-saffron") : (isPremium ? "text-amber-800" : "text-slate-900")
-                    }`}>
-                      {cat.price === 0 ? tStr("Free") : `₹${cat.price}`}
-                    </div>
-                  </div>
-
-                  <div className={`font-bold text-[13px] relative z-10 leading-tight mb-0.5 ${isPremium ? "text-amber-900" : "text-slate-800"}`}>
-                    {tStr(cat.name)}
-                  </div>
-                  <div className={`text-[11px] relative z-10 leading-snug ${isPremium ? "text-amber-700/90 font-medium" : "text-slate-500"}`}>
-                    {tStr(cat.desc)}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+    <div className="grid md:grid-cols-2 gap-x-8 gap-y-5">
+      {/* Row 1: title | number of devotees */}
+      <div className="flex items-center gap-3 md:self-end">
+        <div className="w-10 h-10 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-saffron shrink-0">
+          <Users className="w-5 h-5" />
         </div>
+        <h2 className="font-serif text-xl font-bold text-slate-900">{tStr("Devotee Details")}</h2>
+      </div>
 
-        {/* Number of persons */}
-        <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("How many devotees are visiting?")}</label>
-          <div className="flex items-center gap-3">
-            {[1, 2, 3, 4, 5, 6].map(num => (
-              <button
-                key={num}
-                onClick={() => update("persons", num)}
-                className={`w-12 h-12 rounded-xl text-lg font-bold transition-all ${
-                  details.persons === num
-                    ? "bg-saffron text-white shadow-md border border-saffron"
-                    : "bg-slate-50 text-slate-700 border border-slate-200 hover:border-saffron/50"
-                }`}
-              >
-                {num}
-              </button>
+      <div>
+        <div className="text-sm font-bold text-slate-800 mb-2">{tStr("How many devotees are visiting?")}</div>
+        <div className="flex items-center gap-2.5" role="radiogroup" aria-label={tStr("Number of devotees")}>
+          {[1, 2, 3, 4, 5, 6].map((num) => (
+            <button
+              key={num}
+              type="button"
+              role="radio"
+              aria-checked={details.persons === num}
+              onClick={() => update("persons", num)}
+              className={`w-11 h-11 rounded-xl text-base font-bold transition-all ${
+                details.persons === num
+                  ? "bg-saffron text-white shadow-md shadow-saffron/25"
+                  : "bg-white text-slate-700 border border-rose-100 hover:border-saffron hover:text-saffron"
+              }`}
+            >
+              {num}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Row 2: name | phone */}
+      <Field id="devotee-name" label={tStr("Primary Devotee Name")} error={errors?.name}>
+        <IconInput icon={User}>
+          <input
+            id="devotee-name"
+            autoComplete="name"
+            aria-invalid={!!errors?.name}
+            type="text"
+            value={details.name}
+            onChange={(e) => update("name", e.target.value)}
+            placeholder={tStr("Enter full name")}
+            className={`${inputCls(!!errors?.name)} pl-11`}
+          />
+        </IconInput>
+      </Field>
+
+      <Field id="devotee-phone" label={tStr("Phone Number")} error={errors?.phone}>
+        <IconInput icon={Phone}>
+          <span className="absolute left-11 top-1/2 -translate-y-1/2 text-sm text-slate-600 font-medium pointer-events-none">+91</span>
+          <input
+            id="devotee-phone"
+            autoComplete="tel-national"
+            aria-invalid={!!errors?.phone}
+            type="tel"
+            inputMode="numeric"
+            value={details.phone}
+            onChange={(e) => update("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
+            placeholder="00000 00000"
+            className={`${inputCls(!!errors?.phone)} pl-[4.5rem] tracking-wide`}
+          />
+        </IconInput>
+      </Field>
+
+      {/* Row 3: ID | category */}
+      <Field id="devotee-id" label={tStr("Aadhaar / Gov ID Number")} error={errors?.idNumber} hint={tStr("Must carry original ID during temple visit.")}>
+        <IconInput icon={FileDigit}>
+          <input
+            id="devotee-id"
+            aria-invalid={!!errors?.idNumber}
+            type="text"
+            value={details.idNumber}
+            onChange={(e) => update("idNumber", e.target.value)}
+            placeholder={tStr("Enter ID number (required at entry)")}
+            className={`${inputCls(!!errors?.idNumber)} pl-11 tracking-wide`}
+          />
+        </IconInput>
+      </Field>
+
+      <Field id="devotee-category" label={tStr("Devotee Category")} hint={category ? `${tStr(category.desc)} · ₹${category.price} ${tStr("per devotee")}` : undefined}>
+        <IconInput icon={Users}>
+          <select
+            id="devotee-category"
+            value={details.categoryId}
+            onChange={(e) => update("categoryId", e.target.value)}
+            className={`${inputCls(false)} pl-11 pr-10 appearance-none cursor-pointer font-medium`}
+          >
+            {DARSHAN_CATEGORIES.map((c) => (
+              <option key={c.id} value={c.id}>
+                {tStr(c.name)} — ₹{c.price}
+              </option>
             ))}
-          </div>
-        </div>
-
-        {/* Name */}
-        <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Primary Devotee Name")}</label>
-          <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-            <input
-              type="text"
-              value={details.name}
-              onChange={e => update("name", e.target.value)}
-              placeholder={tStr("Enter full name")}
-              className={`w-full pl-10 pr-4 py-3 bg-slate-50 border rounded-xl outline-none focus:bg-white focus:border-saffron transition-all ${
-                errors?.name ? "border-rose-500 bg-rose-50" : "border-slate-200"
-              }`}
-            />
-          </div>
-          {errors?.name && <p className="text-xs text-rose-600 mt-1 font-medium">{errors.name}</p>}
-        </div>
-
-        {/* Phone */}
-        <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Phone Number")}</label>
-          <div className="relative">
-            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-            <span className="absolute left-10 top-1/2 -translate-y-1/2 text-slate-500 font-medium">+91</span>
-            <input
-              type="tel"
-              value={details.phone}
-              onChange={e => update("phone", e.target.value.replace(/\D/g, '').slice(0, 10))}
-              placeholder="00000 00000"
-              className={`w-full pl-20 pr-4 py-3 bg-slate-50 border rounded-xl outline-none focus:bg-white focus:border-saffron transition-all tracking-wide ${
-                errors?.phone ? "border-rose-500 bg-rose-50" : "border-slate-200"
-              }`}
-            />
-          </div>
-          {errors?.phone && <p className="text-xs text-rose-600 mt-1 font-medium">{errors.phone}</p>}
-        </div>
-
-        {/* Aadhaar */}
-        <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Aadhaar / Gov ID Number")}</label>
-          <div className="relative">
-            <FileDigit className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-            <input
-              type="text"
-              value={details.idNumber}
-              onChange={e => update("idNumber", e.target.value)}
-              placeholder={tStr("Enter ID number (required at entry)")}
-              className={`w-full pl-10 pr-4 py-3 bg-slate-50 border rounded-xl outline-none focus:bg-white focus:border-saffron transition-all tracking-wide ${
-                errors?.idNumber ? "border-rose-500 bg-rose-50" : "border-slate-200"
-              }`}
-            />
-          </div>
-          {errors?.idNumber && <p className="text-xs text-rose-600 mt-1 font-medium">{errors.idNumber}</p>}
-          <p className="text-xs text-slate-500 mt-1.5">{tStr("Must carry original ID during temple visit.")}</p>
-        </div>
-      </div>
-      </div>
+          </select>
+          <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+        </IconInput>
+      </Field>
     </div>
   );
 }

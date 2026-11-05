@@ -44,13 +44,17 @@ export function useHeatmapZones(t: any) {
     { name: tStr("Chithirai Streets (Parking)"), pct: t.parking.lotB, advice: tStr("Parking filling up quickly. Use North Gate parking.") },
   ];
 
+  // `kind` separates gates from key places in the gate-wise table and insights.
   const tiruvannamalaiZones = [
-    { name: tStr("Rajagopuram (East)"), pct: Math.min(98, t.crowdPct + 20), advice: tStr("Massive crowd buildup at the main entrance.") },
-    { name: tStr("Kili Gopuram"), pct: Math.min(90, t.crowdPct + 15), advice: tStr("Dense queue merging point. Moves slowly.") },
-    { name: tStr("Arunachaleswarar Sannithi"), pct: Math.min(100, t.crowdPct + 30), advice: tStr("Peak density. Darshan wait is 1.5 - 2 hrs.") },
-    { name: tStr("Unnamalai Amman Sannithi"), pct: Math.min(85, t.crowdPct + 5), advice: tStr("High crowd, but slightly faster than Swami sannithi.") },
-    { name: tStr("Girivalam Path (Inner)"), pct: Math.max(50, t.crowdPct - 20), advice: tStr("Steady flow of devotees circumambulating.") },
-    { name: tStr("Thousand Pillar Mandapam"), pct: Math.max(25, t.crowdPct - 40), advice: tStr("Relatively quiet. Perfect spot to sit and meditate.") },
+    { id: "east", kind: "gate", name: tStr("East Rajagopuram (Main)"), pct: Math.min(98, t.crowdPct - 3), advice: tStr("11-storey main gateway — heaviest crowd. Enter via Thirumanjana Gopuram (South) if possible.") },
+    { id: "inner", kind: "gate", name: tStr("Vallala & Kili Gopuram (Inner)"), pct: Math.max(30, t.crowdPct - 50), advice: tStr("Queues merge here before the sanctum.") },
+    { id: "sanctum", kind: "place", name: tStr("Arunachaleswarar Sannithi"), pct: Math.min(100, t.crowdPct + 12), advice: tStr("Peak density. Free darshan wait can exceed 1.5 hrs.") },
+    { id: "amman", kind: "place", name: tStr("Unnamulai Amman Sannithi"), pct: Math.max(40, t.crowdPct - 30), advice: tStr("Moves faster than the main sanctum.") },
+    { id: "south", kind: "gate", name: tStr("Thirumanjana Gopuram (South)"), pct: Math.max(35, t.crowdPct - 25), advice: tStr("Quieter entry. Convenient for elders.") },
+    { id: "west", kind: "gate", name: tStr("Pei Gopuram (West)"), pct: Math.max(30, t.crowdPct - 40), advice: tStr("Faces Arunachala. Busy with devotees returning from Girivalam.") },
+    { id: "north", kind: "gate", name: tStr("Ammani Ammal Gopuram (North)"), pct: Math.max(30, t.crowdPct - 46), advice: tStr("Near the car shed and parking access.") },
+    { id: "mandapam", kind: "place", name: tStr("Thousand Pillar Mandapam & Pathala Lingam"), pct: Math.max(20, t.crowdPct - 55), advice: tStr("Relatively quiet. Good spot to sit and meditate.") },
+    { id: "girivalam", kind: "place", name: tStr("Girivalam Path (14 km)"), pct: Math.max(30, t.crowdPct - 35), advice: tStr("Steady flow. Expect a surge on Pournami nights.") },
   ];
 
   const rameswaramZones = [

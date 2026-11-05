@@ -18,6 +18,8 @@ import {
 } from "@/features/membership/components/RazorpayCheckout";
 import { MembershipSuccess } from "@/features/membership/components/MembershipSuccess";
 
+const HERO = "/temples/tiruvannamalai/membership-hero.jpg";
+
 export const Route = createFileRoute("/_app/membership")({
   head: () => ({ meta: [{ title: "Membership — OMG Smart Temple" }] }),
   component: MembershipPage,
@@ -26,7 +28,7 @@ export const Route = createFileRoute("/_app/membership")({
 function MembershipPage() {
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
-  const [templeSlug, setTempleSlug] = useState<string | null>(null);
+  const [templeSlug, setTempleSlug] = useState<string | null>("tiruvannamalai");
   const [planId, setPlanId] = useState<string | null>(null);
   const [devotee, setDevotee] = useState<DevoteeDetails>(EMPTY_DEVOTEE);
   const [gatewayOpen, setGatewayOpen] = useState(false);
@@ -56,24 +58,29 @@ function MembershipPage() {
   const amount = plan ? priceFor(plan, currency) : 0;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 lg:px-8 py-8 pb-28">
+    <div className="min-h-screen bg-[#fdf8f6]">
       {!payment && (
-        <>
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 text-primary bg-primary/10 px-3 py-1 rounded-full mb-3">
-              <Shield className="w-3.5 h-3.5" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">
-                {t("Support Your Temple")}
-              </span>
-            </div>
-            <h1 className="font-serif text-3xl lg:text-4xl font-bold text-foreground">
-              {t("Become a Member")}
-            </h1>
+        <header className="relative overflow-hidden">
+          <div className="absolute inset-y-0 right-0 w-full md:w-2/5 pointer-events-none" aria-hidden>
+            <img src={HERO} alt="" className="w-full h-full object-cover object-[center_42%] opacity-40 md:opacity-100" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#fdf8f6] via-[#fdf8f6]/10 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#fdf8f6] to-transparent" />
           </div>
-
-          <MembershipStepper current={step} onJump={setStep} />
-        </>
+          <div className="relative max-w-6xl mx-auto px-4 lg:px-8 pt-8 pb-8 text-center">
+            <div className="inline-flex items-center gap-2 text-saffron bg-rose-50 border border-rose-100 px-3 py-1 rounded-full mb-3">
+              <Shield className="w-3.5 h-3.5" />
+              <span className="text-[11px] font-bold uppercase tracking-wider">{t("Support Your Temple")}</span>
+            </div>
+            <h1 className="font-serif text-3xl lg:text-4xl font-bold text-slate-900">{t("Become a Member")}</h1>
+            <p className="text-sm text-slate-600 mt-2">{t("Join the temple community, support seva and enjoy exclusive benefits.")}</p>
+            <div className="mt-6">
+              <MembershipStepper current={step} onJump={setStep} />
+            </div>
+          </div>
+        </header>
       )}
+
+      <div className="max-w-6xl mx-auto px-4 lg:px-8 pb-28 pt-2">
 
       {payment && temple && plan ? (
         <MembershipSuccess
@@ -122,6 +129,7 @@ function MembershipPage() {
           )}
         </>
       )}
+      </div>
 
       {temple && plan && (
         <RazorpayCheckout

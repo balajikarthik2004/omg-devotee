@@ -1,17 +1,6 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import {
-  Home,
-  Sparkles,
-  Map,
-  Bell,
-  Calendar,
-  Navigation,
-  Settings,
-  HeartHandshake,
-  MessageCircle,
-  ArrowLeft,
-  Ticket,
-  Award,
+  Home, Map, Bell, Calendar, Navigation, Settings, HeartHandshake, MessageCircle, ArrowLeft, Ticket, Award, Compass,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../layout/LanguageSwitcher";
@@ -22,14 +11,14 @@ import { CartWidget } from "@/features/store/components/CartWidget";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: Home, exact: true },
-  { to: "/plan", label: "AI Trip Plan", icon: Sparkles },
+  { to: "/plan", label: "AI Trip Plan", icon: Compass },
   { to: "/heatmap", label: "Temple map", icon: Map },
   { to: "/donations", label: "Donations", icon: HeartHandshake },
   { to: "/store", label: "Temple Store", icon: ShoppingBag },
 ];
 
 const sidebarExtras = [
-  { to: "/booking/palani-murugan", label: "Pooja Booking", icon: Ticket },
+  { to: "/booking/tiruvannamalai", label: "Pooja Booking", icon: Ticket },
   { to: "/membership", label: "Membership", icon: Award },
   { to: "/chat", label: "Ask AI", icon: MessageCircle },
 ];
@@ -44,7 +33,7 @@ export function AppShell() {
     <div className="min-h-screen flex w-full bg-background">
       {/* Sidebar (Desktop) — OMG official premium gradient */}
       <aside
-        className="hidden lg:flex print:hidden flex-col w-[260px] sticky top-0 h-screen text-white shrink-0"
+        className="hidden lg:flex print:hidden flex-col w-[220px] sticky top-0 h-screen text-white shrink-0"
         style={{ background: "linear-gradient(180deg, #131a72 0%, #1e2680 60%, #e32c26 100%)" }}
       >
         {/* Ambient glow effect */}
@@ -54,7 +43,7 @@ export function AppShell() {
         {/* Logo */}
         <Link
           to="/"
-          className="px-5 py-6 border-b border-white/10 flex items-center gap-3.5 hover:bg-white/5 transition-all duration-300 cursor-pointer block group relative z-10"
+          className="px-4 py-5 border-b border-white/10 flex items-center gap-3.5 hover:bg-white/5 transition-all duration-300 cursor-pointer block group relative z-10"
         >
           <div className="flex items-center gap-3.5">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden bg-white p-0.5 group-hover:scale-105 transition-transform duration-300 ring-1 ring-white/20">
@@ -84,7 +73,7 @@ export function AppShell() {
               <Link
                 key={item.to}
                 to={item.to}
-                className={`group flex items-center gap-4 px-5 py-3 rounded-xl text-base font-semibold transition-all duration-300 relative overflow-hidden ${
+                className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[15px] font-semibold transition-all duration-300 relative overflow-hidden ${
                   active
                     ? "bg-white/20 text-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] backdrop-blur-md ring-1 ring-white/30"
                     : "text-white/70 hover:bg-white/10 hover:text-white hover:shadow-md hover:ring-1 hover:ring-white/10"
@@ -94,7 +83,7 @@ export function AppShell() {
                   <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-10 bg-gradient-to-b from-white to-white/60 rounded-r-full shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                 )}
                 <Icon
-                  className={`w-6 h-6 shrink-0 transition-transform duration-300 ${active ? "scale-110 text-white drop-shadow-md" : "group-hover:scale-110 group-hover:text-white"}`}
+                  className={`w-5 h-5 shrink-0 transition-transform duration-300 ${active ? "scale-110 text-white drop-shadow-md" : "group-hover:scale-110 group-hover:text-white"}`}
                 />
                 <span className="tracking-wide drop-shadow-sm">{t(item.label)}</span>
               </Link>

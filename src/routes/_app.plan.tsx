@@ -1,12 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Sparkles, MapPin } from "lucide-react";
+import { MapPin, BrainCircuit } from "lucide-react";
 import { temples } from "@/data/temples";
 import { useTranslation } from "react-i18next";
 
 import { getTransportInfo } from "@/features/planner/utils/transport";
 import { PlanForm } from "@/features/planner/components/PlanForm";
 import { PlanResult } from "@/features/planner/components/PlanResult";
+import { PlanSidebar } from "@/features/planner/components/PlanSidebar";
+
+const HERO: Record<string, string> = { tiruvannamalai: "/temples/tiruvannamalai/plan-trip-hero.jpg" };
 
 export const Route = createFileRoute("/_app/plan")({
   head: () => ({ meta: [{ title: "AI Smart Planner — OMG Smart Temple" }] }),
@@ -16,7 +19,7 @@ export const Route = createFileRoute("/_app/plan")({
 function PlanPage() {
   const { t: tStr } = useTranslation();
   const [fromLocation, setFromLocation] = useState("");
-  const [temple, setTemple] = useState("");
+  const [temple, setTemple] = useState("tiruvannamalai");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("afternoon");
   const [who, setWho] = useState("family");
@@ -41,7 +44,12 @@ function PlanPage() {
   const travelHours = isIntl ? 20 : (fromLocation ? (fromLocation.length % 5) + 2 : 4);
   const travelMins = isIntl ? 30 : (fromLocation ? (fromLocation.charCodeAt(0) % 60) : 30);
   
-  const hotels = t?.slug === "palani-murugan" ? [
+  // Sample listings near the temple — names/distances are indicative, verify before booking.
+  const hotels = t?.slug === "tiruvannamalai" ? [
+    { name: "Hotel Ramakrishna", rating: "4.1", dist: "0.6" },
+    { name: "Sparsa Resort", rating: "4.4", dist: "3.5" },
+    { name: "TTDC Hotel Tamil Nadu", rating: "3.9", dist: "1.5" }
+  ] : t?.slug === "palani-murugan" ? [
     { name: "Hotel Tamil Nadu", rating: "4.2", dist: "1.2" },
     { name: "Ganpat Grand", rating: "4.5", dist: "0.5" },
     { name: "Hotel SR Palani", rating: "4.4", dist: "0.8" },
@@ -53,28 +61,33 @@ function PlanPage() {
     { name: "Sree Kumaran Inn", rating: "4.0", dist: "1.5" }
   ] : [];
 
-  return (
-    <div className="relative overflow-hidden">
-      <div className="pointer-events-none absolute -top-24 right-0 h-72 w-72 rounded-full bg-saffron/10 blur-3xl" />
-      <div className="pointer-events-none absolute top-24 -left-16 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
-      <div className="max-w-5xl mx-auto px-4 lg:px-8 py-6 lg:py-10 relative">
-        <div className="print:hidden">
-          <div className="flex flex-wrap items-center gap-3 text-saffron">
-            <div className="flex items-center gap-2 rounded-full bg-saffron/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest border border-saffron/20">
-              <Sparkles className="w-4 h-4" /> {tStr("AI Smart Planner")}
-            </div>
-            <div className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">{tStr("Premium itinerary design")}</div>
-          </div>
-          <div className="mt-3">
-            <div>
-              <h1 className="font-serif text-3xl lg:text-4xl font-bold leading-tight">{tStr("Plan my perfect visit")}</h1>
-              <p className="text-muted-foreground text-sm mt-2 max-w-xl">
-                {tStr("Tell us your preferences — AI will craft the ideal time, route, and on-site flow with a premium comfort focus.")}
-              </p>
-            </div>
-          </div>
+  const hero = HERO[t?.slug ?? "tiruvannamalai"] ?? t?.image;
 
-          <PlanForm 
+  return (
+    <div className="relative min-h-screen bg-[#fdf8f6] pb-16">
+      {/* Header banner */}
+      <header className="relative overflow-hidden print:hidden">
+        {hero && (
+          <div className="absolute inset-y-0 right-0 w-full md:w-3/5 pointer-events-none" aria-hidden>
+            <img src={hero} alt="" className="w-full h-full object-cover object-[center_45%] opacity-60 md:opacity-90" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#fdf8f6] via-[#fdf8f6]/40 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#fdf8f6] to-transparent" />
+          </div>
+        )}
+        <div className="relative max-w-[1320px] mx-auto px-4 lg:px-8 pt-8 pb-10">
+          <span className="inline-flex items-center gap-2 rounded-full bg-rose-50 border border-rose-100 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-saffron">
+            <BrainCircuit className="w-4 h-4" /> {tStr("AI Smart Planner")}
+          </span>
+          <h1 className="font-serif text-3xl lg:text-4xl font-bold text-slate-900 mt-3">{tStr("Plan My Perfect Visit")}</h1>
+          <p className="text-sm text-slate-600 mt-2 max-w-md">
+            {tStr("Tell us your preferences — AI will craft the ideal time, route, and on-site flow with a premium comfort focus.")}
+          </p>
+        </div>
+      </header>
+
+      <div className="max-w-[1320px] mx-auto px-4 lg:px-8 -mt-2 relative">
+        <div className="print:hidden grid lg:grid-cols-[minmax(0,1fr)_340px] gap-6 items-start">
+          <PlanForm
             fromLocation={fromLocation} setFromLocation={setFromLocation}
             temple={temple} setTemple={setTemple}
             date={date} setDate={setDate}
@@ -82,8 +95,10 @@ function PlanPage() {
             who={who} setWho={setWho}
             purpose={purpose} setPurpose={setPurpose}
             handleGenerate={handleGenerate} loading={loading}
-            travelHours={travelHours} travelMins={travelMins} setFullMap={setFullMap} t={t}
           />
+          <aside className="lg:sticky lg:top-6">
+            <PlanSidebar t={t} time={time} fromLocation={fromLocation} travelHours={travelHours} travelMins={travelMins} setFullMap={setFullMap} />
+          </aside>
         </div>
 
         {result && (
@@ -95,7 +110,7 @@ function PlanPage() {
         )}
 
         {/* Full View Map Modal */}
-        {fullMap && (
+        {fullMap && t && (
           <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-card">
               <div className="flex items-center gap-2 font-serif text-lg font-semibold">

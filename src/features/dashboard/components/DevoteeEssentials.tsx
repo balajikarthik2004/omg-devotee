@@ -1,71 +1,71 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Sparkles, Calendar, HandHeart, Ticket, Coins, PackageOpen, Heart, BellRing } from "lucide-react";
+import { ArrowRight, LayoutGrid, CalendarDays, Ticket, Soup, Coins, HeartHandshake, BellRing } from "lucide-react";
+import { temples, type Temple } from "@/data/temples";
 
-export function DevoteeEssentials() {
+export function DevoteeEssentials({ activeTemple }: { activeTemple: Temple }) {
   const { t } = useTranslation();
+  // Fastest-moving queue right now (excluding the temple already in focus).
+  const fastest = [...temples].filter((x) => x.id !== activeTemple.id).sort((a, b) => a.waitMin - b.waitMin)[0];
+
+  const services = [
+    { label: "Book Darshan", icon: Ticket, to: "/booking/$slug" as const, params: { slug: activeTemple.slug } },
+    { label: "Order Prasadam", icon: Soup, to: "/store/$storeId" as const, params: { storeId: `store-${activeTemple.slug}` } },
+    { label: "Digital Hundi", icon: Coins, to: "/donations" as const },
+    { label: "Donate Annadhanam", icon: HeartHandshake, to: "/donations" as const },
+  ];
 
   return (
-    <section className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-      <div className="flex items-center gap-2 mb-3">
-        <Sparkles className="w-4 h-4 text-saffron" />
-        <h2 className="font-serif text-lg font-semibold text-foreground">{t("Devotee Essentials")}</h2>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Daily Panchangam / Calendar */}
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl group-hover:bg-amber-500/10 transition-colors" />
-          <div className="flex items-center justify-between mb-4 relative z-10">
-            <div className="text-xs font-bold uppercase tracking-widest text-saffron flex items-center gap-2">
-              <div className="p-1.5 bg-saffron/10 rounded-lg"><Calendar className="w-4 h-4" /></div>
-              {t("Panchangam")}
-            </div>
-            <div className="text-[10px] bg-slate-50 px-2.5 py-1 rounded-full font-bold text-slate-500 border border-slate-200 uppercase tracking-widest">{t("Valarpirai")}</div>
+    <section>
+      <h2 className="flex items-center gap-2 font-serif text-xl font-bold text-slate-900 mb-4">
+        <LayoutGrid className="w-5 h-5 text-saffron" /> {t("Devotee Essentials")}
+      </h2>
+
+      <div className="grid gap-4 grid-cols-2 md:grid-cols-4 xl:grid-cols-[1.6fr_repeat(4,minmax(0,0.75fr))_1.5fr]">
+        {/* Panchangam */}
+        <div className="col-span-2 md:col-span-4 xl:col-span-1 relative overflow-hidden rounded-2xl border border-rose-100 bg-gradient-to-br from-rose-50 to-[#fff7f2] p-4">
+          <img src="/store/diya.png" alt="" aria-hidden className="absolute right-3 top-3 w-12 h-12 object-cover rounded-xl opacity-95" />
+          <div className="relative flex items-center gap-2">
+            <span className="w-8 h-8 rounded-lg bg-white border border-rose-100 text-saffron flex items-center justify-center"><CalendarDays className="w-4 h-4" /></span>
+            <span className="text-xs font-bold text-saffron">{t("Panchangam")}</span>
+            <span className="text-[10px] font-bold text-slate-600 bg-white border border-rose-100 px-2 py-0.5 rounded-full">{t("Valarpirai")}</span>
           </div>
-          <div className="font-serif text-2xl font-bold mb-2 text-slate-900 relative z-10">{t("Pradosham")}</div>
-          <div className="text-sm text-slate-500 leading-relaxed font-medium relative z-10">{t("Highly auspicious day for Lord Shiva. Special abhishekam begins at 4:30 PM.")}</div>
+          <div className="relative font-serif text-xl font-bold text-[#7a1a17] mt-2">{t("Pradosham")}</div>
+          <p className="relative text-xs text-slate-600 mt-0.5 leading-snug">{t("Highly auspicious day for Lord Shiva. Special abhishekam begins at 4:30 PM.")}</p>
         </div>
 
-        {/* Quick E-Services */}
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
-          <div className="text-xs font-bold uppercase tracking-widest text-slate-400 flex items-center gap-2 mb-4">
-            <div className="p-1.5 bg-slate-50 rounded-lg text-slate-500"><HandHeart className="w-4 h-4" /></div>
-            {t("Quick Services")}
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <button className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-emerald-50 border border-slate-100 hover:border-emerald-200 transition-all text-left group/btn shadow-sm hover:shadow">
-              <div className="p-1.5 bg-white rounded-xl shadow-sm group-hover/btn:scale-110 transition-transform"><Ticket className="w-4 h-4 text-emerald-600" /></div>
-              <span className="text-[11px] font-bold text-slate-700 leading-tight" dangerouslySetInnerHTML={{__html: t("Book Darshan").replace(' ', '<br />')}}></span>
-            </button>
-            <button className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-amber-50 border border-slate-100 hover:border-amber-200 transition-all text-left group/btn shadow-sm hover:shadow">
-              <div className="p-1.5 bg-white rounded-xl shadow-sm group-hover/btn:scale-110 transition-transform"><Coins className="w-4 h-4 text-amber-500" /></div>
-              <span className="text-[11px] font-bold text-slate-700 leading-tight" dangerouslySetInnerHTML={{__html: t("Digital Hundi").replace(' ', '<br />')}}></span>
-            </button>
-            <button className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 transition-all text-left group/btn shadow-sm hover:shadow">
-              <div className="p-1.5 bg-white rounded-xl shadow-sm group-hover/btn:scale-110 transition-transform"><PackageOpen className="w-4 h-4 text-indigo-500" /></div>
-              <span className="text-[11px] font-bold text-slate-700 leading-tight" dangerouslySetInnerHTML={{__html: t("Order Prasadam").replace(' ', '<br />')}}></span>
-            </button>
-            <button className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-rose-50 border border-slate-100 hover:border-rose-200 transition-all text-left group/btn shadow-sm hover:shadow">
-              <div className="p-1.5 bg-white rounded-xl shadow-sm group-hover/btn:scale-110 transition-transform"><Heart className="w-4 h-4 text-rose-500" /></div>
-              <span className="text-[11px] font-bold text-slate-700 leading-tight" dangerouslySetInnerHTML={{__html: t("Donate Annadhan").replace(' ', '<br />')}}></span>
-            </button>
-          </div>
-        </div>
-
-        {/* Devotee Alert / Insight */}
-        <div className="bg-gradient-to-br from-saffron/10 via-amber-500/5 to-rose-500/10 border border-saffron/20 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-saffron/20 rounded-full blur-3xl -mr-8 -mt-8 pointer-events-none transition-all group-hover:bg-saffron/30"></div>
-          <div>
-            <div className="text-xs font-bold uppercase tracking-widest text-rose-600 flex items-center gap-2 mb-3 relative z-10">
-              <div className="p-1.5 bg-rose-100 rounded-lg"><BellRing className="w-4 h-4 animate-bounce text-rose-600" /></div>
-              {t("Live Alert")}
-            </div>
-            <div className="text-sm font-semibold leading-relaxed relative z-10 text-slate-800">{t("Kapaleeshwarar Temple queue is moving exceptionally fast right now. Estimated wait time is only 15 mins!")}</div>
-          </div>
-          <Link to="/temple/$slug" params={{ slug: "kapaleeshwarar" }} className="mt-5 text-[11px] font-bold uppercase tracking-widest text-rose-600 inline-flex items-center gap-1.5 hover:text-rose-700 w-fit relative z-10 bg-white/50 px-3 py-1.5 rounded-full border border-rose-200 backdrop-blur-sm transition-all hover:bg-white shadow-sm">
-            {t("View Live Crowd")} <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+        {/* Quick services */}
+        {services.map((s) => (
+          <Link
+            key={s.label}
+            to={s.to}
+            params={s.params as any}
+            className="group flex flex-col items-center justify-center gap-1.5 rounded-2xl border border-rose-100 bg-white px-2 py-3 text-center shadow-sm hover:shadow-md hover:border-saffron/40 hover:-translate-y-0.5 transition-all"
+          >
+            <span className="w-10 h-10 rounded-xl bg-rose-50 text-saffron flex items-center justify-center shrink-0 group-hover:bg-saffron group-hover:text-white transition-colors">
+              <s.icon className="w-5 h-5" />
+            </span>
+            <span className="text-[13px] font-bold text-slate-800 leading-tight">{t(s.label)}</span>
           </Link>
-        </div>
+        ))}
+
+        {/* Live alert */}
+        {fastest && (
+          <div className="col-span-2 md:col-span-4 xl:col-span-1 rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-rose-50 p-4 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 text-sm font-bold text-saffron">
+                <BellRing className="w-4 h-4" /> {t("Live Alert")}
+              </div>
+              <p className="text-[13px] text-slate-700 mt-1 leading-snug">
+                <strong className="text-slate-900">{t(fastest.name)}</strong> {t("queue is moving fast right now. Estimated wait is only")}{" "}
+                <strong className="text-slate-900">{fastest.waitMin} {t("mins")}</strong>.
+              </p>
+            </div>
+            <Link to="/temple/$slug" params={{ slug: fastest.slug }} className="mt-1.5 inline-flex items-center gap-1.5 text-[13px] font-bold text-saffron hover:underline w-fit">
+              {t("View Live Crowd")} <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

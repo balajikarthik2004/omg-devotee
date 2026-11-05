@@ -1,51 +1,39 @@
 import { Link } from "@tanstack/react-router";
-import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, ChevronRight, Store as StoreIcon } from "lucide-react";
+import { MapPin, ArrowRight, Package } from "lucide-react";
 import type { Store } from "@/data/store";
-import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
 
-interface StoreCardProps {
-  store: Store;
-}
-
-export function StoreCard({ store }: StoreCardProps) {
+export function StoreCard({ store }: { store: Store }) {
   const { t } = useTranslation();
+  const name = store.name.replace(/ Official Store$/, "");
+
   return (
-    <Link to={`/store/${store.id}`} className="group block h-full">
-      <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:ring-1 hover:ring-primary/20 border-border/50 bg-card/50 backdrop-blur-sm">
-        <div className="relative aspect-[16/9] overflow-hidden">
-          <img 
-            src={store.image} 
-            alt={store.name} 
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-          <div className="absolute bottom-3 left-3 flex items-center gap-2 text-white">
-            <div className="p-2 bg-primary/90 backdrop-blur-md rounded-lg shadow-lg">
-              <StoreIcon className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-lg leading-tight tracking-tight shadow-sm drop-shadow-md">{t(store.name)}</h3>
-              <div className="flex items-center text-xs text-white/80 mt-0.5">
-                <MapPin className="w-3 h-3 mr-1" />
-                {t("Temple Premises")}
-              </div>
-            </div>
-          </div>
-          <Badge className="absolute top-3 right-3 bg-white/20 backdrop-blur-md text-white border-white/10 hover:bg-white/30">
-            {store.products.length}{t(" Items")}
-          </Badge>
+    <Link
+      to="/store/$storeId"
+      params={{ storeId: store.id }}
+      className="group flex flex-col h-full bg-white border border-rose-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md hover:border-saffron/40 transition-all"
+    >
+      <div className="relative aspect-[16/10] overflow-hidden bg-rose-50">
+        <img
+          src={store.image}
+          alt={t(name)}
+          loading="lazy"
+          className="w-full h-full object-cover object-[center_35%] transition-transform duration-500 group-hover:scale-105"
+        />
+        <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-white/90 backdrop-blur-sm px-2.5 py-1 text-xs font-bold text-slate-800 shadow-sm">
+          <Package className="w-3.5 h-3.5 text-saffron" /> {store.products.length} {t("items")}
+        </span>
+      </div>
+      <div className="flex flex-col flex-1 p-4">
+        <h3 className="font-serif font-bold text-[15px] text-slate-900 leading-snug line-clamp-2 group-hover:text-saffron transition-colors">{t(name)}</h3>
+        <div className="flex items-center gap-1 text-xs text-slate-500 mt-1">
+          <MapPin className="w-3.5 h-3.5 text-saffron shrink-0" /> {t(store.city)}, {t(store.state)}
         </div>
-        <CardContent className="p-4">
-          <p className="text-sm text-muted-foreground line-clamp-2">
-            {t(store.description)}
-          </p>
-          <div className="mt-4 flex items-center text-sm font-medium text-primary group-hover:text-primary/80 transition-colors">
-            {t("Visit Store")} <ChevronRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-          </div>
-        </CardContent>
-      </Card>
+        <p className="text-xs text-slate-500 mt-2 line-clamp-2 flex-1">{t("Prasadam, pooja items and devotional merchandise with temple pickup.")}</p>
+        <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-saffron">
+          {t("Visit Store")} <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+        </span>
+      </div>
     </Link>
   );
 }

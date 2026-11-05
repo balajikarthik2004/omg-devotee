@@ -33,11 +33,12 @@ function ItemDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#fdf8f6] pb-20">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-8">
         <Link 
-          to={`/store/${store.id}`}
-          className="text-muted-foreground hover:text-foreground flex items-center gap-2 mb-8 w-fit transition-colors"
+          to="/store/$storeId"
+          params={{ storeId: store.id }}
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-saffron bg-white border border-rose-100 rounded-full px-3 py-1.5 shadow-sm mb-8 w-fit transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> {t("Back to ")}{t(store.name)}
         </Link>
@@ -45,27 +46,27 @@ function ItemDetail() {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="aspect-square rounded-2xl overflow-hidden bg-muted border border-border/50">
+            <div className="aspect-square rounded-3xl overflow-hidden bg-rose-50 border border-rose-100 shadow-sm">
               <img 
                 src={product.image} 
                 alt={product.name} 
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
             </div>
-            {/* Thumbnails could go here if we had multiple images */}
+            {product.credit && <p className="text-xs text-muted-foreground">{product.credit}</p>}
           </div>
 
           {/* Product Info */}
           <div className="flex flex-col">
-            <Badge className="w-fit mb-4 bg-primary/10 text-primary hover:bg-primary/20">{t(product.category)}</Badge>
-            <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-4 leading-tight">{t(product.name)}</h1>
-            <div className="text-3xl font-bold text-primary mb-6">${product.price.toFixed(2)}</div>
+            <Badge className="w-fit mb-4 bg-rose-50 text-saffron border border-rose-100 hover:bg-rose-100">{t(product.category)}</Badge>
+            <h1 className="font-serif text-3xl lg:text-4xl font-bold text-slate-900 mb-4 leading-tight">{t(product.name)}</h1>
+            <div className="text-3xl font-black text-saffron mb-6 tabular-nums">${product.price.toFixed(2)}</div>
             
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
               {t(product.description)}
             </p>
 
-            <div className="bg-card border border-border/50 rounded-xl p-6 mb-8 space-y-4 shadow-sm">
+            <div className="bg-white border border-rose-100 rounded-3xl p-6 mb-8 space-y-4 shadow-sm">
               <div className="flex items-center justify-between">
                 <span className="font-medium text-foreground">{t("Quantity")}</span>
                 <div className="flex items-center gap-4 bg-muted/50 rounded-lg p-1">
@@ -88,7 +89,7 @@ function ItemDetail() {
               <div className="pt-4 border-t border-border/50">
                 <Button 
                   size="lg" 
-                  className="w-full text-lg h-14 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20"
+                  className="w-full text-base font-bold h-14 rounded-full bg-saffron hover:brightness-95 text-white shadow-lg shadow-saffron/25"
                   onClick={handleAddToCart}
                 >
                   <ShoppingCart className="w-5 h-5 mr-2" /> {t("Add to Cart — ")}${(product.price * quantity).toFixed(2)}
@@ -98,15 +99,15 @@ function ItemDetail() {
 
             {/* Features list */}
             <div className="grid sm:grid-cols-2 gap-4 mt-auto">
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-muted/30">
-                <ShieldCheck className="w-6 h-6 text-primary shrink-0" />
+              <div className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-rose-100">
+                <ShieldCheck className="w-6 h-6 text-saffron shrink-0" />
                 <div>
                   <h4 className="font-medium text-foreground text-sm">{t("Authentic Product")}</h4>
                   <p className="text-xs text-muted-foreground mt-0.5">{t("Sourced directly from temple.")}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-muted/30">
-                <Truck className="w-6 h-6 text-primary shrink-0" />
+              <div className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-rose-100">
+                <Truck className="w-6 h-6 text-saffron shrink-0" />
                 <div>
                   <h4 className="font-medium text-foreground text-sm">{t("Temple Pickup")}</h4>
                   <p className="text-xs text-muted-foreground mt-0.5">{t("Available for this item.")}</p>

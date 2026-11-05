@@ -4,6 +4,14 @@ import { useEffect, useState } from "react";
 
 const getAnnadhanamData = (slug: string, tStr: any) => {
   switch (slug) {
+    case "tiruvannamalai":
+      return {
+        complex: tStr("Arunachaleswarar Temple Annadhanam Hall (HR&CE)"),
+        timings: [
+          { name: tStr("Lunch"), code: "LU", time: tStr("12:00 PM onwards"), menu: tStr("Rice, Sambar, Rasam, Poriyal, Buttermilk, Payasam") },
+        ],
+        notes: tStr("Free meals under the HR&CE Annadhanam scheme. Timings and capacity change on Pournami and Karthigai Deepam days — check at the temple office."),
+      };
     case "palani-murugan":
       return {
         complex: tStr("Dhandayuthapani Swamy Annadhanam Hall"),
